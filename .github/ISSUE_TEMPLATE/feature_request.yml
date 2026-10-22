@@ -1,0 +1,21 @@
+name: Feature request
+description: 提出一个新功能 / 主题
+title: "[Feature]: "
+labels: ["feature"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        我们欢迎新功能与新主题！请描述清楚你的想法。
+  - type: textarea
+    id: feature
+    attributes:
+      label: 你想实现什么
+      description: 描述功能或主题需求，尽量给预期效果。
+    validations:
+      required: true
+  - type: textarea
+    id: mock
+    attributes:
+      label: 参考 / 示例
+      description: 可选：截图、色值、竞品示例链接等。

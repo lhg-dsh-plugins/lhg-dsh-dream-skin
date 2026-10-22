@@ -1,0 +1,41 @@
+name: Bug report
+description: 报告一个 bug
+title: "[Bug]: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        请尽量完整填写以下信息，方便维护者快速定位。
+  - type: textarea
+    id: bug
+    attributes:
+      label: 问题描述
+      description: 描述你遇到了什么，期望是什么。
+    validations:
+      required: true
+  - type: textarea
+    id: repro
+    attributes:
+      label: 复现步骤
+      description: 一步步怎么做会复现。
+      placeholder: "1. 打开设置 → 常规\n2. 选择 xxx 皮肤\n3. 看到异常"
+  - type: input
+    id: dsh-version
+    attributes:
+      label: dsh 版本
+      description: 运行 `dsh --version`
+    validations:
+      required: true
+  - type: input
+    id: browser
+    attributes:
+      label: 浏览器
+      description: 如 Chrome 120 / Safari 17
+    validations:
+      required: true
+  - type: textarea
+    id: screenshot
+    attributes:
+      label: 截图
+      description: 可选：拖入或粘贴截图

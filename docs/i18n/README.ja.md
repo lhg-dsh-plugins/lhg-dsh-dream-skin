@@ -1,0 +1,410 @@
+<p align="center">
+  <a href="../../README.md">中文</a> · <a href="./README.en.md">English</a> · <strong>日本語</strong> · <a href="./README.ko.md">한국어</a> · <a href="./README.es.md">Español</a> · <a href="./README.fr.md">Français</a> · <a href="./README.de.md">Deutsch</a> · <a href="./README.ru.md">Русский</a>
+</p>
+
+<div align="center">
+
+# dsh-dream-skin 🔮
+
+**DeepSeek Harness に、落ち着いて澄んだ、質感のある「顔」を。**
+
+ネイティブ・スキニング · 壁紙 · アクセントカラー · 共有可能なテーマパック — DSH 公式の `--dsw-*` トークンシステムだけで構築した、エレガントな実装です。一度インストールすれば、ずっと使い続けられます。
+
+> **TL;DR：あなたのコーディング空間は、静かでいられます。**
+
+| 🎨 オリジナルテーマ 8種 | 🖼️ 壁紙 + diffused glow | 🎯 控えめなアクセント | 📦 共有可能なテーマパック |
+|---|---|---|---|
+
+> 1行インストール · 完全ネイティブ（注入なし・インストーラーへのパッチなし）· DSH のアップデート後もそのまま動作
+
+</div>
+
+---
+
+## 🎮 2つの遊び方、1つのプラグイン
+
+<table>
+  <tr>
+    <td align="center" width="50%"><h3>🪄 方法 #1：箱から出してすぐエレガント</h3></td>
+    <td align="center" width="50%"><h3>🧱 方法 #2：自分好みに DIY</h3></td>
+  </tr>
+  <tr>
+    <td>デザイナーが調整した <b>プリセットスキン</b> 8種（Mirage シリーズ）をライト &amp; ダークで用意。それぞれ専用の diffused-glow 背景付き。<br/><b>選ぶだけで高級感 — 微調整は一切不要。</b></td>
+    <td>どのプリセットにも <b>壁紙の差し替え（ローカル / URL / グラデーション）</b>、<b>アクセントカラーの重ね付け</b>、<b>テーマパックのインポート &amp; 共有</b>が可能 — 内部のトークンすべてに手が届きます。<br/><b>好きなように形を変えられます。</b></td>
+  </tr>
+</table>
+
+2つの方法はレイヤー構造で、互いに独立しています。プリセットが「素材 &amp; ベーストーン」を決め、DIY は純粋なオーバーレイ（`overrideTokens`）— オン/オフの切り替えもワンクリック、元に戻すのもワンクリックです。
+
+---
+
+## 📸 スクリーンショット
+
+> モックアップではなく実際のスクリーンショットです。左：スキン適用後の DSH。右：設定内の専用 **テーマ / 外観** セクション。
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/RevolutionLA/dsh-dream-skin/main/docs/screenshots/preview.png" alt="DSH skin preview" width="46%"/>
+  &nbsp;&nbsp;
+  <img src="https://raw.githubusercontent.com/RevolutionLA/dsh-dream-skin/main/docs/screenshots/settings.png" alt="Theme section in settings" width="46%"/>
+</p>
+
+---
+
+## 🎨 方法 #1：プリセットスキン 8種（Mirage シリーズ）
+
+> **箱から出してすぐエレガント。** **設定 → テーマ / 外観** でワンクリック切替。下の 8 スキンは、各スキンの**実トークン + 専用の diffused-glow 背景**から生成しています — 見たままが得られます。クリックで拡大して、素材の細部をご確認ください。
+
+<table>
+  <tr>
+    <td align="center"><a href="https://raw.githubusercontent.com/RevolutionLA/dsh-dream-skin/main/docs/previews/abyss.png"><img src="https://raw.githubusercontent.com/RevolutionLA/dsh-dream-skin/main/docs/previews/abyss.png" width="230" alt="abyss"/></a><br/><b>abyss</b> · 🕶️ 深静ブルー<br/><sub>落ち着いた深い藍色、控えめで静か</sub></td>
+    <td align="center"><a href="https://raw.githubusercontent.com/RevolutionLA/dsh-dream-skin/main/docs/previews/aurora.png"><img src="https://raw.githubusercontent.com/RevolutionLA/dsh-dream-skin/main/docs/previews/aurora.png" width="230" alt="aurora"/></a><br/><b>aurora</b> · 🌌 オーロラティール<br/><sub>澄んだ半透明のクールなティール、自然な冷色</sub></td>
+    <td align="center"><a href="https://raw.githubusercontent.com/RevolutionLA/dsh-dream-skin/main/docs/previews/nebula.png"><img src="https://raw.githubusercontent.com/RevolutionLA/dsh-dream-skin/main/docs/previews/nebula.png" width="230" alt="nebula"/></a><br/><b>nebula</b> · 🪐 星雲パープル<br/><sub>深く拡散した青紫、霞がかってミステリアス</sub></td>
+    <td align="center"><a href="https://raw.githubusercontent.com/RevolutionLA/dsh-dream-skin/main/docs/previews/ember.png"><img src="https://raw.githubusercontent.com/RevolutionLA/dsh-dream-skin/main/docs/previews/ember.png" width="230" alt="ember"/></a><br/><b>ember</b> · 🔥 余炎アンバー<br/><sub>温かみのある控えめな琥珀色</sub></td>
+  </tr>
+  <tr>
+    <td align="center"><a href="https://raw.githubusercontent.com/RevolutionLA/dsh-dream-skin/main/docs/previews/midnight.png"><img src="https://raw.githubusercontent.com/RevolutionLA/dsh-dream-skin/main/docs/previews/midnight.png" width="230" alt="midnight"/></a><br/><b>midnight</b> · 🌚 ミッドナイトブラック<br/><sub>ミニマルな純黒、没入感のある OLED</sub></td>
+    <td align="center"><a href="https://raw.githubusercontent.com/RevolutionLA/dsh-dream-skin/main/docs/previews/ivory.png"><img src="https://raw.githubusercontent.com/RevolutionLA/dsh-dream-skin/main/docs/previews/ivory.png" width="230" alt="ivory"/></a><br/><b>ivory</b> · 📐 iOS フラット<br/><sub>ミニマルなフラットホワイト、iOS システムグレー + 控えめなブルー</sub></td>
+    <td align="center"><a href="https://raw.githubusercontent.com/RevolutionLA/dsh-dream-skin/main/docs/previews/mist.png"><img src="https://raw.githubusercontent.com/RevolutionLA/dsh-dream-skin/main/docs/previews/mist.png" width="230" alt="mist"/></a><br/><b>mist</b> · 🧊 クリアブライト<br/><sub>明るくすっきりしたガラス質感、半透明 + ぼかし</sub></td>
+    <td align="center"><a href="https://raw.githubusercontent.com/RevolutionLA/dsh-dream-skin/main/docs/previews/rose.png"><img src="https://raw.githubusercontent.com/RevolutionLA/dsh-dream-skin/main/docs/previews/rose.png" width="230" alt="rose"/></a><br/><b>rose</b> · 🌸 マテリアルピンク<br/><sub>明るく鮮やかなピンク、Google Material のフラットカラー</sub></td>
+  </tr>
+</table>
+
+> ライト & ダーク両対応：`mist`、`ivory`、`rose` はライト系、それ以外はダーク系です。プリセットで物足りない？ この先の**方法 #2** へどうぞ。 各プリセットは専用の既定値（グローの不透明度・ぼかし、サイドバーと入力欄の透過度、ダイアログの不透明度、ガラス素材）を持っています。スキンを切り替えると自分で設定していない値だけが再調整され、8 プリセットすべてが 229 項目の計測可能な品質ゲート（配色 217 + 工芸 12）（OKLCH の明度ラダー、WCAG 2.1 + APCA のテキストコントラスト、シグナル色相の分離、プリセット間の識別性）に合格しています。
+
+---
+
+## 🧱 本格的な DIY 空間（方法 #2）
+
+> プリセットを超えて、dsh-dream-skin は完全なカスタマイズシステムを提供します。ここから始めて、あなただけのワークスペースを作り上げてください。
+
+| 機能 | できること |
+|------|------|
+| 🖼️ **Wallpaper 2.0** | ローカル画像 / **画像 URL** / **グラデーションプリセット**。さらに **不透明度 / ぼかし** も調整可能。各スキンはグラデーションを**提案**し、**自動減光**（集中時は邪魔を減らす）にも対応 |
+| 🌈 **ユーザーごとの Accent** | アクティブなスキンの上に独自のブランドアクセントを重ね付け（`overrideTokens` レイヤー、スキン自体は変更なし）：**12色のワンクリックプリセットスウォッチ**、カラーピッカー、ランダム化、クリア / 復元オプション |
+| 📦 **テーマパックのインポート / エクスポート / 共有** | `*.dsh-theme.json` = マニフェスト + 完全なトークン。ファイルをインポートしてワンクリック適用、または**共有リンク**（URL ハッシュにエンコード）をコピー |
+| 🪟 **ポップアップの不透明度** | ドロップダウン / オーバーレイ / ダイアログの下部塗りの透明度を調整するスライダー。設定は永続化されます。ポップアップ背景トークンで塗られた面（設定、プラグイン管理、軌跡のツールチップ、カード形の浮層）は共通で可読性の下限（不透明度 92%、テーマ自身エレベーション面）を保ち、メニューとスクリーンの両系統は引き続き全範囲です |
+| 🧩 **ローカルパックライブラリ** | インポートしたパックを一箇所に集約。**適用 / お気に入り / 削除** をワンクリックで |
+| 🎲 **おまかせ（Surprise me）** | ランダムに別のテーマへ切り替え。お気に入りに **スター** を付けると素早く切り替え |
+| ✅ **検証 + ロールバック** | パックのインポート時に形式 / 必須トークン / 色の妥当性を検証。失敗や削除時も安全にフォールバック |
+
+> すべてプリセットの上にレイヤーされます。**ワンクリックでオン/オフを切り替え、DSH 標準の外観にワンクリックで復元できます** — 気軽に試してください。壊れる心配はありません。
+
+---
+
+## ⚡ 1行インストール
+
+**この一文を DSH にコピーするだけで、すべてをインストールしてくれます：**
+
+> dsh-dream-skin スキンプラグイン（https://github.com/RevolutionLA/dsh-dream-skin、または npm パッケージ `dsh-dream-skin`）をインストールしてください。その後、DSH Web の再起動方法を教えてください。
+
+CLI がお好みなら、コマンド1つで：
+
+```sh
+dsh plugin --profile web add dsh-dream-skin && dsh web
+```
+
+> 🚀 **npm でも公開中！** DSH をインストール済みなら、クローン不要でコマンド1つで追加できます。
+
+> **[Codex-Dream-Skin](https://github.com/Fei-Away/Codex-Dream-Skin) へのオマージュ。** ただしアプローチは異なります：
+> Codex は CDP 経由でデスクトップクライアントのレンダラーに CSS を注入しますが、DSH は「サードパーティプラグインによるテーマ登録」を第一級で備えた **トークン駆動の Web GUI** です。したがって本プラグインは **完全ネイティブ** — 注入もバイナリへのパッチもなく、クライアントのアップデートでも壊れません。
+>
+> **公式製品ではありません。** ただ、あなたの DeepSeek Harness ワークスペースを彩るためのものです。
+
+---
+
+## 🏆 スターを付けたくなる理由（他の DSH テーマプラグインとの比較）
+
+> 視点を変えて見ると：同種のプラグインは、既成のカラーパレットを移植したもの（きれいだが設定はスイッチ一つ）、単一の美学に閉じたカスタム版、外部の壁紙を取り込むことに特化したもののいずれかです。私たちはスキニングを**調整可能な素材と配色のシステム一式**として設計しました — 追求しているのは「より華やか」ではなく、「より的確に、より控えめに、より長く飽きずに」、何度も吟味を重ねた一枚のガラスのように。**審美性 + 調整可能性が私たちの堀（モート）です。**
+
+| 機能 | 当プラグイン | [dsh-catppuccin-theme](https://github.com/NoNameLeGo/dsh-catppuccin-theme)（パレット移植） | [dsh-theme-mineradio](https://github.com/dhicoc/dsh-theme-mineradio)（単一美学カスタム） | [dsh-wallpaper-engine](https://github.com/elysia395/dsh-wallpaper-engine)（壁紙エンジン + リキッドガラス UI） |
+|------|:---:|:---:|:---:|:---:|
+| **オリジナルデザイン 8種**（既成パレットの移植ではなく、オリジナル token + diffused glow） | ✅ | ❌（Catppuccin 公式パレット 4種） | ❌（シャンパンゴールド美学 1種） | ❌ |
+| **すりガラス / リキッドガラスのデュアル素材**をワンクリック切替 | ✅ | 一部（固定のガラス質感） | ❌ | ❌ |
+| **入力欄 / ポップアップの独立した不透明度スライダー** | ✅ | ❌ | ❌ | 一部（設定ウィンドウ / フロート / 左サイドバー / タイトルバーは各々独立した不透明度とぼかしを持つ。入力カードとバブルは色とフィデリティを個別設定でき、不透明度はグローバルに従う） |
+| **箱から出してすぐの初期設定**（インストールして再起動するだけですぐ使える調整済みの見た目） | ✅ | ❌ | ✅（それ自体が完成品） | 一部（出荷時ガラス既定 + 7種のガラスプリセット。出荷時の壁紙 / スキンなし） |
+| カスタム壁紙 + 不透明度 / ぼかし | ✅ | ❌ | ❌ | ✅（中核機能） |
+| **Wallpaper 2.0**（URL / グラデーションプリセット / スキンごとの提案 / 自動減光 / Bing 毎日 + 定時更新） | ✅ | ❌ | ❌ | 一部（ローカル画像 / 動画アップロード + 定時ローテーション + フィットモード。URL / グラデーションプリセット / Bing 毎日はなし） |
+| **ユーザーごとの Accent**（オーバーレイレイヤー、スキン自体は変更なし） | ✅ | ❌ | ❌ | 一部（6プリセット + カスタムテーマ色がボタン / スイッチ / リンク / ナビ選択 / スライダー / ガラスハイライトを駆動。「スキンオーバーレイ」の概念なし） |
+| **テーマパックのインポート / エクスポート + 共有リンク**（JSON、コード不要の配布） | ✅ | ❌ | ❌ | 一部（フォントセットとガラスプリセットは JSON で入出力可。共有リンクなし） |
+| ローカルパックライブラリ + お気に入り + おまかせ | ✅ | ❌ | ❌ | ❌ |
+| **2世代のホスト互換 + ランタイム能力検出**（ホスト交代時も自動デグレードでエラーなし） | ✅ | 不明 | 不明 | 一部（単一のオープン peer 範囲が 0.1.5-rc.1+ と 0.2.x の両ホストラインをカバー。ホスト形態 / 能力検出と局所フォールバックあり。コア下限 0.1.5-rc.1 はハード要件） |
+| 検証 + ロールバック（破壊的な変更なし） | ✅ | 一部対応 | — | 一部対応 |
+
+> **ひとことで**：Catppuccin のブランドカラーも、mineradio の雰囲気も、本プラグインのテーマパックシステムなら作り出せる、重ねられます — その逆は成り立ちません。
+
+---
+
+## ✨ 機能
+
+| 機能 | 説明 |
+|------------|-------------|
+| 🎨 **プリセット8種を同梱（Mirage）** | **設定 → テーマ / 外観** で即座に切り替え、ライト & ダーク対応 |
+| 🖼️ **カスタム壁紙** | ローカル画像を選択（自動圧縮 ≤2MB）、**不透明度 / ぼかし** を調整 |
+| 🧊 **ガラス素材（すりガラス / リキッド）** | ワンクリックでガラスの質感を切替。透明度スライダーは**右ほど透け**、ぼかしは壁紙とガラス面をまとめて調整 |
+| 🖼️ **初回から完成された見た目** | インストール直後からネビュラスキン + 同梱壁紙 + 調整済みの数値で即使用可能 |
+| 🌤️ **Bing 一日一枚（プリセット）** | 高度な壁紙に Bing 毎日壁紙 API を事前入力。「適用」を押すだけで使用可能。任意の画像 URL + 自動更新にも対応 |
+| 🔁 **壁紙ローテーション** | 「画像 URL」の壁紙で、http/https の画像リンクを 1 行に 1 つ、最大 20 件貼り付けると、5 分〜7 日の間隔で順番またはランダムに切り替わります。「今すぐ次の壁紙へ」も使えます。壊れたリンクはそれ自身だけが外れ、ウィンドウが非表示の間は切り替えず（戻ったときに補う）、既定ではオフです（issue #61） |
+| 🔤 **不透明な内部サーフェス** | カード、入力欄、メッセージバブルは常に読みやすい — 色褪せない |
+| ↩️ **デフォルト復元** | ワンクリックで DSH 標準の外観（システム追従）に戻す |
+| 💾 **3層の永続化** | スキンと壁紙を `localStorage` **＋ホスト側ファイル** に保持。リロードだけでなく、DSH Desktop が起動のたびに受け取る新ポートもまたいで保持します |
+
+---
+
+## 🧩 これはどんなプラグインか
+
+**標準的な両面構成（dual-face）の「すべてがプラグイン」`dsh-plugin` です — 公式の `ui-theme` パッケージとまったく同じように読み込まれ、使用されます。**
+
+DeepSeek Harness のモットーは *everything is a plugin*（すべてがプラグイン）：モデル、ツール、サンドボックス、セッション、UI、そして Agent Loop 自体までもがプラグインです。`dsh-dream-skin` は、公式 UI パッケージと**同型（isomorphic）**の npm パッケージとしてスキニングを提供します：
+
+```text
+            ┌──────────── dsh-dream-skin (standard dsh-plugin / dual-face) ─────────────┐
+            │  dsh.bundle   → cordis.patch.yml inserts the dream-skin entry  (host half)│
+            │  dsh.client   → lib/client.js (browser bundle)                (browser half)│
+            └───────────────────────────────────────────────────────────────────────────┘
+```
+
+- **インストールコマンドは公式と同じ**：`dsh plugin --profile web add dsh-dream-skin`
+- **公式の拡張ポイントを使用**：`ctx.theme`（テーマの登録）、`ctx.theme.overrideTokens`（オーバーレイレイヤー）、`ctx.slots`（専用の **設定 → テーマ / 外観** セクションへの UI のマウント）。
+- **マニフェスト契約は公式パッケージと一致**：`dsh.bundle` + `dsh.client` + `exports["./client"]`。
+
+言い換えれば：あなたは無名のスクリプトをインストールしているのではありません — これは DSH 公式のプラグインシステムの中の、標準的なスキンプラグインです。
+
+---
+
+## ⚡ クイックスタート（3ステップ）
+
+```sh
+# 1. install
+dsh plugin --profile web add dsh-dream-skin
+# 2. restart
+dsh web
+# 3. open Settings → Theme / Appearance → pick a skin → done.
+```
+
+> 公開済みの npm パッケージをインストールします — クローン不要。`dsh plugin add` がワークスペースエラーを報告する場合は `-w` を追加してください。
+> バージョン番号を明記すべきケースが2つあります（番号はその場で `npm view dsh-dream-skin version` で確認できます）。**リリースから24時間以内**（pnpm のクーリングオフが旧バージョンを静かに取り込みます）、そして **9.x 時代の古いプロファイルをアップグレードする場合**（`^9.29.0` では 10.x に届きません）です。詳しくは以下の「インストール」と「アップデート」を参照してください。
+
+## 📦 インストール
+
+次の4つの方法のいずれかを選び、**DSH Web を再起動**してください（現在のセッションは中断されますが、DSH のセッションはディスクに保存されており、再起動後に復元されます）。
+
+### オプションA：npm から（公開版、**推奨**）
+
+```sh
+dsh plugin --profile web add dsh-dream-skin
+```
+
+> **リリース後24時間以内はバージョン番号を明示してください**：`dsh plugin --profile web add dsh-dream-skin@<最新版>`（番号はその場で `npm view dsh-dream-skin version` が教えてくれます）。デスクトップ版は別枠です：あのプロファイルは **Electron アプリが排他的に管理**し、CLI はそれを明確に拒否します——通る道は [docs/desktop-support.md](../desktop-support.md) に書いてあります。
+
+### オプションB：GitHub から（検証済みコミットに固定）
+
+```sh
+dsh plugin --profile web add 'github:RevolutionLA/dsh-dream-skin#<40-char-commit>'
+```
+
+> リリースのコミットに固定しておけば、`main` の新しい変更がインストール済みのコピーを静かに変えてしまうことはありません。
+
+### オプションC：Release の tarball から（オフライン / git なし）
+
+[Releases](https://github.com/RevolutionLA/dsh-dream-skin/releases) ページから `dsh-dream-skin-<version>.tgz` をダウンロードします（ビルド済みの `lib/client.js` が同梱されているため、インストール時に prepare スクリプトは実行されません）。次に：
+
+```sh
+dsh plugin --profile web add ./dsh-dream-skin-<version>.tgz
+```
+
+### オプションD：クローンしてローカルパスからインストール（開発用）
+
+```sh
+git clone https://github.com/RevolutionLA/dsh-dream-skin.git
+cd dsh-dream-skin
+dsh plugin --profile web add .
+```
+
+> `dsh plugin` は相対パスを **コマンドを実行したディレクトリ** 基準に解決し、クローンを指すリンク依存関係をインストールします：ソースを編集して保存し、DSH を再起動するだけで、再インストールは不要です。
+
+**再起動して確認：**
+
+```sh
+dsh web
+dsh --profile web --dump-config | grep -A2 dream-skin   # a dream-skin loader entry should appear
+```
+
+**設定 → テーマ / 外観** を開くと、**スキン**、**アクセント**、**壁紙** / **詳細壁紙**、**テーマパック** の行が表示されます。
+
+> 素の `add` には `-w`（ワークスペース）フラグが必要です。すべてのプロファイルに `pnpm-workspace.yaml` が同梱されており、pnpm はプロファイルディレクトリをワークスペースルートとみなすため、素の add は `ERR_PNPM_ADDING_TO_ROOT` で失敗します。プロファイルがすでにワークスペースを使用している場合は、繰り返す必要はありません。
+
+## 🔄 アップデート / アンインストール
+
+**最新版にアップデート**（npm リリースからインストールした場合）：
+
+```sh
+dsh plugin --profile web update dsh-dream-skin
+dsh web   # restart to pick it up
+```
+
+> アップデート後も古いバージョンのまま？ pnpm の minimum-release-age（サプライチェーン）ポリシーが、公開直後のリリースを保留することがあります。プロファイルディレクトリで
+> `pnpm add dsh-dream-skin@latest --config.minimumReleaseAge=0` を実行して強制してください。
+
+> **古いプロファイルでは `update` に期待せず、バージョン付きの `add` を直接使ってください**：`update` は `package.json` に**すでに書かれている依存レンジ**をそのまま引き継ぐため、9.x 時代に書かれた `dsh-dream-skin: ^9.29.0` は semver 上 10.x に決して届きません（caret は同じメジャー内でしか動きません）。結果、`update` は「すでに最新」と言い、UI は古いままです。この依存を書き換えるには：
+>
+> ```sh
+> dsh plugin --profile web add dsh-dream-skin@<最新版>   # npm view dsh-dream-skin version でその場で番号を確認
+> ```
+>
+> これは新しい欠陥ではなく、**古い修正が届けられなかった**ケースです。「たしかに更新したのに変わらない」を切り分けるには、まず実際にインストールされたバージョンを確かめてください。手順は [docs/publishing-to-npm.md](../publishing-to-npm.md) の第9節にあります。
+
+**アンインストール：**
+
+```sh
+dsh plugin --profile web remove dsh-dream-skin
+dsh web   # restores the official appearance
+```
+
+---
+
+## 🧩 互換性
+
+| 項目 | 値 |
+|------|-------|
+| DeepSeek Harness（`dsh`） | **同一ビルドで両世代のホストに対応**：安定版 `0.1.0-rc.6` / `0.1.1-rc.x`（peerDependencies は `^0.1.0-rc.6` に固定）と DSH master（分割後のモジュールテーブル）。**ホスト更新後にプラグインはインストール済みと表示されるのにスキンが消えた？** 多くは peer ウィンドウがバンドル全体をスキップしたためです — 応急の出口：`dsh plugin allow-version dsh-dream-skin@<バージョン> <ホストのランタイムバージョン>`（未検証の組み合わせを強制的に通す**自己責任での明示的な上書き**であり、推奨される方法ではありません）。症状の切り分けと完全な手順は [docs/desktop-support.md](../desktop-support.md) を参照 |
+| Node.js | `>=18` |
+| ブラウザ | モダンな Chromium / WebKit（ネイティブ CSS 変数 & `matchMedia`） |
+| デスクトップ | **サードパーティの DSH Desktop シェル：** 対応済み、実機で確認（issue #50/#51/#55）。**公式 DSH Desktop：** 根拠が支えるのは「**読み込む見込み**」であり「対応済み」ではありません——根拠は静的な事実 2 つだけ（Electron 同一フロントエンド／当方が宣言する `dsh.client.platform = "web"` がホスト同梱の 21 クライアントパッケージと一致）。そのプロファイルディレクトリと「シェルが本プラグインを読み込むこと」は本機で実測した（`~/.dsh/profiles/desktop` に入れ、ユーザー自身がシェルを再起動した後に読み込まれ、稼働中のページで当方のスタイルシートを読み取った。`docs/publishing-to-npm.md` 8.4 と `docs/desktop-support.md` を参照）。だが**設定が再起動をまたいで保持されるかは本機では一度も検証しておらず**、本ドキュメントは**コピーできるデスクトップ用インストールコマンドを載せません**。<!-- desktop-claim: load-expected-unverified -->導入時の `--profile` にはホスト**自身が同梱する**テンプレート名を使ってください。一部のサードパーティ文書が教えるプロファイル名は本機のホストには存在せず、そのままコピーすると空のシェルプロファイルに入り、再起動後は何も表示されません。根拠は **[docs/desktop-support.md](../desktop-support.md)** の「公式デスクトップ版：未検証項目」を参照。完全なアンカー依存リスト／セキュリティ境界／検証済み・未検証の一覧も同ドキュメント |
+
+> DSH をアップグレードするときは、`package.json` の peerDependencies もそれに合わせて更新してください。
+
+---
+
+
+<details>
+<summary><b>仕組み / 永続化 / テーマの開発・拡張（クリックで開く）</b></summary>
+## ⚙️ 仕組み
+
+DSH のテーマシステムはトークンベースです：Web シェルは `--dsw-*` デザイントークンを提供し、`ThemeRuntime` はサードパーティプラグインがエイリアスレイヤー（`--dsw-alias-*`）をオーバーライドするテーマを登録できるようにします。このパッケージは標準の両面構成プラグインです：
+
+```text
+                ┌─────────────────────────────────────────────┐
+                │          dsh-dream-skin (dual-face plugin)    │
+                ├────────────────────────────┬────────────────┤
+    Host half   │  lib/index.js              │  Browser half  │
+                │  cordis.patch.yml inserts  │  lib/client.js │
+                │  dream-skin loader entry   │  __ModuleLoader__│
+                └────────────────────────────┴────────────────┘
+                             │                         │
+                     profile tree loaded      /plugins/dsh-dream-skin/client.js
+                                                          │
+        ┌────────────────────────────────┬────────────────┐
+        │                                │                │
+   ctx.theme.register(8 skins)     ctx.theme.overrideTokens(wallpaper)   ctx.slots.inject('settings.section' + 'settings.dreamSkin.item')
+```
+
+- **ホスト側**（`lib/index.js`）— `dsh.bundle` パッチレイヤーで `dream-skin` ローダーエントリを挿入します。`apply` は no-op で、同梱の `ui-*` パッケージとまったく同じです。
+- **ブラウザ側**（`lib/client.js`）：
+  1. `ctx.theme.register(...)` で 8 つのスキンを登録；
+  2. 保存済みのスキンを復元し、`ctx.theme.setTheme(...)` で適用；
+  3. 壁紙を `z-index:-1` の固定バックドロップとして描画し、`ctx.theme.overrideTokens(...)` を重ねることで、メインキャンバス（`--dsw-alias-bg-base`）とサイドバー（`--dsw-specific-sidebar-fill`）を半透明に；
+  4. `theme/change` をリッスンし、スキン / 配色の切り替え時に壁紙の色調を再調整；
+  5. 専用の **設定 → テーマ / 外観** セクション（`settings.section`）を登録し、`settings.dreamSkin.item` スロットに 5 つの機能行をマウントします。
+
+各スキンは `colorScheme`（`light`/`dark`）を持ち、本プラグインがそれを自分のルート要素 `<html>` に
+（`data-dsh-dream-skin-scheme` として）打ちます。ホストの `body[data-ds-dark-theme]` には**依存しません**——
+その属性は ui-layout の ThemePresenter に属し、その `dispose()` が消してしまうため、属性が欠けている窓では
+暗色スキンが明色側の定数を拾っていました。エイリアストークンのオーバーライドは、ui-layout の ThemePresenter
+によって `<body>` にインラインのカスタムプロパティとして適用されます。
+
+## 💼 永続化のメモ
+
+- スキンと壁紙は**3層**で保持します：メモリ内キャッシュ（初回フレームの正確性）、ブラウザの `localStorage`（キーは `dsh-dream-skin:` 接頭辞）、そして**ホスト側ファイル** `$DSH_HOME/dream-skin.json`（本プラグイン独自のループバック `/dream-skin/api` で読み書き）。
+- デスクトップ版ではこのファイル層が決定的です：DSH Desktop は起動のたびに OS がポートを割り直すため origin が変わり、`localStorage` だけでは状態を忘れます。ポート変更・再起動をまたぐ正式な状態はホスト側ファイルです。
+- なぜ Host 設定にしないのか？ Host 設定の配線は、ブラウザクライアントに許可リスト化された名前空間のみを公開するため（`dsh-host-apiproxy` の `WEB_SETTINGS_NAMESPACES`）、サードパーティの名前空間は `settings-not-exposed` を返します。製品自体もリモートブラウザの設定をプロセスローカルに保持します。`localStorage` はその境界に一致し、リロード後も保持されます。
+
+---
+
+## 🛠️ 開発 / テーマの拡張
+
+クライアントバンドルは `__ModuleLoader__` 形式で直接記述されています（同梱の `ui-*` パッケージが tsdown で生成するのと同じ形）ので、**ビルドステップは不要**です。`lib/client.js` が `require` できるのはモジュールテーブルのエンティティのみです：プラットフォームシード（`react`、`react/jsx-runtime`、…）と登録済みクライアントバンドル（`@deepseek-ai/dsh-client-runtime/client`、…）。
+
+- **内蔵スキンの追加**：`lib/client.js` の `SKINS` 配列にオブジェクト（`id` + `colorScheme` + `tokens`）を追加するだけで、自動的に設定に表示されます。**8 つのロケール辞書すべて**（`zh`/`en`/`ja`/`ko`/`es`/`fr`/`de`/`ru`）に `skin.<id>` キーを追加してください。
+- **テーマパックの配布（推奨）**：[`docs/examples/sample-theme-pack.json`](../../docs/examples/sample-theme-pack.json) に従ってください — `*.dsh-theme.json` 1つを設定からインポートでき、リンクで共有も可能。コード変更は不要です。
+- **独自の壁紙を追加**：[`wallpapers/`](../../wallpapers/) に画像を置いて（配布するのは権利を持つものだけにしてください）、DSH の「壁紙」行からインポートします。
+- **プレビューの再生成**：プレビューは `scripts/generate-skin-mockups.cjs`（実トークン + diffused glow）で HTML モックアップを生成し、ヘッドレス Chrome で `docs/previews/*.png` としてキャプチャします — スキンのトークンを変更したら再実行して、プレビューを実際のスキンと同期させてください。`docs/previews/manifest.json` は各画像を三つの指紋（出荷トークン・カードのマークアップ・PNG のバイト数と画素寸法）に固定し、配色だけ変えて撮り直していない場合は `npm run previews --check`（ブラウザ不要）が赤くなり、どのスキンかを名指しします。ヘッドレスブラウザが見つからないときは `npm run previews` が非ゼロで終了し、0 出力を成功とは見なしません。これらの PNG は**パッケージに同梱されません**：2.26 MB の README 装飾を全利用者にダウンロードさせるべきではないためで、`npm pack` は 2.5 MB から 263 kB に減り、README は GitHub から読み込みます。
+- **検証**：`npm test`（ファクトリーの評価、`apply()`、パックのインポート / 永続化をカバーする VM スモークテスト）。
+- **再ペイント**：`--dsw-alias-*` トークンを参照してください（完全な契約は [`docs/themes-spec.md`](../../docs/themes-spec.md)）。
+
+
+</details>
+## 📌 ロードマップ
+
+> **この表は未完了の項目だけを載せています。** 提供済みの機能は上の「機能」セクションと [CHANGELOG.md](../../CHANGELOG.md) にあります。同じ内容を2箇所に置くと必ずズレが生じ、実際このプロジェクトでも一度ズレました。本表は中国語版 `README.md` の Roadmap を翻訳したもので、正（ソース）は中国語版です。
+> 各項目には必ず3つの要素を添えます：**動機**（実際の issue か計測データから。空想の需要は書かない）、**規模**（S ≈ 一晩、M ≈ ファンクションリリース1回分、L ≈ コードを書く前に設計が必要）、**受け入れ判定**（**失敗しうる**チェック。「できた」と宣言すれば終わり、は不可）。完了した項目はこの表から削除します。「やらない」欄も ToDo と同じくらい重要です — 貢献者に空振りをさせないためです。
+
+### A. 信頼性：ホストの世代交代で壊れない
+
+*動機：`0.2.0-rc.1` で実測した6グループのホスト側の錨のうち4グループが変動——内訳はハッシュ再生成が確認された3グループと、ホストCSSが現存し面が未マウントなだけの1グループ（`lXshSW_*`、10.5.0より`notMounted`として分離）。ユーザー側の体感は issue #62 の「一晩でスキンがすべて消えた」。*
+
+- [ ] **M** ホストのハッシュ化クラス名への依存を最後に断ち切る：残る装飾ルール（サイドバー / ファイルパネル）も自前の `data-dsh-dream-skin-*` マーカーへ移行（composer と nav-icon ですでにこの道が通ることを実証済み）
+      — 受け入れ判定：**二段階とも通ること**——① 静的な対応付けゲート `tests/host.frosthooks.test.cjs` が緑：ホストのビルドハッシュにまだ賭けている全ルールは、同じセレクタ内にハッシュ依存のいない錨を持ち、その錨は両チャネルの出荷バイト列で実測されていること；② 漂移プローブが 0.2.x 上で `drifted: [] && notMounted: [] && pending: false` を返すこと。**10.13.0 は `channelAbsent` を判定文字列から外し、事実としてのみ読みます**：すべての欠落が「説明」で満たせてしまう判定は、散文を証拠の代わりに置くのと同じ。静的ゲートに換えたことで錨を外せばその場で赤になり、「このハッシュが片方のチャネルに無い」という事実自体は引き続き `anchors` に書かれます。**`drifted` だけを見て空を条件にするのは相変わらず不十分**（10.8.0 の `retired` と 10.12.1 の `channelAbsent` は「説明済みの欠落」を `drifted` から外す）。読み方は `docs/desktop-support.md` のセクション `消费判读`
+- [ ] **M** peer の窓を `0.3.x` まで進める — **上流で停止中。当方の問題ではありません**：2026-10-10 時点で registry の `@deepseek-ai/dsh` の `latest` は `0.2.0-rc.2`、バージョン一覧は `0.2.1-alpha.2` で終了しており、`0.3.x` は一度もリリースされていません（`npm view @deepseek-ai/dsh versions --json`）。揃えるべき対象バージョンが存在しないため、この項目は着手も検証も不能です。上部の互換性テーブルに載っている現在の peer 窓は、ホストがこれまで公開した**すべての**バージョンをすでにカバーしています。
+      — 受け入れ判定：ホストが実際に 0.3.x を放出した後、`npm run host:preflight -- --profile-load` をまわし（あの互換判定表と実際の profile 読み込みは、いまはこのコマンドの二つ的一半です）、、通過して初めて窓を広げる。広げないなら「未対応」と文書に明記し、静かにスキップしたままには絶対にしない
+- [ ] **S** 漂移プローブは「必要時にマウントされる」機能面に届かない：質問カード／承認カードは対話が実際に質問を投げた時だけ DOM に現れるので、起動時の勾配サンプリングでは必ず恒久的な漂移として報告される。10.5.0 は意図的にプローブの対象外にしている
+      — 受け入れ判定：実際の質問を一度行った後、`anchors` がこの2群の機能錨の命中／未命中を返し、起動直後のページは依然 `drifted: []`
+
+### B. リリースとインストール経路
+
+*動機：2026-09-29、公式 Desktop の `0.2.0-rc.2` でインストールが拒否された。一方でメンテ機は `link:` ワークスペースインストール — **この種の問題は link 環境では永遠に見えない**。*
+
+- [ ] **M** 社内網 / オフライン配布の経路を文書化（Release tarball の仕組み自体はある。写して使える手順が無い）｜PR-welcome
+
+### C. デスクトップ版の運用面
+
+*動機：公式 Desktop のリリース後、「1人で複数マシンを面倒見る」ユーザーが出てきた。この利用者像との実際の接点はまだ少ないので、安い2項目から着手し、一度に道を舗装し尽くさない。*
+
+- [ ] **M** 一括デプロイガイド（profile ディレクトリの構成、`link:` と registry インストールの違い、`compatibility.json` の免除（exemption）キーの意味、動的ポート）
+
+### D. 体験まわり
+
+*動機：ユーザーが最初に目にする部分。ただしこの2日間に届いた実際の報告（#61 / #62）は体験ではなく信頼性の問題だったので、このグループ全体を A・B の後ろに置きます。*
+
+- [ ] **M** initial paint のちらつき除去（FOUC）：**まず測る** — 最初のフレームから `apply()` 完了までの実際の時間窓を把握してから方針を決める。測るまでは手をつけない
+- [ ] **M** コミュニティテーマライブラリ — **ガバナンスのルールを決めてからコードを書く**。確認済み：テーマパックの中身には画像フィールドが一切含まれない（token と強調色とメタ情報のみ）。つまり投稿は構造的に画像著作権リスクを持たず、コストはすべてレビュー負担にある｜PR-welcome
+
+### E. やらない / PR のみ受け入れ
+
+- **オンラインのパレット / テーマプレビュー Studio**：あれは独立したサイトで、プラグインの機能ではない。コミュニティテーマライブラリと役割が重複し、しかも高コスト。
+- **設定のプリセット / ポリシー配信**（管理者が既定スキンを置いておけば初回起動から効く。元は C グループの仮置きで、2026-10-10 の判定後にこの節へ移しました）：この項目が触ることになるのは永続化の**書き込み優先順位**です。出荷時シードは現在、ユーザーの durable ファイルに譲る必要があり（10.6.1 の B1 ゲートがまさにそれを固定しています）、そこへ「管理者側の既定値」という層を足すことは、テストで三状態にロックした直後の仕組みに4つ目の供給源をねじ込むことになります。そして「1人で複数マシンを面倒見る」という利用者像はまだ実際の接点がないため、今はやりません。一括運用するユーザーが現れたら再開します。
+- **ホストのインストーラー / バイナリに注入して改変するあらゆる手法**：「公式拡張点のみを使う」という立ち位置と真っ向から衝突するため、**永久にやりません**。
+
+---
+
+## 🤝 コントリビューション
+
+Issue と PR は大歓迎です！[コントリビューションガイド](../../CONTRIBUTING.md) と [行動規範](../../CODE_OF_CONDUCT.md) をお読みください。
+
+## ⭐ プロジェクトを支援する
+
+気に入っていただけたら：リポジトリにスター **⭐**、npm で高評価 **👍**、または DSH の仲間にシェアしてください — プロジェクトの発見につながり、メンテナンスの支えになります。テーマ / オンライン Studio / その他のスキンに貢献したいですか？ぜひ参加してください。
+
+## 🔒 セキュリティ
+
+セキュリティの問題を発見しましたか？公開 Issue は開かないでください — [セキュリティポリシー](../../SECURITY.md) をご覧ください。
+
+## 📄 ライセンス
+
+[MIT](../../LICENSE)
+
+## 🙏 謝辞
+
+- アーキテクチャ & API リファレンス：公式 DeepSeek Harness の [ui-theme](https://github.com/deepseek-ai/deepseek-harness/tree/master/packages/client/ui-theme) クライアントパッケージ。
+- コンセプトのオマージュ：[Codex-Dream-Skin](https://github.com/Fei-Away/Codex-Dream-Skin)。
+
+---
+
+## 📈 成長カーブ
+
+> 毎日自動更新（GitHub Actions）。左軸：**累計ダウンロード数**（青）；右軸：**Star 数**（紫）——桁が大きく異なるため、それぞれ独立した双軸を使用しています。
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/RevolutionLA/dsh-dream-skin/main/docs/stats.png?v=3" alt="dsh-dream-skin 毎日の Star × 累計ダウンロード数 成長カーブ" width="900"/>
+</p>
+
+*データは 24 時間ごとに自動取得：ダウンロード数は [npm 公式API](https://api.npmjs.org/downloads/range/2026-08-15:2026-12-31/dsh-dream-skin)、Star 数は [GitHub API](https://github.com/RevolutionLA/dsh-dream-skin/stargazers) から取得しています。*

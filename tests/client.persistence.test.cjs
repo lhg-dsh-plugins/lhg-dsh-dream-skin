@@ -1,0 +1,771 @@
+/**
+ * dsh-dream-skin — client-half persistence tests (host-backed seam).
+ *
+ * Loads lib/client.js in a VM with a mocked fetch to the fenced /dream-skin/api
+ * channel and asserts the three-layer persistence contract from the outside:
+ *   - a write lands in cache + localStorage immediately and is PUSHED (GET is
+ *     used at boot; a SET is sent on write) — verified by the mocked channel;
+ *   - when the host channel is unavailable, reads/writes still work and the
+ *     plugin does not throw (graceful degradation);
+ *   - on boot, if the host reports keys, they are adopted unless written this
+ *     session (the cross-restart "authoritative" values win for untouched keys).
+ *
+ * These are behavior-level checks exercised through the public `apply` path;
+ * the host half's own API contract is covered by tests/host.persistence.test.cjs.
+ */
+const { test } = require('node:test');
+const assert = require('node:assert');
+const vm = require('node:vm');
+const fs = require('node:fs');
+const path = require('node:path');
+
+const CODE = fs.readFileSync(path.join(__dirname, '..', 'lib', 'client.js'), 'utf8');
+
+function makeEl() {
+	return {
+		style: {}, dataset: {}, children: [],
+		setAttribute() {}, removeAttribute() {},
+		appendChild(c) { this.children.push(c); },
+		append(c) { this.children.push(c); },
+		prepend() {}, click() {}, remove() { this.removed = true; },
+		contains(el) { return el && this === el; }
+	};
+}
+
+/**
+ * Build a sandbox with a controllable fetch.
+ * @param opts.hostValue - object the GET boot call should return (or 'unavailable').
+ * @param opts.onSet - optional callback receiving each SET patch.
+ */
+function buildSandbox({ hostValue = {}, fetchImpl = null, seed = {}, firstBoot = false, code = null } = {}) {
+	const body = makeEl();
+	const document = { body, createElement: () => makeEl(), createTextNode: () => ({}), querySelector: () => null, querySelectorAll: () => [], head: makeEl() };
+	const loc = { origin: 'http://x', pathname: '/', search: '', hash: '' };
+	const store = new Map();
+	// seed keys are the FULL localStorage keys (they already carry dsh-dream-skin: prefix)
+	for (const [k, v] of Object.entries(seed)) store.set(k, String(v));
+	// Round-6: exercise the "existing user" path — factory one-shot pre-marked.
+	// firstBoot: true simulates a DESKTOP RESTART (blue-team B1): fresh origin =
+	// empty localStorage, no marker, host file holding the durable user state.
+	if (!firstBoot) store.set('dsh-dream-skin:factory-applied', '1');
+	const localStorage = {
+		getItem: (k) => (store.has(k) ? store.get(k) : null),
+		setItem: (k, v) => store.set(k, String(v)),
+		removeItem: (k) => store.delete(k)
+	};
+	const sent = { sets: [] };
+	let factory = null;
+	const fetchMock = fetchImpl || (async (url, init) => {
+		const bodyObj = JSON.parse(init.body);
+		if (bodyObj.method === 'get') {
+			return { ok: true, status: 200, json: async () => ({ ok: true, value: hostValue }) };
+		}
+		if (bodyObj.method === 'set') {
+			sent.sets.push(bodyObj.patch);
+			return { ok: true, status: 200, json: async () => ({ ok: true }) };
+		}
+		return { ok: true, status: 200, json: async () => ({ ok: false }) };
+	});
+	const sandbox = {
+		window: {}, document, navigator: {}, localStorage,
+		console, location: loc, history: { replaceState() {} },
+		btoa: (s) => Buffer.from(s, 'binary').toString('base64'),
+		atob: (s) => Buffer.from(s, 'base64').toString('binary'),
+		unescape: (s) => s, escape: (s) => s,
+		encodeURIComponent, decodeURIComponent,
+		TextEncoder, TextDecoder,
+		URL: Object.assign(URL, { createObjectURL: () => 'blob:x', revokeObjectURL() {} }),
+		Blob: class {}, FileReader: class {}, Image: function () {},
+		setTimeout, clearTimeout, alert: () => {},
+		MutationObserver: class { observe() {} disconnect() {} },
+		fetch: fetchMock
+	};
+	sandbox.window.__ModuleLoader__ = { load: (o) => { factory = o.factory; } };
+	sandbox.window.location = loc;
+	sandbox.window.history = sandbox.history;
+	for (const k of ['document', 'localStorage', 'btoa', 'atob', 'fetch']) sandbox.window[k] = sandbox[k];
+	const context = vm.createContext(sandbox);
+	// `code` lets a test patch the bundle source (e.g. pin the migration
+	// fingerprint constants to a synthetic fixture) without touching lib/client.js.
+	vm.runInContext((code || CODE) + '\nwindow.__LOGGED__=1;', context);
+	return { factory, localStorage, sent, window: sandbox.window, getItem: (k) => store.get(k) };
+}
+
+const REACT = { useRef: () => ({ current: {} }), useMemo: (f) => (typeof f === 'function' ? f() : f), useState: (init) => [init, () => {}] };
+const RT = { defineStore: (d) => ({ spec: d, create() {} }) };
+function makeRequire({ storeMissing = false } = {}) {
+	return (s) => {
+		if (s === 'react/jsx-runtime') return { jsx: () => 0, jsxs: () => 0 };
+		if (s === 'react') return REACT;
+		if (s === '@deepseek-ai/dsh-client-store') {
+			// storeMissing simulates a stable host (issue #43): the master-only
+			// seed is absent and the table-miss Error is what the loader throws.
+			if (storeMissing) throw new Error('client-modules: require("' + s + '") missed the module table');
+			return RT;
+		}
+		if (s === '@deepseek-ai/dsh-client-runtime/client') return RT;
+		throw new Error('unexpected require: ' + s);
+	};
+}
+
+function makeApplyContext(harness, { captureActions = false } = {}) {
+	const theme = {
+		register(def) { (harness.registered || (harness.registered = [])).push(def.id); return () => {}; },
+		setTheme() {},
+		getTheme() { return { preference: 'system', active: { id: 'dark', colorScheme: 'dark', tokens: {} }, themes: [], revision: 1 }; },
+		overrideTokens() { return () => {}; }
+	};
+	return {
+		theme,
+		slots: {
+			inject(n, f) { f(); },
+			register(desc, _Component) {
+				if (captureActions && typeof desc.inject === 'function') {
+					const storeSpec = desc.store && desc.store.spec;
+					const bag = {};
+					if (storeSpec && typeof storeSpec.actions.sync === 'function') {
+						const state = storeSpec.init();
+						bag.sync = (...args) => storeSpec.actions.sync(state, ...args);
+					}
+					const ra = desc.inject(bag);
+					if (ra && typeof ra === 'object') (harness.actionBags || (harness.actionBags = {}))[desc.id] = ra;
+				}
+				return {};
+			}
+		},
+		locale: { register() {}, bind() { return (k) => k; } },
+		on() { return () => {}; },
+		effect(t) { const d = t(); if (typeof d === 'function') d(); }
+	};
+}
+
+test('boot adopts host keys for untouched preferences (durable values win)', async (t) => {
+	const h = buildSandbox({ hostValue: { 'dsh-dream-skin:skin': 'midnight', 'dsh-dream-skin:wallpaper-opacity': '0.5' } });
+	const e = h.factory(makeRequire());
+	const ctx = makeApplyContext(h);
+	e.apply(ctx);
+	// loadFromHost is async (fetch + adopt); give it time to settle.
+	await new Promise((resolve) => setTimeout(resolve, 50));
+	// The host values should have been written into localStorage (adopted).
+	assert.equal(h.getItem('dsh-dream-skin:skin'), 'midnight', 'host-adopted skin persisted to localStorage');
+	assert.equal(h.getItem('dsh-dream-skin:wallpaper-opacity'), '0.5', 'host-adopted opacity persisted to localStorage');
+});
+
+test('blue-team B1: desktop restart (empty localStorage, durable host file) keeps the user config', async (t) => {
+	// Desktop app = fresh origin on every restart: empty localStorage, no
+	// factory marker. The factory look may seed the FIRST PAINT, but the
+	// durable host values must WIN once the probe settles — the user's rose
+	// skin and own wallpaper opacity must come back, and the factory seeds
+	// must never be pushed over the host file.
+	const h = buildSandbox({
+		firstBoot: true,
+		hostValue: {
+			'dsh-dream-skin:skin': 'rose',
+			'dsh-dream-skin:wallpaper-opacity': '0.7',
+			'dsh-dream-skin:material-preset': 'liquid'
+		}
+	});
+	const e = h.factory(makeRequire());
+	e.apply(makeApplyContext(h));
+	// > 200ms debounce: this guard must STILL hold after the push gate
+	// releases — deleting the gate (or the factory-seed push filter) must
+	// turn this test red, so the wait must cover the debounce window
+	// (blue-team T3: a 50ms wait here kept the gate unguarded).
+	await new Promise((resolve) => setTimeout(resolve, 400));
+	assert.equal(h.getItem('dsh-dream-skin:skin'), 'rose', 'durable skin wins over the factory seed');
+	assert.equal(h.getItem('dsh-dream-skin:wallpaper-opacity'), '0.7', 'durable opacity wins over the factory seed');
+	assert.equal(h.getItem('dsh-dream-skin:material-preset'), 'liquid', 'durable material wins over the factory seed');
+	// The factory look must not have been PUSHED as the user's own config —
+	// neither via the gate's flush nor the debounce.
+	assert.equal(h.sent.sets.length, 0, 'factory seeds are NOT pushed over the host file');
+});
+
+test('blue-team B1: restart with empty host file does not bake factory seeds in', async (t) => {
+	// First-ever boot with an empty host file AND empty localStorage: factory
+	// seeds must stay localStorage-only until the user actually changes
+	// something — otherwise a desktop restart would write the shipped look
+	// into dream-skin.json as if the user chose it.
+	const h = buildSandbox({ firstBoot: true, hostValue: {} });
+	const e = h.factory(makeRequire());
+	e.apply(makeApplyContext(h));
+	// > 200ms debounce: the push gate flush + debounce must BOTH stay silent
+	// for a pure-factory boot (blue-team T3/A2 — a 50ms wait let the gate
+	// leak factory seeds into the host file undetected).
+	await new Promise((resolve) => setTimeout(resolve, 400));
+	assert.equal(h.getItem('dsh-dream-skin:skin'), 'nebula', 'first launch paints the factory look');
+	assert.equal(h.sent.sets.length, 0, 'pure-factory boot pushes nothing to the host file');
+});
+
+test('blue-team T1: same-origin reload does NOT bake factory seeds into the host file', async (t) => {
+	// Reload vector: after the first launch seeded localStorage, a same-origin
+	// reload early-returns from applyFactoryDefaults (marker present) — no
+	// session seal runs, yet the empty host file must still NOT trigger a
+	// migration push of the untouched factory values.
+	const h = buildSandbox({ firstBoot: true, hostValue: {} });
+	const e = h.factory(makeRequire());
+	e.apply(makeApplyContext(h));
+	await new Promise((resolve) => setTimeout(resolve, 400));
+	assert.equal(h.sent.sets.length, 0, 'pre: first launch pushed nothing');
+	// Second boot on the SAME origin: localStorage intact (factory values +
+	// marker + provenance snapshot), host file still empty.
+	e.apply(makeApplyContext(h));
+	await new Promise((resolve) => setTimeout(resolve, 400));
+	assert.equal(h.getItem('dsh-dream-skin:skin'), 'nebula', 'factory look still active after reload');
+	assert.equal(h.sent.sets.length, 0, 'reload with untouched factory values must NOT push to the host file');
+	// The user then changes ONE value: only now may the host file be seeded,
+	// and the provenance of the touched key must be released.
+	e.apply(makeApplyContext(h, { captureActions: true }));
+	const accentBag = (h.actionBags || {})['dream-skin-accent'];
+	accentBag.setAccent('#123456');
+	await new Promise((resolve) => setTimeout(resolve, 400));
+	assert.ok(h.sent.sets.length >= 1, 'a real user write IS pushed');
+	const lastPatch = h.sent.sets[h.sent.sets.length - 1];
+	assert.equal(lastPatch['dsh-dream-skin:accent'], '#123456', 'user value pushed');
+	assert.equal(lastPatch['dsh-dream-skin:skin'], undefined, 'untouched factory skin value stays out of the host file');
+});
+
+test('blue-team B2: upgrader who only touched the sidebar keeps their look (no factory seeding)', async (t) => {
+	// An existing user whose ONLY stored preference is the sidebar opacity —
+	// a key the old sentinel list missed — must not be force-seeded with the
+	// full factory look (nebula + horse wallpaper + 1h third-party polling).
+	const h = buildSandbox({ firstBoot: true, hostValue: {} });
+	// Simulate the upgrader: only the sidebar key, no marker.
+	h.localStorage.removeItem('dsh-dream-skin:factory-applied');
+	h.localStorage.setItem('dsh-dream-skin:sidebar-opacity', '0.42');
+	const e = h.factory(makeRequire());
+	e.apply(makeApplyContext(h));
+	await new Promise((resolve) => setTimeout(resolve, 50));
+	assert.equal(h.getItem('dsh-dream-skin:sidebar-opacity'), '0.42', 'upgrader sidebar value kept');
+	assert.equal(h.getItem('dsh-dream-skin:skin'), null, 'no factory skin forced on the upgrader');
+	assert.equal(h.getItem('dsh-dream-skin:wallpaper'), null, 'no factory wallpaper forced on the upgrader');
+	assert.equal(h.getItem('dsh-dream-skin:wallpaper-refresh'), null, 'no factory refresh config forced on the upgrader');
+	assert.equal(h.getItem('dsh-dream-skin:material-preset'), null, 'no factory material forced on the upgrader');
+});
+
+test('first launch pre-fills the daily-wallpaper URL but never applies it', async (t) => {
+	// The URL field ships pre-filled so a visitor can see what a daily-wallpaper
+	// API looks like, but a first install must paint the BUNDLED image and the
+	// scheduled third-party poll must stay off. Two independent guards, each with
+	// its own red: kind/url decide what actually renders, refresh decides whether
+	// anything ever reaches the network.
+	const h = buildSandbox({ firstBoot: true, hostValue: {} });
+	const e = h.factory(makeRequire());
+	e.apply(makeApplyContext(h));
+	await new Promise((resolve) => setTimeout(resolve, 50));
+
+	assert.equal(
+		h.getItem('dsh-dream-skin:wallpaper-url'),
+		'https://uapis.cn/api/v1/image/bing-daily',
+		'the URL field stays pre-filled (removing it leaves users with no example to start from)'
+	);
+	assert.equal(h.getItem('dsh-dream-skin:wallpaper-kind'), 'image', 'a pre-filled URL must never become the active wallpaper kind');
+	assert.match(
+		h.getItem('dsh-dream-skin:wallpaper') || '',
+		/^data:image\/svg\+xml;base64,/,
+		'the first paint must come from the shipped data URI, not a network image'
+	);
+	assert.equal(
+		JSON.parse(h.getItem('dsh-dream-skin:wallpaper-refresh') || '{"on":0}').on,
+		0,
+		'scheduled polling is opt-in (blue-team B7)'
+	);
+});
+
+test('writes push to the host channel after a debounce', async (t) => {
+	const h = buildSandbox({ hostValue: {} });
+	const e = h.factory(makeRequire());
+	const ctx = makeApplyContext(h, { captureActions: true });
+	e.apply(ctx);
+	// exercise the accent row's setAccent, which writes storage + schedules a host push
+	const bags = h.actionBags;
+	assert.ok(bags['dream-skin-accent'], 'accent action bag captured');
+	// setStorage isn't directly exposed; drive via accent setAccent (writes accent)
+	bags['dream-skin-accent'].setAccent('#ff8800');
+	await new Promise((resolve) => setTimeout(resolve, 350)); // > 200ms debounce
+	assert.ok(h.sent.sets.length >= 1, 'a host SET was issued after write');
+	const lastPatch = h.sent.sets[h.sent.sets.length - 1];
+	assert.equal(lastPatch['dsh-dream-skin:accent'], '#ff8800', 'accent pushed to host');
+});
+
+test('degrades gracefully when host channel is unavailable', async (t) => {
+	// fetchImpl that always fails like a non-existent route
+	const h = buildSandbox({ fetchImpl: async () => { throw new Error('host unavailable'); } });
+	const e = h.factory(makeRequire());
+	const ctx = makeApplyContext(h, { captureActions: true });
+	assert.doesNotThrow(() => e.apply(ctx));
+	// Reads/writes still work purely in localStorage — apply returned and set up rows.
+	assert.ok(true, 'apply() did not throw with unavailable host channel');
+});
+
+test('stable-DSH fallback path (store seed missing) still boots and adopts host keys', async (t) => {
+	const h = buildSandbox({ hostValue: { 'dsh-dream-skin:skin': 'midnight' } });
+	const e = h.factory(makeRequire({ storeMissing: true }));
+	const ctx = makeApplyContext(h);
+	e.apply(ctx);
+	await new Promise((resolve) => setTimeout(resolve, 50));
+	assert.equal(h.getItem('dsh-dream-skin:skin'), 'midnight', 'host-adopted skin persisted via the fallback path');
+});
+
+test('post-release review: hung host probe releases the gate; a late write pushes ONLY user-written keys (no null erasure)', async (t) => {
+	// Two review findings in one scenario:
+	// 🟠-1 the 4s probe timeout must cover the whole fetch+json probe — with a
+	// never-resolving fetch the gate MUST still open (previously the gate
+	// stayed shut for the whole session);
+	// 🟠-2 the flush push must carry ONLY keys written this session. Boot-time
+	// READS cache absent keys as null in stateCache; pushing those nulls would
+	// ERASE the user's durable accent/packs/favorites on the host.
+	let timeoutFired = false;
+	const h = buildSandbox({
+		firstBoot: true,
+		hostValue: {},
+		fetchImpl: async (url, init) => {
+			// Only the boot GET probe hangs (stalled host connection); SET calls
+			// must be recorded normally or the flush could never be observed.
+			const bodyObj = JSON.parse(init.body);
+			if (bodyObj.method === 'set') {
+				sentSets.push(bodyObj.patch);
+				return { ok: true, status: 200, json: async () => ({ ok: true }) };
+			}
+			return new Promise(() => {});
+		}
+	});
+	const sentSets = h.sent.sets;
+	const e = h.factory(makeRequire());
+	e.apply(makeApplyContext(h, { captureActions: true }));
+	// The user writes BEFORE the probe settles (the common "first change on a
+	// slow boot" order) — the write must be held by the gate, then flushed.
+	h.actionBags['dream-skin-accent'].setAccent('#123456');
+	// > 4s probe timeout + 200ms debounce + slack.
+	await new Promise((resolve) => setTimeout(resolve, 4400));
+	assert.equal(h.sent.sets.length, 1, 'exactly one push: the gate flushed the held user write');
+	const patch = h.sent.sets[0];
+	assert.equal(patch['dsh-dream-skin:accent'], '#123456', 'the user write made it to the host file');
+	for (const [key, value] of Object.entries(patch)) {
+		assert.notEqual(value, null, `no null-erase of ${key} (read-cached absent keys stay out of the patch)`);
+	}
+	assert.equal(patch['dsh-dream-skin:favorites'], undefined, 'durable favorites NOT erased from the host file');
+	assert.equal(patch['dsh-dream-skin:packs'], undefined, 'durable packs NOT erased from the host file');
+	timeoutFired = true;
+	assert.ok(timeoutFired, 'reached the post-timeout assertions');
+});
+
+test('issue #51: dynamic-port restart with cleared wallpaper does NOT flash the factory wallpaper', async (t) => {
+	// Electron shell, fresh port every launch: empty localStorage, no marker
+	// (firstBoot), host file holds the user's CLEARED wallpaper (null from the
+	// full-state replacement push). The factory wallpaper must never seed —
+	// neither at boot (the reported one-frame flash) nor after the probe.
+	const h = buildSandbox({
+		firstBoot: true,
+		hostValue: { 'dsh-dream-skin:wallpaper': null, 'dsh-dream-skin:skin': 'ivory' }
+	});
+	const e = h.factory(makeRequire());
+	e.apply(makeApplyContext(h));
+	// Boot pass: non-visual defaults seed, wallpaper must NOT be there yet.
+	assert.equal(h.getItem('dsh-dream-skin:wallpaper'), undefined, 'no factory wallpaper at first paint');
+	await new Promise((resolve) => setTimeout(resolve, 50));
+	assert.equal(h.getItem('dsh-dream-skin:wallpaper'), undefined, 'factory wallpaper NOT resurrected after probe (host is authoritative)');
+	assert.equal(h.getItem('dsh-dream-skin:skin'), 'ivory', 'user skin adopted');
+	assert.equal(h.getItem('dsh-dream-skin:factory-applied'), '1', 'factory marker still written');
+});
+
+test('issue #51: true first install still gets the factory wallpaper (deferred seed)', async (t) => {
+	// Genuine first install: empty localStorage AND an empty host file. The
+	// wallpaper keys must arrive via the deferred seed once the probe settles
+	// — a few hundred ms later than before, but the shipped look is intact.
+	const h = buildSandbox({ firstBoot: true, hostValue: {} });
+	const e = h.factory(makeRequire());
+	e.apply(makeApplyContext(h));
+	await new Promise((resolve) => setTimeout(resolve, 50));
+	assert.equal(h.getItem('dsh-dream-skin:wallpaper-kind'), 'image', 'deferred wallpaper kind seeded after probe');
+	assert.ok(h.getItem('dsh-dream-skin:wallpaper') != null, 'deferred wallpaper seeded after probe');
+});
+
+test('issue #51: unreachable host on first install still seeds the wallpaper (catch path)', async (t) => {
+	// Host probe fails/times out: report=false = "no host decision seen" — the
+	// shipped look must still seed (otherwise a transient host outage on a
+	// true first install would leave the user permanently wallpaper-less).
+	const h = buildSandbox({
+		firstBoot: true,
+		fetchImpl: async () => { throw new Error('host unavailable'); }
+	});
+	const e = h.factory(makeRequire());
+	e.apply(makeApplyContext(h));
+	await new Promise((resolve) => setTimeout(resolve, 50));
+	assert.ok(h.getItem('dsh-dream-skin:wallpaper') != null, 'wallpaper seeded on the unreachable-host path');
+});
+
+test('B-6: a host that answers {ok:false} still fires the deferred factory seed (three exits agree)', async () => {
+	// External review B-6: loadFromHost has three "no usable answer" exits —
+	// the timeout/unreachable catch, an exception inside the try, and the
+	// parsed.ok !== true early return. The first seeded the deferred factory
+	// wallpaper, the third silently skipped it, so a true first install whose
+	// host answered {ok:false} spent the whole session wallpaper-less. All
+	// "no answer" exits must now seed exactly once — and, being factory
+	// provenance, the seed must NEVER be pushed back to the host.
+	let getCalls = 0;
+	const h = buildSandbox({
+		firstBoot: true,
+		fetchImpl: async (url, init) => {
+			const body = JSON.parse(init.body);
+			if (body.method === 'get') {
+				getCalls += 1;
+				return { ok: true, status: 200, json: async () => ({ ok: false, error: 'host-side rejection' }) };
+			}
+			sent0.push(body.patch);
+			return { ok: true, status: 200, json: async () => ({ ok: true }) };
+		}
+	});
+	const sent0 = h.sent.sets;
+	const e = h.factory(makeRequire());
+	e.apply(makeApplyContext(h));
+	// The fixed sleep(400) is replaced by a convergence poll on the observable that IS the
+	// wait's purpose: the deferred factory seed landing on the ok:false exit (kind='image'
+	// and a non-null wallpaper). If that exit ever stops seeding, this times out naming the
+	// label instead of silently reading a too-early (or too-late) moment.
+	await waitFor(() => ({
+		done: h.getItem('dsh-dream-skin:wallpaper-kind') === 'image' && h.getItem(WP_KEY) != null,
+		observed: { kind: h.getItem('dsh-dream-skin:wallpaper-kind'), wpSeeded: h.getItem(WP_KEY) != null, getCalls }
+	}), { label: 'B-6 deferred factory wallpaper seed lands on the {ok:false} exit' });
+	assert.equal(getCalls, 1, 'the probe really answered {ok:false} once');
+	assert.equal(h.getItem('dsh-dream-skin:wallpaper-kind'), 'image', 'kind seeded on the ok:false exit');
+	assert.ok(h.getItem(WP_KEY) != null, 'deferred factory wallpaper seeded on the ok:false exit');
+	assert.equal(sent0.length, 0, 'the factory seed is provisional and never pushed to the host file');
+});
+
+/**
+ * 9.26.1 remediation regression gates (adversarial review 9.26.0).
+ * The migration-fingerprint triple is rewritten in a patched copy of the
+ * bundle so tests can drive the legacy-photo path with a SYNTHETIC fixture
+ * (entry 1's stock photo never re-enters the tree — its fingerprint stays
+ * numeric). Entry 2 gets the opposite treatment, see the 9.27.1 cases below:
+ * a patched triple can only ever test the ALGORITHM, never the CONSTANTS.
+ */
+const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+/**
+ * The convergence poll lives in `fixtures/converge.cjs` (blue-team B-05): this file and
+ * `client.smoke.test.cjs` each carried an identical copy, so the timeout contract could drift
+ * between two test files that think they share one.
+ */
+const { waitFor } = require('./fixtures/converge.cjs');
+
+function cyrb53(str) {
+	let h1 = 0xdeadbeef, h2 = 0x41c6ce57;
+	for (let i = 0; i < str.length; i++) {
+		const ch = str.charCodeAt(i);
+		h1 = Math.imul(h1 ^ ch, 2654435761);
+		h2 = Math.imul(h2 ^ ch, 1597334677);
+	}
+	h1 = Math.imul(h1 ^ (h1 >>> 16), 2246822507);
+	h1 ^= Math.imul(h2 ^ (h2 >>> 13), 3266489909);
+	h2 = Math.imul(h2 ^ (h2 >>> 16), 2246822507);
+	h2 ^= Math.imul(h1 ^ (h1 >>> 13), 3266489909);
+	return 4294967296 * (2097151 & h2) + (h1 >>> 0);
+}
+
+function legacyFixture() {
+	const bin = Buffer.alloc(4096, 0x5a).toString('binary');
+	const fixture = 'data:image/jpeg;base64,' + Buffer.from(bin, 'binary').toString('base64');
+	let patched = CODE;
+	for (const [from, to] of [
+		['dataUrlLength: 115863', 'dataUrlLength: ' + fixture.length],
+		['byteLength: 86879,', 'byteLength: 4096,'],
+		['hash: 1042845555783671', 'hash: ' + cyrb53(bin)]
+	]) {
+		assert.ok(CODE.includes(from), 'fingerprint literal moved in client.js: ' + from);
+		patched = patched.replace(from, to);
+	}
+	const factoryImage = CODE.match(/\[WALLPAPER_KEY\]: "(data:[^"]+)"/)[1];
+	return { fixture, patched, factoryImage };
+}
+
+const WP_KEY = 'dsh-dream-skin:wallpaper';
+
+test('B-01: boot re-publishes the diagnostics snapshot with host-adopted values', async () => {
+	const h = buildSandbox({ hostValue: { 'dsh-dream-skin:skin': 'midnight' } });
+	const e = h.factory(makeRequire());
+	e.apply(makeApplyContext(h));
+	// The boot-time publish happens BEFORE the GET resolves; without the
+	// post-adoption publishStatus() the status would keep the pre-host skin.
+	await sleep(50);
+	const status = h.window.__DSH_DREAM_SKIN_STATUS__;
+	assert.ok(status, 'status channel published');
+	assert.equal(status.status, 'ready');
+	assert.equal(status.skin, 'midnight', 'status refreshed with the adopted host skin');
+});
+
+test('T-02 A: a user-cleared wallpaper (host null) wins over the provisional legacy-photo swap', async () => {
+	const { fixture, patched, factoryImage } = legacyFixture();
+	const h = buildSandbox({
+		hostValue: { [WP_KEY]: null },
+		seed: { [WP_KEY]: fixture },
+		code: patched
+	});
+	const e = h.factory(makeRequire());
+	e.apply(makeApplyContext(h));
+	// Past the 200ms debounce: any leaked provisional push would have landed.
+	// HONEST CLOCK, not convergence debt: BOTH assertions are absences ("stays cleared",
+	// "never pushed") — there is no observable that flips when the wait is over, because the
+	// correct outcome is that NOTHING lands. A poll for "unchanged" converges on the first
+	// sample and proves nothing, and polling for probe-settle would still leave the 200ms
+	// debounced leak free to land AFTER the read (see the settleDrift boundary in
+	// client.smoke.test.cjs: "no amount of polling can prove a 'not yet'").
+	await sleep(350);
+	assert.ok(h.getItem(WP_KEY) == null, 'the cleared wallpaper stays cleared (issue #51 semantics)');
+	assert.ok(!h.sent.sets.some((p) => p[WP_KEY] === factoryImage), 'pre-settle swap is factory-sealed and never pushed');
+});
+
+test('T-02 B: legacy photo living in the host file converges to the new factory image', async () => {
+	const { fixture, patched, factoryImage } = legacyFixture();
+	// Desktop restart: fresh origin, host file still holds the legacy photo.
+	// Adoption makes it user-state; the post-settle migration must then push
+	// the replacement so EVERY origin converges (and the legacy copy leaves
+	// dream-skin.json too).
+	const h = buildSandbox({ firstBoot: true, hostValue: { [WP_KEY]: fixture }, code: patched });
+	const e = h.factory(makeRequire());
+	e.apply(makeApplyContext(h));
+	await sleep(500);
+	assert.equal(h.getItem(WP_KEY), factoryImage, 'adopted legacy photo migrated locally');
+	assert.ok(h.sent.sets.some((p) => p[WP_KEY] === factoryImage), 'migration pushed as user state — host file converges');
+	assert.ok(!h.sent.sets.some((p) => p[WP_KEY] === fixture), 'the legacy photo is never pushed back');
+	// B-5 (external review): the push above is a CONTROLLED EXCEPTION to
+	// blue-team B1 ("factory never pushes") — without it, the legacy copy in
+	// dream-skin.json would outlive the migration forever. This assertion
+	// pins the write semantics themselves: if someone "fixes" the branch back
+	// to a constant factory-provisional write, this reddens before the
+	// behavioural case above even gets to speak.
+	// R-6 (round 2): match on whitespace-FOLDED source so a formatter
+	// re-flowing this one expression cannot produce a false red — the pin
+	// guards the write SEMANTICS (ternary branches), not the line's formatting.
+	// Deliberately keeps the literal `? {} : { factory: true }` shape: if the
+	// branches ever swap, the behaviour case above must red FIRST.
+	const folded = CODE.replace(/\s+/g, " ");
+	assert.ok(folded.includes("writeStorage(WALLPAPER_KEY, FACTORY_DEFAULTS[WALLPAPER_KEY], hostProbeSettled ? {} : { factory: true })"),
+		'migration write must branch on hostProbeSettled (user-state push after settle) — see the CONTROLLED EXCEPTION comment in migrateLegacyFactoryWallpaper');
+});
+
+/**
+ * 9.27.1 — entry-2 migration gates that can actually redden on a WRONG
+ * CONSTANT. The first version of this swap shipped an entry-2 hash that no
+ * test was able to catch: every existing case rewrote the triple to fit its
+ * own synthetic payload, so the literal was only ever compared with itself
+ * (self-consistent probe) and the swap silently never fired on real machines.
+ * These two cases drive the REAL bytes v9.24.0–v9.27.0 shipped, extracted from
+ * tag v9.27.0 into tests/fixtures/, with UNPATCHED source. That raster was
+ * generated for this project (no stock-photo licensing/exposure concerns), so
+ * pinning it as a fixture is safe — and tests/ is outside package.json files,
+ * so it never ships.
+ */
+const LEGACY_RASTER_9_27 = fs.readFileSync(path.join(__dirname, 'fixtures', 'legacy_factory_raster_9_27_0.txt'), 'utf8').trim();
+const FACTORY_VECTOR = CODE.match(/\[WALLPAPER_KEY\]: "(data:[^"]+)"/)[1];
+
+test('entry-2 fingerprint: the shipped triple is recomputed from the v9.27.0 raster, not retyped', () => {
+	assert.equal(LEGACY_RASTER_9_27.length, 9619, 'fixture drifted from the tagged asset');
+	assert.ok(LEGACY_RASTER_9_27.startsWith('data:image/jpeg;base64,'));
+	const bin = Buffer.from(LEGACY_RASTER_9_27.slice('data:image/jpeg;base64,'.length), 'base64').toString('binary');
+	const triples = [...CODE.matchAll(/dataUrlLength: (\d+), byteLength: (\d+), hash: (\d+)/g)]
+		.map((m) => ({ dataUrlLength: Number(m[1]), byteLength: Number(m[2]), hash: Number(m[3]) }));
+	assert.equal(triples.length, 2, 'exactly two migration entries ship');
+	const entry = triples[1];
+	assert.equal(entry.dataUrlLength, LEGACY_RASTER_9_27.length, 'entry 2 must match the real data-url length');
+	assert.equal(entry.byteLength, bin.length, 'entry 2 must match the real decoded byte length');
+	assert.equal(entry.hash, cyrb53(bin), 'entry 2 hash must be recomputed from the real asset bytes');
+});
+
+test('entry-2 migration converges on a same-origin restart with the real bytes (host file included)', async () => {
+	// The reported real-machine shape: same origin, so localStorage AND
+	// dream-skin.json both still hold the v9.27.0 raster, marker already set.
+	// Nothing is patched here — the shipped entry-2 constants must match.
+	const h = buildSandbox({
+		hostValue: { [WP_KEY]: LEGACY_RASTER_9_27, 'dsh-dream-skin:wallpaper-kind': 'image', 'dsh-dream-skin:skin': 'nebula' },
+		seed: { [WP_KEY]: LEGACY_RASTER_9_27, 'dsh-dream-skin:wallpaper-kind': 'image', 'dsh-dream-skin:skin': 'nebula' }
+	});
+	const e = h.factory(makeRequire());
+	e.apply(makeApplyContext(h));
+	await sleep(500);
+	assert.equal(h.getItem(WP_KEY), FACTORY_VECTOR, 'stored wallpaper swapped to the vector asset');
+	assert.ok(h.sent.sets.some((p) => p[WP_KEY] === FACTORY_VECTOR), 'dream-skin.json converges too (user-state push)');
+	assert.ok(!h.sent.sets.some((p) => p[WP_KEY] === LEGACY_RASTER_9_27), 'the legacy raster is never pushed back');
+});
+
+test('T-03: host adoption enforces the gradient/URL write gates (tampered state file cannot smuggle fetches)', async () => {
+	const glow = 'linear-gradient(165deg, #121216 0%, #0d0d11 55%, #101016 100%)';
+	const h = buildSandbox({
+		hostValue: {
+			'dsh-dream-skin:wallpaper-gradient': 'radial-gradient(circle, red, blue), url("http://evil.invalid/ping")',
+			'dsh-dream-skin:wallpaper-url': 'javascript:alert(1)',
+			'dsh-dream-skin:skin': 'midnight'
+		}
+	});
+	const e = h.factory(makeRequire());
+	e.apply(makeApplyContext(h));
+	await sleep(50);
+	assert.ok(h.getItem('dsh-dream-skin:wallpaper-gradient') == null, 'unsafe gradient refused at adoption');
+	assert.ok(h.getItem('dsh-dream-skin:wallpaper-url') == null, 'non-http(s)/data URL refused at adoption');
+	assert.equal(h.getItem('dsh-dream-skin:skin'), 'midnight', 'gating one key must not stall adoption of the others');
+
+	// A legitimate glow gradient still adopts normally.
+	const h2 = buildSandbox({ hostValue: { 'dsh-dream-skin:wallpaper-gradient': glow } });
+	const e2 = h2.factory(makeRequire());
+	e2.apply(makeApplyContext(h2));
+	await sleep(50);
+	assert.equal(h2.getItem('dsh-dream-skin:wallpaper-gradient'), glow, 'valid gradient adopted');
+});
+
+// ═══════════════════════════════════════════════════════════════════════════
+// Issue #79 — the legacy-glow fingerprint and its convergence into the host file
+// ═══════════════════════════════════════════════════════════════════════════
+
+const LEGACY_GLOW_FIXTURE = require('./fixtures/legacy_skin_glows_10_6_0.json');
+const SHIPPED_SKINS = require('../scripts/skin-audit.cjs').extractSkins(CODE);
+const glowOf = (id) => {
+	const skin = SHIPPED_SKINS.find((s) => s.id === id);
+	assert.ok(skin && typeof skin.glow === 'string', `${id} must ship a glow`);
+	return skin.glow;
+};
+
+test('#79 glow fingerprint: the eight legacy triples are recomputed from the v10.6.0 gradients, not retyped', () => {
+	const legacy = LEGACY_GLOW_FIXTURE.skins;
+	assert.equal(LEGACY_GLOW_FIXTURE._source, 'git show v10.6.0:lib/client.js', 'the fixture must declare where it came from');
+	assert.equal(Object.keys(legacy).length, 8, 'fixture drifted from the tagged release');
+
+	const triples = [...CODE.matchAll(/\{ id: "([a-z]+)", length: (\d+), prefix: ("(?:[^"\\]|\\.)*"), hash: (\d+) \}/g)]
+		.map((m) => ({ id: m[1], length: Number(m[2]), prefix: JSON.parse(m[3]), hash: Number(m[4]) }));
+	assert.equal(triples.length, 8, `exactly eight legacy-glow entries must ship, matched ${triples.length}`);
+
+	for (const t of triples) {
+		const real = legacy[t.id];
+		assert.ok(typeof real === 'string', `the fixture is missing the ${t.id} glow`);
+		assert.equal(t.length, real.length, `${t.id}: length must be the real v10.6.0 string's length`);
+		assert.equal(t.prefix, real.slice(0, t.prefix.length), `${t.id}: the prefix must be the real string's opening`);
+		assert.equal(t.hash, cyrb53(real), `${t.id}: the hash must be recomputed from the real gradient — a hand-copied constant is the failure this case exists for`);
+	}
+	assert.equal(new Set(triples.map((t) => t.prefix)).size, 8,
+		'the eight prefixes must stay distinct, or the cheap pre-filter stops filtering anything');
+	assert.equal(new Set(triples.map((t) => t.length)).size >= 5, true,
+		'the lengths must stay varied, or length alone would be doing the work');
+	// And none of them may be a current glow — the repair keys on the value not
+	// being one of ours, so a collision here would make it unfireable.
+	for (const t of triples) {
+		assert.notEqual(glowOf(t.id), legacy[t.id], `${t.id}: the current glow must differ from the legacy one, or the repair can never fire`);
+	}
+});
+
+test('#79: the repair converges into dream-skin.json when the host file still holds the dead glow', async () => {
+	// The reported shape: same origin, so localStorage AND $DSH_HOME/dream-skin.json
+	// both still hold the pre-redesign glow and no follows marker was ever written.
+	// A factory-provisional write is deliberately OVERRIDABLE by the durable host
+	// value, so the pre-settle repair is adopted straight back and the post-settle
+	// pass has to redo it as user state — otherwise the host keeps the dead string
+	// forever and the background stays broken.
+	const legacy = LEGACY_GLOW_FIXTURE.skins.nebula;
+	const state = {
+		'dsh-dream-skin:wallpaper-kind': 'gradient',
+		'dsh-dream-skin:wallpaper-gradient': legacy,
+		'dsh-dream-skin:skin': 'nebula',
+		'dsh-dream-skin:wallpaper-opacity': '0.42'
+	};
+	const h = buildSandbox({ hostValue: { ...state }, seed: { ...state } });
+	const e = h.factory(makeRequire());
+	e.apply(makeApplyContext(h));
+	await sleep(500);
+
+	assert.equal(h.getItem('dsh-dream-skin:wallpaper-gradient'), glowOf('nebula'),
+		'the stored gradient must end up as the current glow');
+	assert.equal(h.getItem('dsh-dream-skin:wallpaper-follows-skin'), '1',
+		'and the follows marker must be recorded, so a later skin switch swaps the background again');
+	assert.ok(h.sent.sets.some((p) => p['dsh-dream-skin:wallpaper-gradient'] === glowOf('nebula')),
+		'dream-skin.json must converge too — a host file left holding the dead string re-adopts it on the next boot');
+	assert.ok(!h.sent.sets.some((p) => p['dsh-dream-skin:wallpaper-gradient'] === legacy),
+		'the legacy glow must never be pushed anywhere');
+	assert.equal(h.getItem('dsh-dream-skin:wallpaper-opacity'), '0.42',
+		'and an unrelated user value in the same patch is untouched');
+});
+
+test('#79: with no gradient in the host file, the marker still reaches the host (restart must not re-seed follows=0)', async () => {
+	// The other half of the convergence. Here the durable host state has no
+	// wallpaper decision, so the provisional repair survives — but sealed factory
+	// values are never pushed, and FACTORY_DEFAULTS seeds `follows = 0`. Without
+	// re-asserting the marker as user state, a dynamic-port desktop restart would
+	// find no marker in the host file, seed 0, and the background would stop
+	// following again — the exact bug this migration exists to fix.
+	const legacy = LEGACY_GLOW_FIXTURE.skins.ivory;
+	const h = buildSandbox({
+		hostValue: { 'dsh-dream-skin:wallpaper-opacity': '0.42' },
+		seed: {
+			'dsh-dream-skin:wallpaper-kind': 'gradient',
+			'dsh-dream-skin:wallpaper-gradient': legacy
+		}
+	});
+	const e = h.factory(makeRequire());
+	e.apply(makeApplyContext(h));
+	await sleep(500);
+
+	assert.equal(h.getItem('dsh-dream-skin:wallpaper-gradient'), glowOf('ivory'),
+		'the repair itself survives when nothing durable overrides it');
+	assert.equal(h.getItem('dsh-dream-skin:wallpaper-follows-skin'), '1');
+	assert.ok(h.sent.sets.some((p) => p['dsh-dream-skin:wallpaper-follows-skin'] === '1'),
+		'the marker must be pushed as USER state — a sealed factory write is filtered out of the patch entirely');
+	assert.ok(h.sent.sets.some((p) => p['dsh-dream-skin:wallpaper-gradient'] === glowOf('ivory')),
+		'and the repaired gradient rides along, so the pair is restored together on a fresh origin');
+});
+
+test('#79: mutation — disabling the post-settle half leaves the marker out of the host file', async () => {
+	// The second pass is not decoration: without it the repair survives locally
+	// but never reaches dream-skin.json, and the next dynamic-port restart
+	// re-seeds `follows = 0` from FACTORY_DEFAULTS. `false &&` is the smallest
+	// edit that removes the pass without also removing the code it guards.
+	const guard = '\t\t\t\tif (glowRepairPending && hostProbeSettled) {';
+	assert.ok(CODE.includes(guard), 'the post-settle guard must still exist for this mutation to mean anything');
+	const patched = CODE.replace(guard, '\t\t\t\tif (false && glowRepairPending && hostProbeSettled) {');
+	assert.notEqual(patched, CODE, 'the mutation must actually change the bundle');
+
+	const legacy = LEGACY_GLOW_FIXTURE.skins.ivory;
+	const scenario = (code) => ({
+		...(code ? { code } : {}),
+		hostValue: { 'dsh-dream-skin:wallpaper-opacity': '0.42' },
+		seed: {
+			'dsh-dream-skin:wallpaper-kind': 'gradient',
+			'dsh-dream-skin:wallpaper-gradient': legacy
+		}
+	});
+	const boot = async (code) => {
+		const h = buildSandbox(scenario(code));
+		const e = h.factory(makeRequire());
+		e.apply(makeApplyContext(h));
+		await sleep(500);
+		return h;
+	};
+
+	// Control first: the same scenario on the shipped bundle DOES push, so the
+	// absent push below is the mutation's doing and not a broken scenario.
+	const control = await boot(null);
+	assert.ok(control.sent.sets.some((p) => p['dsh-dream-skin:wallpaper-follows-skin'] === '1'),
+		'control: the unmutated bundle must push the marker, or this case proves nothing');
+
+	const h = await boot(patched);
+	assert.equal(h.getItem('dsh-dream-skin:wallpaper-gradient'), glowOf('ivory'),
+		'the unmutated half still repairs the stored value, so the case is about the push, not the swap');
+	assert.ok(!h.sent.sets.some((p) => p['dsh-dream-skin:wallpaper-follows-skin'] === '1'),
+		'with the second pass disabled the marker must NOT reach the host file — this is the assertion the guard exists for');
+});
+
+test('waitFor converges instantly when true, and fails LOUDLY when the observable never changes', async () => {
+	// The "a check that can never fail is not a check" rule, applied to the helper itself
+	// (same negative the smoke file demands for settleDrift, issue #104 precedent): if a
+	// timeout could read as a pass, every converted site here would silently regress to
+	// "asserted nothing". The rejection must name the label and carry the last observed value.
+	const t0 = Date.now();
+	const won = await waitFor(() => ({ done: true, observed: 'seeded' }), { label: 'already-true' });
+	assert.equal(won, 'seeded', 'a converged reading is returned, not re-derived');
+	assert.ok(Date.now() - t0 < 200, `an already-true predicate must not wait out the budget (took ${Date.now() - t0}ms)`);
+	let caught;
+	try {
+		await waitFor(() => ({ done: false, observed: { getCalls: 0, wpSeeded: false } }),
+			{ timeoutMs: 60, stepMs: 10, label: 'deferred-seed-never-lands' });
+	} catch (e) { caught = e; }
+	assert.ok(caught instanceof Error, 'a predicate that never flips must make the helper THROW, never return');
+	assert.match(caught.message, /deferred-seed-never-lands/, 'the rejection message NAMES the label — the failing site is findable by its reason');
+	assert.match(caught.message, /never converged/, 'and calls the failure what it is: non-convergence, not a timing detail');
+	assert.match(caught.message, /getCalls/, 'and carries the last observed value, so it is diagnosable without re-running');
+});

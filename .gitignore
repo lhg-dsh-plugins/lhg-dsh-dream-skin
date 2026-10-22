@@ -1,0 +1,39 @@
+# Dependency directories
+node_modules/
+
+# npm / pnpm artifacts
+*.tgz
+*.log
+.npmrc.bak
+
+# OS / editor junk
+.DS_Store
+Thumbs.db
+*.swp
+
+# Local test artifacts
+research/
+.idea/
+.vscode/
+
+# vision router working dir (screenshots, crops, present copies)
+/.dsh-vision-router/
+
+# development: local fork clone
+/awesome-dsh-plugin/
+
+# local design preview / diagnostics pages
+/preview/
+
+# internal review notes (kept locally, deliberately NOT published to GitHub or npm)
+/docs/review/
+/docs/review-findings-*.md
+.rivals/
+.probe/
+.workbuddy/
+
+# Local image-generation scratch sources (not distributed)
+vibe_images/
+
+# generated skin-preview HTML (pngs are committed under docs/previews)
+/tmp-skin-mockups/

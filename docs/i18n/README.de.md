@@ -1,0 +1,451 @@
+<p align="center">
+  <a href="../../README.md">中文</a> · <a href="./README.en.md">English</a> · <a href="./README.ja.md">日本語</a> · <a href="./README.ko.md">한국어</a> · <a href="./README.es.md">Español</a> · <a href="./README.fr.md">Français</a> · <strong>Deutsch</strong> · <a href="./README.ru.md">Русский</a>
+</p>
+
+<div align="center">
+
+# dsh-dream-skin 🔮
+
+**Verleihe DeepSeek Harness ein Gesicht, das zurückhaltend, klar und strukturiert ist.**
+
+Natives Skin-System · Wallpaper · Akzentfarbe · teilbare Theme-Packs — eine elegante Implementierung, die vollständig auf DSHs
+offiziellem `--dsw-*`-Token-System aufbaut. Einmal installiert, dauerhaft nutzbar.
+
+> **TL;DR: Dein Coding-Arbeitsplatz kann ruhig sein.**
+
+| 🎨 8 Original-Themes | 🖼️ Wallpaper + diffused glow | 🎯 zurückhaltender Akzent | 📦 teilbare Theme-Packs |
+|---|---|---|---|
+
+> 1-Zeilen-Installation · rein nativ (keine Injection, keine Installer-Patches) · übersteht DSH-Updates
+
+</div>
+
+---
+
+## 🎮 Zwei Wege, ein Plugin
+
+<table>
+  <tr>
+    <td align="center" width="50%"><h3>🪄 Weg #1: elegant sofort einsatzbereit</h3></td>
+    <td align="center" width="50%"><h3>🧱 Weg #2: DIY nach deinen Regeln</h3></td>
+  </tr>
+  <tr>
+    <td>8 designer-feinabgestimmte <b>Preset-Skins</b> (die Mirage-Serie), hell &amp; dunkel, jeder mit eigenem diffused-glow-Hintergrund.<br/><b>Anlegen und fertig — Premium-Look ohne Feintuning.</b></td>
+    <td>Über jedem Preset kannst du <b>das Wallpaper tauschen (lokal / URL / Gradient)</b>, <b>eine Accent-Farbe stapeln</b> oder <b>ein Theme-Pack importieren &amp; teilen</b> — jedes interne Token ist erreichbar.<br/><b>Gestalte es ganz nach deinem Geschmack.</b></td>
+  </tr>
+</table>
+
+Die beiden Wege sind geschichtet und unabhängig: Ein Preset bestimmt die „Material- &amp; Grundstimmung"; DIY ist eine reine
+Overlay-Ebene (`overrideTokens`), per Klick ein-/ausschaltbar und mit einem Klick rückgängig zu machen.
+
+---
+
+## 📸 Screenshots
+
+> Echte Screenshots, keine Mockups. Links: DSH nach dem Anwenden eines Skins; rechts: der eigene Bereich **Theme / Appearance** in den Einstellungen.
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/RevolutionLA/dsh-dream-skin/main/docs/screenshots/preview.png" alt="DSH skin preview" width="46%"/>
+  &nbsp;&nbsp;
+  <img src="https://raw.githubusercontent.com/RevolutionLA/dsh-dream-skin/main/docs/screenshots/settings.png" alt="Theme section in settings" width="46%"/>
+</p>
+
+---
+
+## 🎨 Vorschau — die Mirage-Serie
+
+> **Weg #1 · elegant sofort einsatzbereit.** Die 8 Skins unten werden aus den **echten Tokens + dediziertem diffused-glow-Hintergrund**
+> jedes Skins generiert — was du siehst, ist, was du bekommst. Zum Vergrößern klicken, um die feinen Materialdetails zu sehen.
+
+<table>
+  <tr>
+    <td align="center"><a href="https://raw.githubusercontent.com/RevolutionLA/dsh-dream-skin/main/docs/previews/abyss.png"><img src="https://raw.githubusercontent.com/RevolutionLA/dsh-dream-skin/main/docs/previews/abyss.png" width="230" alt="abyss"/></a><br/><b>abyss</b> · 🕶️ Deep Blue<br/><sub>ruhiges, tiefes Indigo, zurückhaltend und leise</sub></td>
+    <td align="center"><a href="https://raw.githubusercontent.com/RevolutionLA/dsh-dream-skin/main/docs/previews/aurora.png"><img src="https://raw.githubusercontent.com/RevolutionLA/dsh-dream-skin/main/docs/previews/aurora.png" width="230" alt="aurora"/></a><br/><b>aurora</b> · 🌌 Aurora Green<br/><sub>knackiges, transluzentes kühles Petrol, natürlicher kalter Ton</sub></td>
+    <td align="center"><a href="https://raw.githubusercontent.com/RevolutionLA/dsh-dream-skin/main/docs/previews/nebula.png"><img src="https://raw.githubusercontent.com/RevolutionLA/dsh-dream-skin/main/docs/previews/nebula.png" width="230" alt="nebula"/></a><br/><b>nebula</b> · 🪐 Nebula Purple<br/><sub>tiefes, weiches Violettblau, dunstig und geheimnisvoll</sub></td>
+    <td align="center"><a href="https://raw.githubusercontent.com/RevolutionLA/dsh-dream-skin/main/docs/previews/ember.png"><img src="https://raw.githubusercontent.com/RevolutionLA/dsh-dream-skin/main/docs/previews/ember.png" width="230" alt="ember"/></a><br/><b>ember</b> · 🔥 Ember Amber<br/><sub>warmes, zurückhaltendes Amber-Orange</sub></td>
+  </tr>
+  <tr>
+    <td align="center"><a href="https://raw.githubusercontent.com/RevolutionLA/dsh-dream-skin/main/docs/previews/midnight.png"><img src="https://raw.githubusercontent.com/RevolutionLA/dsh-dream-skin/main/docs/previews/midnight.png" width="230" alt="midnight"/></a><br/><b>midnight</b> · 🌚 Midnight OLED<br/><sub>minimales, reines Schwarz, immersives OLED</sub></td>
+    <td align="center"><a href="https://raw.githubusercontent.com/RevolutionLA/dsh-dream-skin/main/docs/previews/ivory.png"><img src="https://raw.githubusercontent.com/RevolutionLA/dsh-dream-skin/main/docs/previews/ivory.png" width="230" alt="ivory"/></a><br/><b>ivory</b> · 📐 iOS Flat<br/><sub>minimales, flaches Weiß, iOS-Systemgrau + zurückhaltendes Blau</sub></td>
+    <td align="center"><a href="https://raw.githubusercontent.com/RevolutionLA/dsh-dream-skin/main/docs/previews/mist.png"><img src="https://raw.githubusercontent.com/RevolutionLA/dsh-dream-skin/main/docs/previews/mist.png" width="230" alt="mist"/></a><br/><b>mist</b> · 🧊 Klar hell<br/><sub>knackig-helle Glasoptik, transluzent + unscharf</sub></td>
+    <td align="center"><a href="https://raw.githubusercontent.com/RevolutionLA/dsh-dream-skin/main/docs/previews/rose.png"><img src="https://raw.githubusercontent.com/RevolutionLA/dsh-dream-skin/main/docs/previews/rose.png" width="230" alt="rose"/></a><br/><b>rose</b> · 🌸 Material Pink<br/><sub>helles, leuchtendes Pink, flache Google-Material-Farben</sub></td>
+  </tr>
+</table>
+
+> Hell und dunkel im Angebot: `mist`, `ivory` und `rose` sind helle Themes, alle anderen dunkle. Die Presets nicht dein Ding? Weiter geht's mit **Weg #2**. Jedes Preset bringt zudem seine eigenen abgestimmten Standardwerte mit (Glow-Deckkraft/Unschärfe, Transparenz von Sidebar & Eingabe, Dialog-Deckkraft, Glas-Material): Beim Themenwechsel werden alle Werte nachjustiert, die du nicht selbst gesetzt hast — alle 8 Presets bestehen 229 messbare Qualitätsprüfungen (217 Farb- + 12 Handwerksprüfungen) (OKLCH-Elevationsleiter, WCAG 2.1 + APCA-Textkontrast, Signalton-Trennung, Abgrenzung der Presets).
+
+---
+
+## 🧱 Der ernsthafte DIY-Bereich (Weg #2)
+
+> Über die Presets hinaus bietet dsh-dream-skin ein vollständiges Anpassungssystem — starte hier, um einen Arbeitsbereich zu gestalten,
+> der einzigartig deiner ist.
+
+| Fähigkeit | Was du tun kannst |
+|------|------|
+| 🖼️ **Wallpaper 2.0** | Lokales Bild / **Bild-URL** / **Gradient-Presets**; dazu **Deckkraft / Unschärfe**; jeder Skin **schlägt** sogar einen Gradient vor und kann **automatisch abdunkeln** (weniger Ablenkung beim Fokussieren) |
+| 🌈 **Accent pro Nutzer** | Lege eine eigene Marken-Akzentfarbe über den aktiven Skin (`overrideTokens`-Ebene, der Skin bleibt unangetastet): **12 Preset-Farbfelder per Klick**, Farbwähler, Zufallsfunktion und eine Option zum Entfernen/Wiederherstellen |
+| 📦 **Theme-Pack importieren / exportieren / teilen** | Eine `*.dsh-theme.json` = Manifest + vollständige Tokens. Datei importieren, per Klick anwenden oder einen **Freigabelink** kopieren (im URL-Hash kodiert) |
+| 🪟 **Popup-Deckkraft** | Ein Regler für die Transparenz von Dropdowns / Overlays / Dialog-Hintergrundfüllung, dauerhaft gespeichert; alle Flächen mit dem Popup-Grund-Token (Einstellungen, Plugin-Verwaltung, Trajektorien-Tooltips, schwebende Karten) teilen eine Lesbarkeitsuntergrenze von 92 % undurchsichtig – die erhöhte Fläche des Themas selbst –, Menü- und Abdunklungs-Layer bleiben im vollen Bereich |
+| 🧩 **Lokale Pack-Bibliothek** | Deine importierten Packs an einem Ort; **anwenden / favorisieren / entfernen** per Klick |
+| 🎲 **Überrasch mich** | Wechsle zufällig zu einem anderen Theme; **markiere** Favoriten mit einem Stern, um schnell zu wechseln |
+| ✅ **Validierung + Rollback** | Beim Pack-Import werden Format / Pflicht-Tokens / Farbgültigkeit geprüft; Fehler oder Entfernungen fallen sicher auf den Ausgangszustand zurück |
+
+> Alles liegt als Schicht über einem Preset — **per Klick ein-/ausschalten und zum eingebauten DSH-Look zurückkehren** — experimentiere
+> ruhig, es kann nichts kaputtgehen.
+
+---
+
+## ⚡ Installation mit einer Zeile
+
+**Kopiere diesen Satz in deine DSH und sie installiert alles für dich:**
+
+> Bitte installiere das Skin-Plugin dsh-dream-skin (https://github.com/RevolutionLA/dsh-dream-skin, oder das npm-Paket `dsh-dream-skin`) und sage mir dann, wie ich DSH Web neu starten kann.
+
+Lieber die CLI? Ein Befehl:
+
+```sh
+dsh plugin --profile web add dsh-dream-skin && dsh web
+```
+
+> 🚀 **Jetzt auf npm!** Bei installierter DSH reicht ein Befehl — kein Klonen nötig.
+
+> **Hommage an [Codex-Dream-Skin](https://github.com/Fei-Away/Codex-Dream-Skin).** Aber der Ansatz ist anders:
+> Codex injiziert CSS über CDP in den Renderer des Desktop-Clients, während DSH eine **token-getriebene Web-GUI** ist, die
+> erstklassige „Plugins von Drittanbietern zur Registrierung von Themes" mitliefert. Dieses Plugin ist daher **rein nativ** — keine
+> Injection, keine Binär-Patches, und es bricht bei Client-Updates nicht.
+>
+> **Kein offizielles Produkt.** Nur eine Möglichkeit, deinen DeepSeek-Harness-Arbeitsbereich aufzuhübschen.
+
+---
+
+## 🏆 Warum es einen Stern verdient (im Vergleich zu Alternativen)
+
+| Fähigkeit | Dieses Plugin | [dsh-catppuccin-theme](https://github.com/NoNameLeGo/dsh-catppuccin-theme) (Farbpaletten-Port) | [dsh-theme-mineradio](https://github.com/dhicoc/dsh-theme-mineradio) (Einzel-Ästhetik) | [dsh-wallpaper-engine](https://github.com/elysia395/dsh-wallpaper-engine) (Wallpaper-Engine + Liquid-Glass-UI) |
+|------|:---:|:---:|:---:|:---:|
+| **8 originale Designs** (kein Farbpaletten-Port, eigene Tokens + Diffused Glow) | ✅ | ❌ (4 offizielle Catppuccin-Paletten) | ❌ (1 Champagner-Gold-Ästhetik) | ❌ |
+| **Frosted Glass / Liquid Glass** per Klick umschalten | ✅ | teilweise (feste Glasoptik) | ❌ | ❌ |
+| **Separate Transparenzregler** für Eingabefeld / Dialoge | ✅ | ❌ | ❌ | teilweise (Einstellungsfenster / Floaters / linke Seitenleiste / Titelleiste haben jeweils eigene Deckkraft & Unschärfe; Eingabekarten & Bubbles erhalten Farbe & Fidelity separat, Deckkraft folgt dem globalen Regler) |
+| **Fabrikfertige Vorkonfiguration** (nach Installation + Neustart direkt fertig eingestellt) | ✅ | ❌ | ✅ (ist selbst das fertige Produkt) | teilweise (fabrikseitige Glas-Defaults + 7 Glas-Presets; keine fabriksseitigen Wallpaper / Skins) |
+| Benutzerdefiniertes Wallpaper + Deckkraft/Unschärfe | ✅ | ❌ | ❌ | ✅ (Kernfunktion) |
+| **Wallpaper 2.0** (URL / Gradient-Presets / Vorschlag pro Skin / Auto-Abdunkeln / Bing täglich + zeitgesteuert) | ✅ | ❌ | ❌ | teilweise (lokale Bild-/Video-Uploads + zeitgesteuerter Wechsel + Anpassungsmodi; keine URL / Gradient-Presets / Bing täglich) |
+| **Accent pro Nutzer** (Overlay-Ebene, der Skin bleibt unangetastet) | ✅ | ❌ | ❌ | teilweise (6 Presets + eigene Akzentfarbe, steuert Buttons / Schalter / Links / Navigationsauswahl / Regler / Glas-Glanz; kein „Skin-Overlay"-Konzept) |
+| **Theme-Pack-Import/-Export + Freigabelink** (JSON, verteilbar ohne Code) | ✅ | ❌ | ❌ | teilweise (Fontsets & Glas-Presets als JSON importierbar / exportierbar; keine Freigabelinks) |
+| Lokale Pack-Bibliothek + Favoriten + Überrasch-mich | ✅ | ❌ | ❌ | ❌ |
+| **Kompatibel mit zwei Host-Generationen + Laufzeit-Fähigkeitserkennung** (Host-Wechsel degradiert automatisch statt zu crashen) | ✅ | unbekannt | unbekannt | teilweise (ein einziger offener Peer-Bereich deckt beide Host-Linien 0.1.5-rc.1+ und 0.2.x ab; Host-Form-/Fähigkeitserkennung mit lokalen Fallbacks; Kernel-Untergrenze 0.1.5-rc.1 ist harte Anforderung) |
+| Validierung + Rollback (keine destruktiven Änderungen) | ✅ | teilweise | — | teilweise |
+
+> **In einem Satz**: Die Markentöne von Catppuccin oder die Atmosphäre von mineradio — das Theme-Pack-System dieses
+> Plugins baut beides nach oder legt es als Schicht darüber. Umgekehrt funktioniert es nicht.
+
+---
+
+## ✨ Funktionen
+
+| Fähigkeit | Beschreibung |
+|------------|-------------|
+| 🎨 **8 enthaltene Presets (Mirage)** | Sofort umschalten unter **Settings → Theme / Appearance**, hell & dunkel |
+| 🖼️ **Benutzerdefiniertes Wallpaper** | Wähle ein lokales Bild (automatisch komprimiert ≤2MB), stelle **Deckkraft / Unschärfe** ein |
+| 🧊 **Glas-Materialien (Milchglas / Flüssig)** | Ein Klick wechselt den Glas-Charakter; Transparenz-Regler: **rechts = durchsichtiger**; EIN Unschärferegler steuert Hintergrund und alle Glasflächen |
+| 🖼️ **Fertiger Look ab Installation** | Die Erstinstallation kommt komplett gestylt: Nebula-Skin + mitgeliefertes Hintergrundbild + abgestimmte Werte — neustarten und losgehen |
+| 🌤️ **Bing-Tagesbild (voreingestellt)** | Der erweiterte Hintergrund enthält die Bing-Tagesbild-API bereits vorausgefüllt — „Übernehmen" genügt; jede beliebige Bild-URL mit Auto-Update funktioniert ebenfalls |
+| 🔁 **Wallpaper-Rotation** | Mit dem Bild-URL-Wallpaper lassen sich bis zu 20 http/https-Bildlinks (einer pro Zeile) einfügen und im Abstand von 5 Minuten bis 7 Tagen der Reihe nach oder zufällig wechseln, oder per „Jetzt nächstes Wallpaper“. Ein defekter Link fällt nur selbst weg; bei verstecktem Fenster wird nicht gewechselt (Nachholen bei Rückkehr); standardmäßig aus (Issue #61) |
+| 🔤 **Undurchsichtige innere Flächen** | Karten, Eingabefelder und Nachrichtenblasen bleiben lesbar — nie ausgewaschen |
+| ↩️ **Standard-Wiederherstellung** | Mit einem Klick zurück zum eingebauten DSH-Erscheinungsbild (System folgen) |
+| 💾 **Drei-Ebenen-Speicherung** | Skin & Wallpaper in `localStorage` **und einer Host-Datei** — überleben ein Neuladen und auch den neuen Port, den DSH Desktop bei jedem Start bekommt |
+
+---
+
+## 🧩 Was für ein Plugin ist das
+
+**Ein standardmäßiges Dual-Face-„Everything-is-a-Plugin"-`dsh-plugin` — wird genau wie das offizielle Paket `ui-theme` geladen und verwendet.**
+
+Das Motto von DeepSeek Harness lautet *everything is a plugin*: Modelle, Tools, Sandboxes, Sessions, die UI und sogar der Agent Loop
+selbst sind Plugins. `dsh-dream-skin` liefert das Skin-System als npm-Paket, das **isomorph zu den offiziellen UI-Paketen** ist:
+
+```text
+            ┌──────────── dsh-dream-skin (standard dsh-plugin / dual-face) ─────────────┐
+            │  dsh.bundle   → cordis.patch.yml inserts the dream-skin entry  (host half)│
+            │  dsh.client   → lib/client.js (browser bundle)                (browser half)│
+            └───────────────────────────────────────────────────────────────────────────┘
+```
+
+- **Installationsbefehl = der offizielle**: `dsh plugin --profile web add dsh-dream-skin`
+- **Nutzt offizielle Erweiterungspunkte**: `ctx.theme` (Themes registrieren), `ctx.theme.overrideTokens` (Override-Ebenen),
+  `ctx.slots` (UI in einen eigenen **Settings → Theme / Appearance**-Bereich einhängen).
+- **Manifest-Vertrag entspricht den offiziellen Paketen**: `dsh.bundle` + `dsh.client` + `exports["./client"]`.
+
+Mit anderen Worten: Du installierst kein obskures Skript — dies ist ein Standard-Skin-Plugin innerhalb des offiziellen Plugin-Systems
+von DSH.
+
+---
+
+## ⚡ Schnellstart (3 Schritte)
+
+```sh
+# 1. install
+dsh plugin --profile web add dsh-dream-skin
+# 2. restart
+dsh web
+# 3. open Settings → Theme / Appearance → pick a skin → done.
+```
+
+> Installiert das veröffentlichte npm-Paket — kein Klonen. Wenn `dsh plugin add` einen Workspace-Fehler meldet, `-w` anhängen.
+> In zwei Fällen schreiben Sie die Versionsnummer bitte aus (`npm view dsh-dream-skin version` nennt sie sofort): **innerhalb der ersten 24 Stunden
+> nach einer Veröffentlichung** (pnpm-Abkühlzeit installiert stillschweigend eine ältere Variante) und **bei einem alten Profil aus der 9.x-Ära**
+> (`^9.29.0` reicht nicht bis 10.x) — siehe unten bei „Installation" und „Update".
+
+## 📦 Installation
+
+Wähle eine der vier Optionen und starte dann **DSH Web neu** (die aktuelle Sitzung wird unterbrochen, aber DSH-Sitzungen werden
+auf der Festplatte gespeichert und nach dem Neustart wiederhergestellt).
+
+### Option A: Von npm (veröffentlicht, **empfohlen**)
+
+```sh
+dsh plugin --profile web add dsh-dream-skin
+```
+
+> **In den 24 Stunden nach einer Veröffentlichung die Versionsnummer ausschreiben**: `dsh plugin --profile web add dsh-dream-skin@<neueste Version>`
+> (die Nummer nennt `npm view dsh-dream-skin version` sofort). Auch für den Desktop gilt eine eigene Regel: sein Profil wird **ausschließlich von der
+> Electron-Anwendung** verwaltet, die CLI weist es hart zurück — der gangbare Weg steht in [docs/desktop-support.md](../desktop-support.md).
+
+### Option B: Von GitHub (auf einen verifizierten Commit gepinnt)
+
+```sh
+dsh plugin --profile web add 'github:RevolutionLA/dsh-dream-skin#<40-char-commit>'
+```
+
+> Auf den Commit eines Releases zu pinnen bedeutet, dass neue Änderungen auf `main` deine installierte Kopie nie stillschweigend verändern.
+
+### Option C: Vom Release-Tarball (offline / ohne git)
+
+Lade `dsh-dream-skin-<version>.tgz` von der Seite [Releases](https://github.com/RevolutionLA/dsh-dream-skin/releases)
+herunter (sie enthält das gebaute `lib/client.js`, sodass beim Installieren kein prepare-Skript läuft), dann:
+
+```sh
+dsh plugin --profile web add ./dsh-dream-skin-<version>.tgz
+```
+
+### Option D: Klonen und vom lokalen Pfad installieren (Entwicklung)
+
+```sh
+git clone https://github.com/RevolutionLA/dsh-dream-skin.git
+cd dsh-dream-skin
+dsh plugin --profile web add .
+```
+
+> `dsh plugin` verankert relative Pfade im Verzeichnis, **in dem du den Befehl ausführst**, und installiert eine Link-Abhängigkeit,
+> die auf deinen Klon zeigt: Quelle bearbeiten, speichern, DSH neu starten — kein Neuinstallieren nötig.
+
+**Neu starten und prüfen:**
+
+```sh
+dsh web
+dsh --profile web --dump-config | grep -A2 dream-skin   # a dream-skin loader entry should appear
+```
+
+Öffne **Settings → Theme / Appearance**, um die Zeilen **Skins**, **Accent**, **Wallpaper** / **Advanced Wallpaper** und **Theme Packs** zu sehen.
+
+> Das `-w`-Flag (Workspace) wird bei einem nackten `add` benötigt, weil jedes Profil eine `pnpm-workspace.yaml` mitliefert; pnpm
+> behandelt das Profilverzeichnis als Workspace-Root, sodass ein nacktes add mit `ERR_PNPM_ADDING_TO_ROOT` fehlschlägt. Wenn dein Profil
+> den Workspace bereits nutzt, musst du es nicht wiederholen.
+
+## 🔄 Update / Deinstallation
+
+**Auf die neueste Version aktualisieren** (wenn aus dem npm-Release installiert):
+
+```sh
+dsh plugin --profile web update dsh-dream-skin
+dsh web   # restart to pick it up
+```
+
+> Nach einem Update bei einer alten Version hängen geblieben? Die Minimum-Release-Age-Richtlinie (Supply-Chain) von pnpm kann ein
+> frisch veröffentlichtes Release zurückhalten. Im Profilverzeichnis ausführen:
+> `pnpm add dsh-dream-skin@latest --config.minimumReleaseAge=0`, um es zu erzwingen.
+
+> **Bei einem alten Profil direkt `add` mit Versionsnummer benutzen, nicht auf `update` bauen**: `update` übernimmt den **bereits in `package.json`
+> stehenden Abhängigkeitsbereich**, und ein in der 9.x-Ära geschriebenes `dsh-dream-skin: ^9.29.0` reicht semver-bedingt nie bis 10.x (ein Caret wandert
+> nur innerhalb derselben Hauptversion) — `update` meldet „bereits aktuell", während die Oberfläche alt bleibt. Zum Umschreiben dieser Abhängigkeit:
+>
+> ```sh
+> dsh plugin --profile web add dsh-dream-skin@<neueste Version>   # npm view dsh-dream-skin version nennt die Nummer sofort
+> ```
+>
+> Das ist kein neuer Defekt, sondern **ein alter Fix, der nie angekommen ist** — bei der Eingrenzung dieses „ich habe doch aktualisiert und sehe nichts"
+> zuerst die tatsächlich installierte Version prüfen; die Schritte stehen in [docs/publishing-to-npm.md](../publishing-to-npm.md) Abschnitt 9.
+
+**Deinstallation:**
+
+```sh
+dsh plugin --profile web remove dsh-dream-skin
+dsh web   # restores the official appearance
+```
+
+---
+
+## 🧩 Kompatibilität
+
+| Punkt | Wert |
+|------|-------|
+| DeepSeek Harness (`dsh`) | **Ein Build für zwei Host-Generationen**: stabil `0.1.0-rc.6` / `0.1.1-rc.x` (peerDependencies gepinnt auf `^0.1.0-rc.6`) und DSH master (Modultabelle nach der Aufteilung). **Skin nach einem Host-Upgrade verschwunden, obwohl das Plugin als installiert angezeigt wird?** Höchstwahrscheinlich hat das Peer-Fenster das ganze Bundle übersprungen — Notausgang: `dsh plugin allow-version dsh-dream-skin@<Version> <Host-Laufzeitversion>` (eine **explizite Übernahme auf eigenes Risiko**, die eine ungetestete Kombination erzwingt — keine empfohlene Praxis); Symptom-Einordnung und vollständige Schritte in [docs/desktop-support.md](../desktop-support.md) |
+| Node.js | `>=18` |
+| Browser | modernes Chromium / WebKit (native CSS-Variablen & `matchMedia`) |
+| Desktop | **Drittanbieter-DSH-Desktop-Shell:** angepasst und auf echter Hardware geprüft (Issues #50/#51/#55). **Offizieller DSH-Desktop:** die Belege stützen „**lädt voraussichtlich**", nicht „unterstützt" — sie beruhen auf zwei statischen Fakten (gleiches Electron-Frontend; das von uns deklarierte `dsh.client.platform = "web"` stimmt mit allen 21 Client-Paketen des Hosts überein). Sein Profil-Verzeichnis und der Umstand, dass die Shell dieses Plugin lädt, wurden auf dieser Maschine beobachtet (in `~/.dsh/profiles/desktop` installiert, nach einem vom Nutzer angestoßenen Neustart geladen, unser Stylesheet auf der lebenden Seite gelesen — siehe `docs/publishing-to-npm.md` 8.4 und `docs/desktop-support.md`); die Persistenz der gespeicherten Einstellungen über Neustarts hinweg wurde auf dieser Maschine **nie** geprüft, daher gibt dieses Dokument **keinen** kopierbaren Desktop-Installationsbefehl. <!-- desktop-claim: load-expected-unverified -->Beim Hinzufügen muss der `--profile`-Wert ein Template-Name sein, den der Host **selbst** mitbringt; das Profil, das manche Drittanbieter-Dokumente lehren, existiert dort nicht — kopiert man es, landet man in einem leeren Shell-Profil (nach einem Neustart sieht man nichts). Belege in **[docs/desktop-support.md](../desktop-support.md)** → „Offizieller Desktop: offene Prüfpunkte". Vollständige Ankerliste / Sicherheitsgrenze / verifiziert-nicht-verifiziert-Matrix: dasselbe Dokument |
+
+> Beim Aktualisieren von DSH die peerDependencies in `package.json` entsprechend erhöhen.
+
+---
+
+
+<details>
+<summary><b>Funktionsweise / Persistenz / Themes entwickeln & erweitern (zum Aufklappen)</b></summary>
+## ⚙️ So funktioniert es
+
+DSHs Theme-System ist token-basiert: Die Web-Shell liefert `--dsw-*`-Design-Tokens, und `ThemeRuntime` erlaubt Plugins von
+Drittanbietern, Themes zu registrieren, die die Alias-Ebene (`--dsw-alias-*`) überschreiben. Dieses Paket ist ein standardmäßiges
+Dual-Face-Plugin:
+
+```text
+                ┌─────────────────────────────────────────────┐
+                │          dsh-dream-skin (dual-face plugin)    │
+                ├────────────────────────────┬────────────────┤
+    Host half   │  lib/index.js              │  Browser half  │
+                │  cordis.patch.yml inserts  │  lib/client.js │
+                │  dream-skin loader entry   │  __ModuleLoader__│
+                └────────────────────────────┴────────────────┘
+                             │                         │
+                     profile tree loaded      /plugins/dsh-dream-skin/client.js
+                                                          │
+        ┌────────────────────────────────┬────────────────┐
+        │                                │                │
+   ctx.theme.register(8 skins)     ctx.theme.overrideTokens(wallpaper)   ctx.slots.inject('settings.section' + 'settings.dreamSkin.item')
+```
+
+- **Host-Hälfte** (`lib/index.js`) — eine `dsh.bundle`-Patch-Ebene, die den `dream-skin`-Loader-Eintrag einfügt; `apply` ist ein
+  No-op, genau wie bei den mitgelieferten `ui-*`-Paketen.
+- **Browser-Hälfte** (`lib/client.js`):
+  1. registriert die 8 Skins über `ctx.theme.register(...)`;
+  2. stellt den gespeicherten Skin wieder her und wendet ihn mit `ctx.theme.setTheme(...)` an;
+  3. rendert das Wallpaper als festen Hintergrund (`z-index:-1`) und stapelt `ctx.theme.overrideTokens(...)`, wodurch die
+     Hauptfläche (`--dsw-alias-bg-base`) und die Seitenleiste (`--dsw-specific-sidebar-fill`) transluzent werden;
+  4. lauscht auf `theme/change` und färbt den Wallpaper-Überzug beim Skin-/Scheme-Wechsel neu;
+  5. registriert einen eigenen **Settings → Theme / Appearance**-Bereich (`settings.section`) und hängt die fünf
+     Funktionszeilen in den `settings.dreamSkin.item`-Slot ein.
+
+Jeder Skin trägt sein `colorScheme` (`light`/`dark`); dieses Plugin stempelt es auf sein eigenes Wurzelelement
+`<html>` (`data-dsh-dream-skin-scheme`) und verlässt sich **nicht** auf das `body[data-ds-dark-theme]` des Hosts —
+dieses Attribut gehört dem ThemePresenter von ui-layout, dessen `dispose()` es löscht; in diesem fehlenden Fenster
+griff ein dunkler Skin früher auf die hellen Konstanten. Die Alias-Token-Overrides werden vom ThemePresenter von
+ui-layout als Inline-Custom-Properties auf `<body>` angewendet.
+
+## 💼 Hinweise zur Speicherung
+
+- Skin & Wallpaper liegen in **drei Ebenen**: Speicher-Cache (korrekter Erstrahmen), Browser-`localStorage` (Präfix `dsh-dream-skin:`) und **Host-Datei** `$DSH_HOME/dream-skin.json`, gelesen/geschrieben über das eigene Loopback-`/dream-skin/api` des Plugins.
+- Die Datei-Ebene macht **Desktop** robust: DSH Desktop erhält bei jedem Start einen neu vom OS zugewiesenen Port, die Origin wechselt also — mit nur `localStorage` wäre alles vergessen. Die Host-Datei überlebt Portwechsel und Neustarts.
+- Warum nicht Host-Einstellungen? Die Host-Einstellungsleitung legt Browser-Clients nur einen Allowlist-Satz von Namespaces offen
+  (`WEB_SETTINGS_NAMESPACES` in `dsh-host-apiproxy`), sodass ein Namespace von Drittanbietern mit `settings-not-exposed` antworten
+  würde; das Produkt selbst hält entfernte Browser-Präferenzen prozesslokal. `localStorage` entspricht dieser Grenze und
+  übersteht Neuladevorgänge.
+
+---
+
+## 🛠️ Entwicklung / Themes erweitern
+
+Das Client-Bundle ist direkt im `__ModuleLoader__`-Format geschrieben (derselben Form, die tsdown für die mitgelieferten
+`ui-*`-Pakete erzeugt), daher ist **kein Build-Schritt** erforderlich. `lib/client.js` darf nur Modul-Tabellen-Einträge per
+`require` laden: Plattform-Seeds (`react`, `react/jsx-runtime`, …) und registrierte Client-Bundles
+(`@deepseek-ai/dsh-client-runtime/client`, …).
+
+- **Einen eingebauten Skin hinzufügen**: Füge dem `SKINS`-Array in `lib/client.js` ein Objekt hinzu (`id` + `colorScheme` + `tokens`);
+  es erscheint dann automatisch in den Einstellungen. Füge einen `skin.<id>`-Schlüssel zu **allen 8 Sprachwörterbüchern** hinzu
+  (`zh`/`en`/`ja`/`ko`/`es`/`fr`/`de`/`ru`).
+- **Ein Theme-Pack ausliefern (empfohlen)**: Folge [`docs/examples/sample-theme-pack.json`](../../docs/examples/sample-theme-pack.json) —
+  eine `*.dsh-theme.json` ist in den Einstellungen importierbar und über einen Link teilbar, keine Codeänderungen nötig.
+- **Eigene Wallpapers hinzufügen**: Lege Bilder in [`wallpapers/`](../../wallpapers/) ab (verbreite nur, wofür du die Rechte
+  hast) und importiere sie dann über die Zeile „Wallpaper" in DSH.
+- **Vorschauen neu generieren**: Vorschauen werden von `scripts/generate-skin-mockups.cjs` (echte Tokens + diffused
+  glow) in HTML-Mockups erzeugt und dann mit headless Chrome als `docs/previews/*.png` aufgenommen — führe es nach Änderungen an
+  den Tokens eines Skins erneut aus, damit die Vorschau mit dem echten Skin synchron bleibt. `docs/previews/manifest.json` bindet jedes Bild an drei Fingerabdrücke — ausgelieferte Tokens, Karten-Markup, PNG-Bytes und Pixelgröße — und `npm run previews --check` (ohne Browser) wird rot, wenn sich eine Palette ohne neue Aufnahme ändert, und nennt den Skin; `npm run previews` beendet sich mit einem Fehlercode, wenn kein Headless-Browser gefunden wird, statt null Ausgabe als Erfolg zu werten. Diese PNGs werden **nicht mit dem Paket ausgeliefert**: 2,26 MB README-Dekoration sollte nicht jede Installation herunterladen, `npm pack` schrumpft von 2,5 MB auf 263 kB, und das README lädt die Bilder von GitHub.
+- **Validieren**: `npm test` (VM-Smoke-Tests für Factory-Eval, `apply()` und Pack-Import/Persistenz).
+- **Neu einfärben**: Referenziere die `--dsw-alias-*`-Tokens (vollständiger Vertrag in [`docs/themes-spec.md`](../../docs/themes-spec.md)).
+
+
+</details>
+## 📌 Roadmap
+
+> **Diese Tabelle nennt nur Unfertiges.** Was bereits ausgeliefert ist, steht oben bei „Funktionen" und im [CHANGELOG.md](../../CHANGELOG.md) — denselben Bestand an zwei Orten zu pflegen, driftet zwangsläufig, und dieses Projekt ist schon einmal gedriftet. Diese Tabelle ist die Übersetzung der Roadmap aus dem chinesischen `README.md`; maßgeblich bleibt das chinesische Original.
+> Jeder Eintrag bringt drei Dinge mit: **Motiv** (aus einem echten Issue oder Messdaten, nie aus erdachtem Bedarf), **Größe** (S ≈ ein Abend, M ≈ ein Funktionsrelease, L ≈ erst Entwurf nötig), **Abnahmekriterium** (eine Prüfung, die **scheitern kann** — nicht „fertig, wenn ich es sage"). Erledigtes wird aus dieser Tabelle gelöscht. Der „Nicht geplant"-Abschnitt ist so wichtig wie die Todo-Liste: er erspart Mitwirkenden eine leere Runde.
+
+### A. Zuverlässigkeit — einen Host-Generationswechsel überstehen
+
+*Motiv: auf `0.2.0-rc.1` gemessen drifteten 4 von 6 Host-Anker-Gruppen — davon 3 bestätigte Hash-Neuauswürfe und 1 (die Gruppe um `lXshSW_*`) Host-CSS, das noch existiert und dessen Fläche lediglich nicht eingehängt ist (seit 10.5.0 als `notMounted` getrennt geführt); aus Nutzersicht sah Issue #62 so aus „über Nacht waren alle Skins weg".*
+
+- [ ] **M** Die letzten Hash-Klassennamen des Hosts abwerfen: die verbliebenen Dekorationsregeln (Seitenleiste / Datei-Panel) auf eigene `data-dsh-dream-skin-*`-Marker umstellen — composer und nav-icon haben gezeigt, dass dieser Weg geht
+      — Abnahme: **beide Schichten müssen durch** – ① das statische Kopplungstor `tests/host.frosthooks.test.cjs` grün: jede Regel, die weiterhin an einem Build-Hash des Wirts hängt, muss im selben Selektor einen hash-freien Anker tragen, und dieser Anker muss in den ausgelieferten Bytes BEIDER Kanäle nachgewiesen sein; ② der Drift-Probe liefert auf 0.2.x `drifted: [] && notMounted: [] && pending: false`. **10.13.0 nimmt `channelAbsent` aus der Bewertung und liest es nur noch als Tatsache**: ein Kriterium, das jede Einzelne durch eine „Erklärung“ erfüllen kann, ist Prosa statt Nachweis; mit dem statischen Tor ist ein entfernter Anker sofort rot, während die Tatsachen-Meldung „dieser Hash fehlt auf einem Kanal“ weiterhin in `anchors` steht. **Nur `drifted` leer zu lesen reicht weiterhin nicht** (10.8.0 `retired` und 10.12.1 `channelAbsent` verschieben erklärtes Fehlen aus `drifted`). Lesart: `docs/desktop-support.md`, Abschnitt »Konsum-Lektüre«
+- [ ] **M** Das peer-Fenster auf `0.3.x` weiterschieben — **blockiert upstream, nicht bei uns**: Stand 2026-10-10 ist auf dem Registry die `latest` von `@deepseek-ai/dsh` die `0.2.0-rc.2` und die Versionsliste endet bei `0.2.1-alpha.2`; `0.3.x` wurde nie veröffentlicht (`npm view @deepseek-ai/dsh versions --json`). Ohne Zielversion, auf die wir auffahren könnten, lässt sich diese Zeile weder beginnen noch überprüfen — das aktuelle peer-Fenster, so wie es oben in der Kompatibilitätstabelle steht, deckt **jede** Host-Version ab, die der Host bis heute veröffentlicht hat.
+      — Abnahme: erst wenn der Host 0.3.x wirklich ausliefert, `npm run host:preflight -- --profile-load` einmal durchlaufen (diese zwei Hälfte sind heute genau dieser Befehl), und nur bei Bestehen das Fenster weiten; bleibt es zu, in den Docs „nicht unterstützt" schreiben statt eines stillen Überspringens
+- [ ] **S** Die Drift-Sonde kann keine Flächen erfassen, die erst bei Bedarf eingehängt werden: Frage- und Genehmigungskarte tauchen im DOM erst auf, wenn die Unterhaltung wirklich etwas fragt — eine Abstufung beim Start würde sie permanent als Drift melden, deshalb lässt 10.5.0 sie bewusst aus der Sonde
+      — Abnahme: nach einer echten Frage meldet `anchors` Treffer / Fehlschlag bei beiden funktionalen Ankern, und eine frisch geöffnete Seite bleibt bei `drifted: []`
+
+### B. Veröffentlichen und Installationskanal
+
+*Motiv: am 2026-09-29 wurden Installationen auf dem offiziellen Desktop `0.2.0-rc.2` abgelehnt; die Pflege-Maschine nutzt aber eine `link:`-Workspace-Installation — **solche Probleme sind bei link-Installationen unsichtbar**.*
+
+- [ ] **M** Internes / Offline-Vertriebswege dokumentieren (der Release-Tarball-Mechanismus existiert; die kopierbaren Schritte fehlen) | PR-welcome
+
+### C. Desktop-Betrieb
+
+*Motiv: nach dem offiziellen Desktop-Release taucht ein neuer Nutzertyp auf — eine Person betreut mehrere Maschinen. Der echte Kontakt zu diesem Bild ist noch dünn, also erst die zwei billigen Punkte statt gleich die ganze Straße zu pflastern.*
+
+- [ ] **M** Leitfaden für Rollen in Serie (Profil-Verzeichnisstruktur, Unterschied `link:` vs. Registry-Installation, Bedeutung der Ausnahmeschlüssel in `compatibility.json`, dynamische Ports)
+
+### D. Produkt-Erlebnis
+
+*Motiv: das ist, was Nutzer als Erstes sehen. Aber die echten Meldungen dieser zwei Tage (#61 / #62) betrafen Zuverlässigkeit statt Erlebnis, darum steht die ganze Gruppe hinter A und B.*
+
+- [ ] **M** Flackerfreier Erstrahmen (FOUC): **erst messen** — das tatsächliche Fenster vom ersten Frame bis zum Abschluss von `apply()` bestimmt die Vorgehensweise. Ohne Messung keine Änderung.
+- [ ] **M** Community-Thema-Galerie — **erst die Spielregeln festlegen, dann Code schreiben**. Verifiziert: ein Themenpaket enthält keinerlei Bildfelder (nur Tokens + Akzentfarbe + Metadaten), Einsendungen tragen darum konstruktiv kein Bildurheberrecht-Risiko; die ganze Kostenseite ist der Prüfaufwand | PR-welcome
+
+### E. Nicht geplant / nur Pull Requests
+
+- **Online-Farbpalette / Themen-Vorschau-Studio**: das ist eine eigenständige Seite, keine Plugin-Fähigkeit, und es überlappt mit der Community-Thema-Galerie, ist aber teurer.
+- **Konfigurationsvorlagen / Richtlinie verteilen** (der Administrator hinterlegt einen Standard-Skin, wirksam ab dem ersten Start; vorher Platzhalter in Gruppe C, nach der Prüfung am 2026-10-10 hierher verschoben): Was diese Zeile anfassen müsste, ist die **Schreibpriorität** der Persistenz — der Auslieferungsseed muss heute der dauerhaften Datei des Nutzers weichen (genau das nagelt das B1-Tor aus 10.6.1 fest), und noch eine Ebene „Standardwerte des Administrators" obendrauf hieße, einen vierten Ursprung in ein Drei-Phasen-Verhalten zu stopfen, das gerade erst durch Tests verriegelt wurde. Für das Bild „eine Person betreut mehrere Maschinen" gibt es bisher keinen echten Kontakt, also machen wir es nicht; mit Batch-Nutzern wird es wieder aufgemacht.
+- **Alles, was in Host-Installer / Binary injiziert oder sie verändert**: steht direkt im Widerspruch zur Position „nur offizielle Erweiterungspunkte" — **niemals**.
+
+---
+
+## 🤝 Mitwirken
+
+Issues und PRs sind willkommen! Bitte lies den [Contributing Guide](../../CONTRIBUTING.md) und folge dem
+[Code of Conduct](../../CODE_OF_CONDUCT.md).
+
+## ⭐ Unterstütze das Projekt
+
+Wenn es dir gefällt: Gib dem Repo einen Stern **⭐**, einen Daumen hoch **👍** auf npm oder teile es mit DSH-Freunden — das hilft
+dem Projekt, entdeckt zu werden, und hält es gepflegt. Du möchtest Themes / ein Online-Studio / weitere Skins beitragen? Mach mit.
+
+## 🔒 Sicherheit
+
+Ein Sicherheitsproblem gefunden? Öffne kein öffentliches Issue — siehe die [Security Policy](../../SECURITY.md).
+
+## 📄 Lizenz
+
+[MIT](../../LICENSE)
+
+## 🙏 Danksagungen
+
+- Architektur- & API-Referenz: das offizielle Client-Paket [ui-theme](https://github.com/deepseek-ai/deepseek-harness/tree/master/packages/client/ui-theme) von DeepSeek Harness.
+- Konzept-Hommage: [Codex-Dream-Skin](https://github.com/Fei-Away/Codex-Dream-Skin).
+
+---
+
+## 📈 Wachstumskurve
+
+> Täglich automatisch aktualisiert (GitHub Actions). Linke Achse: **kumulierte Downloads** (türkis); rechte Achse: **Sternezahl** (violett) — sehr unterschiedliche Größenordnungen, daher zwei unabhängige Y-Achsen.
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/RevolutionLA/dsh-dream-skin/main/docs/stats.png?v=3" alt="Tägliche Wachstumskurve Star × kumulierte Downloads von dsh-dream-skin" width="900"/>
+</p>
+
+*Die Daten werden alle 24 Stunden gesammelt: Downloads über die [offizielle npm-API](https://api.npmjs.org/downloads/range/2026-08-15:2026-12-31/dsh-dream-skin), Sterne über die [GitHub-API](https://github.com/RevolutionLA/dsh-dream-skin/stargazers).*

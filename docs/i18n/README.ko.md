@@ -1,0 +1,456 @@
+<p align="center">
+  <a href="../../README.md">中文</a> · <a href="./README.en.md">English</a> · <a href="./README.ja.md">日本語</a> · <strong>한국어</strong> · <a href="./README.es.md">Español</a> · <a href="./README.fr.md">Français</a> · <a href="./README.de.md">Deutsch</a> · <a href="./README.ru.md">Русский</a>
+</p>
+
+<div align="center">
+
+# dsh-dream-skin 🔮
+
+**DeepSeek Harness에 절제되고 맑고 질감 있는 얼굴을 입혀드립니다.**
+
+네이티브 스키닝 · wallpaper · accent color · 공유 가능한 theme pack — 전적으로 DSH 공식 `--dsw-*` token 시스템 위에
+구축된 우아한 구현체입니다. 한 번 설치하면 계속 사용할 수 있습니다.
+
+> **TL;DR: 당신의 코딩 공간은 조용해질 수 있습니다.**
+
+| 🎨 오리지널 테마 8종 | 🖼️ wallpaper + diffused glow | 🎯 절제된 accent | 📦 공유 가능한 theme pack |
+|---|---|---|---|
+
+> 1줄 설치 · 순수 네이티브 (injection 없음, 설치 프로그램 패치 없음) · DSH 업데이트에도 유지됨
+
+</div>
+
+---
+
+## 🎮 하나의 플러그인, 두 가지 사용 방법
+
+<table>
+  <tr>
+    <td align="center" width="50%"><h3>🪄 방법 #1: 설치하자마자 우아하게</h3></td>
+    <td align="center" width="50%"><h3>🧱 방법 #2: 원하는 대로 DIY</h3></td>
+  </tr>
+  <tr>
+    <td>디자이너가 다듬은 <b>preset skin</b> 8종 (Mirage 시리즈), light &amp; dark, 각각 고유의 diffused-glow 배경을 갖추고 있습니다.<br/><b>하나만 적용하면 바로 프리미엄 — 조정할 것이 없습니다.</b></td>
+    <td>어떤 preset 위에서든 <b>wallpaper 교체 (로컬 / URL / gradient)</b>, <b>Accent 색상 쌓기</b>, <b>theme pack 가져오기 &amp; 공유</b>가 가능합니다 — 모든 내부 token에 접근할 수 있습니다.<br/><b>원하는 대로 만들어 보세요.</b></td>
+  </tr>
+</table>
+
+두 방식은 겹겹이 쌓이면서도 서로 독립적입니다: preset이 "material &amp; 기본 톤"을 정하고, DIY는 순수 오버레이
+(`overrideTokens`)이므로 한 번의 클릭으로 켜고 끄고 되돌릴 수 있습니다.
+
+---
+
+## 📸 스크린샷
+
+> 목업이 아닌 실제 스크린샷입니다. 왼쪽: skin을 적용한 DSH 화면; 오른쪽: Settings의 전용 **Theme / Appearance** 섹션.
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/RevolutionLA/dsh-dream-skin/main/docs/screenshots/preview.png" alt="DSH skin preview" width="46%"/>
+  &nbsp;&nbsp;
+  <img src="https://raw.githubusercontent.com/RevolutionLA/dsh-dream-skin/main/docs/screenshots/settings.png" alt="Theme section in settings" width="46%"/>
+</p>
+
+---
+
+## 🎨 방법 #1: preset skin 8종 (Mirage 시리즈)
+
+> **방법 #1 · 설치하자마자 우아하게.** **Settings → Theme / Appearance**에서 한 번의 클릭으로 전환합니다. 아래 8종의 미리보기는 각 skin의 **실제 tokens + 전용 diffused-glow 배경**으로
+> 생성되었습니다 — 보이는 그대로입니다. 클릭하면 정교한 material 디테일을 확대해서 볼 수 있습니다.
+
+<table>
+  <tr>
+    <td align="center"><a href="https://raw.githubusercontent.com/RevolutionLA/dsh-dream-skin/main/docs/previews/abyss.png"><img src="https://raw.githubusercontent.com/RevolutionLA/dsh-dream-skin/main/docs/previews/abyss.png" width="230" alt="abyss"/></a><br/><b>abyss</b> · 🕶️ 차분한 블루<br/><sub>차분하고 깊은 인디고, 절제되고 조용한</sub></td>
+    <td align="center"><a href="https://raw.githubusercontent.com/RevolutionLA/dsh-dream-skin/main/docs/previews/aurora.png"><img src="https://raw.githubusercontent.com/RevolutionLA/dsh-dream-skin/main/docs/previews/aurora.png" width="230" alt="aurora"/></a><br/><b>aurora</b> · 🌌 오로라 틸<br/><sub>선명하고 반투명한 쿨 틸, 자연스러운 차가운 톤</sub></td>
+    <td align="center"><a href="https://raw.githubusercontent.com/RevolutionLA/dsh-dream-skin/main/docs/previews/nebula.png"><img src="https://raw.githubusercontent.com/RevolutionLA/dsh-dream-skin/main/docs/previews/nebula.png" width="230" alt="nebula"/></a><br/><b>nebula</b> · 🪐 성운 퍼플<br/><sub>깊고 은은한 바이올렛-블루, 아련하고 신비로운</sub></td>
+    <td align="center"><a href="https://raw.githubusercontent.com/RevolutionLA/dsh-dream-skin/main/docs/previews/ember.png"><img src="https://raw.githubusercontent.com/RevolutionLA/dsh-dream-skin/main/docs/previews/ember.png" width="230" alt="ember"/></a><br/><b>ember</b> · 🔥 잉버 앰버<br/><sub>따뜻하고 절제된 앰버 오렌지</sub></td>
+  </tr>
+  <tr>
+    <td align="center"><a href="https://raw.githubusercontent.com/RevolutionLA/dsh-dream-skin/main/docs/previews/midnight.png"><img src="https://raw.githubusercontent.com/RevolutionLA/dsh-dream-skin/main/docs/previews/midnight.png" width="230" alt="midnight"/></a><br/><b>midnight</b> · 🌚 미드나잇 블랙<br/><sub>미니멀한 순수 블랙, 몰입감 있는 OLED</sub></td>
+    <td align="center"><a href="https://raw.githubusercontent.com/RevolutionLA/dsh-dream-skin/main/docs/previews/ivory.png"><img src="https://raw.githubusercontent.com/RevolutionLA/dsh-dream-skin/main/docs/previews/ivory.png" width="230" alt="ivory"/></a><br/><b>ivory</b> · 📐 iOS 플랫<br/><sub>미니멀한 플랫 화이트, iOS 시스템 그레이 + 절제된 블루</sub></td>
+    <td align="center"><a href="https://raw.githubusercontent.com/RevolutionLA/dsh-dream-skin/main/docs/previews/mist.png"><img src="https://raw.githubusercontent.com/RevolutionLA/dsh-dream-skin/main/docs/previews/mist.png" width="230" alt="mist"/></a><br/><b>mist</b> · 🧊 클리어 브라이트<br/><sub>맑고 밝은 유리 질감, 반투명 + 블러</sub></td>
+    <td align="center"><a href="https://raw.githubusercontent.com/RevolutionLA/dsh-dream-skin/main/docs/previews/rose.png"><img src="https://raw.githubusercontent.com/RevolutionLA/dsh-dream-skin/main/docs/previews/rose.png" width="230" alt="rose"/></a><br/><b>rose</b> · 🌸 Material Pink<br/><sub>밝고 선명한 핑크, Google Material 플랫 컬러</sub></td>
+  </tr>
+</table>
+
+> 라이트 / 다크 모두 커버: `mist`, `ivory`, `rose`는 라이트 계열, 나머지는 다크 계열입니다. preset이 마음에 들지 않나요? 아래 **방법 #2**를 보세요. 각 프리셋은 자체 튜닝된 기본값(글로우 불투명도/블러, 사이드바·입력창 투명도, 다이얼로그 불투명도, 유리 소재)을 함께 제공합니다. 스킨을 전환하면 직접 설정하지 않은 값만 재조정되며, 8개 프리셋 모두 229개의 측정 가능한 품질 게이트(팔레트 217 + 크래프트 12)(OKLCH 명도 사다리, WCAG 2.1 + APCA 텍스트 대비, 신호 색상 분리, 프리셋 간 식별성)를 통과합니다.
+
+---
+
+## 🧱 진지한 DIY 공간 (방법 #2)
+
+> preset을 넘어, dsh-dream-skin은 완전한 커스터마이징 시스템을 제공합니다. 여기서 시작해
+> 당신만의 작업 공간을 만들어 보세요.
+
+| 기능 | 할 수 있는 일 |
+|------|------|
+| 🖼️ **Wallpaper 2.0** | 로컬 이미지 / **이미지 URL** / **gradient preset**; 여기에 **opacity / blur**까지; 각 skin은 심지어 gradient를 **추천**하고 **자동으로 어둡게**(집중할 때 방해 요소 줄이기) 할 수 있습니다 |
+| 🌈 **사용자별 Accent** | 활성 skin 위에 나만의 브랜드 accent를 쌓을 수 있습니다 (`overrideTokens` 레이어, skin은 그대로): **클릭 한 번으로 적용되는 preset 스와치 12종**, color picker, 랜덤, 그리고 초기화/복원 옵션 |
+| 📦 **Theme pack 가져오기 / 내보내기 / 공유** | `*.dsh-theme.json` = manifest + 전체 tokens. 파일을 가져오거나, 한 번의 클릭으로 적용하거나, **공유 링크**(URL hash에 인코딩)를 복사할 수 있습니다 |
+| 🪟 **Popup 투명도** | dropdown / overlay / dialog의 하단 채움 투명도를 조절하는 슬라이더, 설정이 유지됩니다. 팝업 바탕 토큰으로 칠해진 면(설정, 플러그인 관리자, 궤적 툴팁, 카드형 오버레이)은 공통으로 가독성 하한(불투명도 92%, 스킨 자체의 들림 면)을 유지하고, 메뉴와 스크림 계통은 계속 전 구간입니다 |
+| 🧩 **로컬 pack 라이브러리** | 가져온 pack을 한곳에 모아둡니다; **적용 / 즐겨찾기 / 삭제**를 한 번의 클릭으로 |
+| 🎲 **Surprise me** | 랜덤으로 다른 테마로 전환합니다; 즐겨찾기에 **별표(star)**를 붙이면 빠르게 전환할 수 있습니다 |
+| ✅ **검증 + 롤백** | pack 가져오기 시 형식 / 필수 tokens / 색상 유효성을 검증합니다; 실패하거나 삭제해도 안전하게 되돌아갑니다 |
+
+> 모든 것은 preset 위에 겹쳐집니다. **한 번의 클릭으로 켜고 끄고 DSH 기본 모습으로 되돌릴 수 있으니** — 마음껏
+> 실험해 보세요, 아무것도 망가지지 않습니다.
+
+---
+
+## ⚡ 한 줄 설치
+
+**이 문장을 DSH에 붙여넣으면 모든 것이 자동으로 설치됩니다:**
+
+> dsh-dream-skin 스킨 플러그인을 설치해 주세요 (https://github.com/RevolutionLA/dsh-dream-skin 또는 npm 패키지 `dsh-dream-skin`), 그리고 DSH Web을 재시작하는 방법을 알려주세요.
+
+CLI를 선호하시나요? 명령어 하나면 됩니다:
+
+```sh
+dsh plugin --profile web add dsh-dream-skin && dsh web
+```
+
+> 🚀 **이제 npm에서 제공됩니다!** DSH가 설치되어 있다면 클론 없이 명령어 하나로 추가하세요.
+
+> [Codex-Dream-Skin](https://github.com/Fei-Away/Codex-Dream-Skin)에 대한 오마주. 다만 접근 방식은 다릅니다:
+> Codex는 CDP를 통해 데스크톱 클라이언트의 renderer에 CSS를 주입하지만, DSH는 "서드파티 플러그인이 테마를 등록하는"
+> 일급 기능을 탑재한 **token 기반 Web GUI**입니다. 따라서 이 플러그인은 **순수 네이티브**입니다 — injection도, 바이너리
+> 패치도 없고, 클라이언트 업데이트로 깨지지 않습니다.
+>
+> **공식 제품이 아닙니다.** DeepSeek Harness 작업 공간을 꾸미는 하나의 방법일 뿐입니다.
+
+---
+
+## 🏆 별 하나를 받을 만한 이유 (유사 DSH 테마 플러그인과의 비교)
+
+> 관점을 바꿔 보면: 유사 플러그인들은 기존 팔레트를 이식하거나(예쁘지만 설정은 스위치 하나뿐), 단일 미학에 고정된
+> 커스텀 제품이거나, 외부 wallpaper를 들여오는 데만 집중합니다. 우리는 스키닝을 **조율 가능한 material과 컬러의
+> 완전한 시스템**으로 만들었습니다 — 추구하는 것은 "더 화려함"이 아니라 "더 정확하고, 더 절제되고, 더 오래 봐도
+> 좋은", 반복적으로 다듬어진 유리 한 장입니다. **미학 + 조율 가능성이 우리의 해자(moat)입니다.**
+
+| 기능 | 당사 플러그인 | [dsh-catppuccin-theme](https://github.com/NoNameLeGo/dsh-catppuccin-theme) (팔레트 이식) | [dsh-theme-mineradio](https://github.com/dhicoc/dsh-theme-mineradio) (단일 미학 커스텀) | [dsh-wallpaper-engine](https://github.com/elysia395/dsh-wallpaper-engine) (wallpaper 엔진 + 리퀴드 글래스 UI) |
+|------|:---:|:---:|:---:|:---:|
+| **오리지널 디자인 8종** (기존 팔레트 이식이 아닌, 오리지널 tokens + diffused glow) | ✅ | ❌ (Catppuccin 공식 팔레트 4종) | ❌ (샴페인 골드 미학 1종) | ❌ |
+| **새틴 글래스 / 리퀴드 글래스 이중 material** 원클릭 전환 | ✅ | 부분 (고정된 유리 질감) | ❌ | ❌ |
+| **입력창 / 팝업 독립 투명도 슬라이더** | ✅ | ❌ | ❌ | 부분 (설정 창 / 플로터 / 왼쪽 사이드바 / 타이틀바가 각각 독립적인 투명도·블러 보유; 입력 카드와 버블은 색상·fidelity를 독립 설정, 투명도는 전역 따름) |
+| **설치 즉시 완성된 출고 설정** (재시작하면 바로 다듬어진 모습) | ✅ | ❌ | ✅ (그 자체로 완성품) | 부분 (출고 글래스 기본값 + 글래스 프리셋 7종; 출고 wallpaper / skin 없음) |
+| 커스텀 wallpaper + 투명도/블러 | ✅ | ❌ | ❌ | ✅ (핵심 기능) |
+| **Wallpaper 2.0** (URL / gradient preset / skin별 추천 / auto-dim / Bing 일일 + 자동 갱신) | ✅ | ❌ | ❌ | 부분 (로컬 이미지 / 영상 업로드 + 자동 순환 전환 + 맞춤 모드; URL / gradient preset / Bing 일일 없음) |
+| **사용자별 Accent 오버라이드** (오버레이 레이어, skin은 그대로) | ✅ | ❌ | ❌ | 부분 (프리셋 6종 + 사용자 지정 테마 색이 버튼 / 스위치 / 링크 / 내비 선택 / 슬라이더 / 글래스 하이라이트 구동; "skin 오버레이" 개념 없음) |
+| **Theme pack 가져오기/내보내기 + 공유 링크** (JSON, 코드 없는 배포) | ✅ | ❌ | ❌ | 부분 (폰트 세트와 글래스 프리셋을 JSON으로 가져오기 / 내보내기 가능; 공유 링크 없음) |
+| 로컬 pack 라이브러리 + 즐겨찾기 + surprise-me | ✅ | ❌ | ❌ | ❌ |
+| **두 세대 호스트 호환 + 런타임 기능 감지** (호스트 세대 전환 시 자동으로 성능 저하, 오류 없음) | ✅ | 알 수 없음 | 알 수 없음 | 부분 (단일 오픈 peer 범위가 0.1.5-rc.1+ 및 0.2.x 두 호스트 라인 커버; 호스트 형태 / 기능 감지와 부분 폴백 보유; 커널 하한 0.1.5-rc.1은 하드 요구) |
+| 검증 + 롤백 (파괴적인 변경 없음) | ✅ | 부분 | — | 부분 |
+
+> **한 줄 요약**: Catppuccin의 브랜드 컬러, mineradio의 분위기를 원하신다면? 이 플러그인의 theme pack 시스템으로
+> 만들거나 쌓아 올릴 수 있습니다 — 그 반대는 성립하지 않습니다.
+
+---
+
+## ✨ 주요 기능
+
+| 기능 | 설명 |
+|------------|-------------|
+| 🎨 **기본 내장 preset 8종 (Mirage)** | **Settings → Theme / Appearance**에서 즉시 전환, light & dark |
+| 🖼️ **커스텀 wallpaper** | 로컬 이미지 선택 (자동 압축 ≤2MB), **opacity / blur** 조절 |
+| 🧊 **글래스 재질(새틴 / 리퀴드)** | 원클릭으로 유리 질감을 전환합니다. 투명도 슬라이더는 **오른쪽일수록 투명**, 흐림은 배경화면과 유리 표면을 함께 조절 |
+| 🖼️ **설치 즉시 완성된 모습** | 첫 설치부터 네뷸라 스킨 + 내장 배경화면 + 조정된 값이 적용되어 재시작만 하면 바로 사용 가능 |
+| 🌤️ **Bing 오늘의 사진(사전 설정)** | 고급 배경화면에 Bing 일일 사진 API가 미리 입력되어 있습니다. 「적용」만 누르면 사용 가능하며 임의의 이미지 URL + 자동 갱신도 지원 |
+| 🔁 **배경화면 순환** | '이미지 URL' 배경화면에서 http/https 이미지 링크를 한 줄에 하나씩 최대 20개 붙여 넣으면 5분~7일 간격으로 순서대로 또는 무작위로 바뀌며, '지금 다음 배경화면으로'도 쓸 수 있습니다. 잘못된 링크는 그 링크만 빠지고, 창이 숨겨져 있는 동안은 바뀌지 않으며(돌아오면 따라잡음), 기본값은 꺼짐입니다 (issue #61) |
+| 🔤 **불투명한 내부 표면** | 카드, 입력창, 메시지 버블이 항상 읽기 쉽게 유지됩니다 — 바랜 느낌 없음 |
+| ↩️ **기본값 복원** | 한 번의 클릭으로 DSH 기본 모습 (시스템 팔로우)으로 복귀 |
+| 💾 **세 겹 저장** | skin & wallpaper를 `localStorage` **+ 호스트 파일**에 저장 — 새로고침은 물론 DSH Desktop이 실행마다 받는 새 포트도 견딥니다 |
+
+---
+
+## 🧩 어떤 종류의 플러그인인가요
+
+**표준 dual-face "everything-is-a-plugin" `dsh-plugin` — 공식 `ui-theme` 패키지와 똑같이 로드되고 사용됩니다.**
+
+DeepSeek Harness의 모토는 *everything is a plugin*입니다: models, tools, sandboxes, sessions, UI, 심지어 Agent Loop
+자체도 플러그인입니다. `dsh-dream-skin`은 공식 UI 패키지와 **동형(isomorphic)**인 npm 패키지로 스키닝을 제공합니다:
+
+```text
+            ┌──────────── dsh-dream-skin (standard dsh-plugin / dual-face) ─────────────┐
+            │  dsh.bundle   → cordis.patch.yml inserts the dream-skin entry  (host half)│
+            │  dsh.client   → lib/client.js (browser bundle)                (browser half)│
+            └───────────────────────────────────────────────────────────────────────────┘
+```
+
+- **설치 명령어 = 공식 명령어**: `dsh plugin --profile web add dsh-dream-skin`
+- **공식 확장 포인트 사용**: `ctx.theme` (테마 등록), `ctx.theme.overrideTokens` (오버라이드 레이어),
+  `ctx.slots` (전용 **Settings → Theme / Appearance** 섹션에 UI 마운트).
+- **Manifest 계약이 공식 패키지와 일치**: `dsh.bundle` + `dsh.client` + `exports["./client"]`.
+
+즉, 변두리 스크립트를 설치하는 것이 아닙니다 — DSH 공식 플러그인 시스템 안의 표준 skin 플러그인입니다.
+
+---
+
+## ⚡ 빠른 시작 (3단계)
+
+```sh
+# 1. install
+dsh plugin --profile web add dsh-dream-skin
+# 2. restart
+dsh web
+# 3. open Settings → Theme / Appearance → pick a skin → done.
+```
+
+> 게시된 npm 패키지를 설치합니다 — 클론 없음. `dsh plugin add`가 workspace 오류를 보고하면 `-w`를 추가하세요.
+> 버전 번호를 직접 적어야 하는 경우가 두 가지 있습니다 (번호는 그 자리에서 `npm view dsh-dream-skin version`으로 확인합니다): **릴리스 후 24시간 이내**
+> (pnpm의 대기 기간이 더 오래된 빌드를 조용히 설치합니다), 그리고 **9.x 시절의 오래된 profile을 끌어올릴 때** (`^9.29.0`은 10.x에 결코 닿지 않습니다) —
+> 아래 「설치」와 「업데이트」를 보세요.
+
+## 📦 설치
+
+네 가지 옵션 중 하나를 선택한 뒤 **DSH Web을 재시작**하세요 (현재 세션은 중단되지만, DSH 세션은 디스크에 저장되어
+재시작 후 복구됩니다).
+
+### 옵션 A: npm에서 (게시 버전, **권장**)
+
+```sh
+dsh plugin --profile web add dsh-dream-skin
+```
+
+> **릴리스 후 24시간 이내에는 버전 번호를 명시하세요**: `dsh plugin --profile web add dsh-dream-skin@<최신 버전>`
+> (번호는 `npm view dsh-dream-skin version`이 그 자리에서 알려줍니다). 데스크톱판은 따로 생각합니다: 그 프로필은
+> **Electron 앱만이 관리**하며 CLI는 단호하게 거부합니다 — 실제로 통하는 길은 [docs/desktop-support.md](../desktop-support.md)에 적혀 있습니다.
+
+### 옵션 B: GitHub에서 (검증된 commit에 고정)
+
+```sh
+dsh plugin --profile web add 'github:RevolutionLA/dsh-dream-skin#<40-char-commit>'
+```
+
+> 릴리스의 commit에 고정하면 `main`의 새로운 변경 사항이 설치된 복사본을 조용히 바꾸지 않습니다.
+
+### 옵션 C: Release tarball에서 (오프라인 / git 없음)
+
+[Releases](https://github.com/RevolutionLA/dsh-dream-skin/releases) 페이지에서 `dsh-dream-skin-<version>.tgz`를
+다운로드하세요 (빌드된 `lib/client.js`가 포함되어 있어 설치 시 prepare 스크립트가 실행되지 않습니다), 그런 다음:
+
+```sh
+dsh plugin --profile web add ./dsh-dream-skin-<version>.tgz
+```
+
+### 옵션 D: 클론 후 로컬 경로에서 설치 (개발용)
+
+```sh
+git clone https://github.com/RevolutionLA/dsh-dream-skin.git
+cd dsh-dream-skin
+dsh plugin --profile web add .
+```
+
+> `dsh plugin`은 상대 경로를 **명령어를 실행한 디렉터리** 기준으로 해석해, 클론을 가리키는 link 의존성을 설치합니다:
+> 소스를 수정하고, 저장하고, DSH를 재시작하면 됩니다 — 재설치 불필요.
+
+**재시작 및 확인:**
+
+```sh
+dsh web
+dsh --profile web --dump-config | grep -A2 dream-skin   # a dream-skin loader entry should appear
+```
+
+**Settings → Theme / Appearance**를 열면 **Skins**, **Accent**, **Wallpaper** / **Advanced Wallpaper**, **Theme Packs** 행이 보입니다.
+
+> 단독 `add`에는 `-w` (workspace) 플래그가 필요합니다. 모든 profile이 `pnpm-workspace.yaml`을 포함하고 있어
+> pnpm이 profile 디렉터리를 workspace root로 취급하기 때문에, 단독 add는 `ERR_PNPM_ADDING_TO_ROOT` 오류로 실패합니다.
+> profile이 이미 workspace를 사용 중이라면 다시 추가할 필요가 없습니다.
+
+## 🔄 업데이트 / 제거
+
+**최신 버전으로 업데이트** (npm 릴리스에서 설치한 경우):
+
+```sh
+dsh plugin --profile web update dsh-dream-skin
+dsh web   # restart to pick it up
+```
+
+> 업데이트 후에도 예전 버전에 머물러 있나요? pnpm의 minimum-release-age (공급망) 정책이 방금 게시된 릴리스를
+> 보류할 수 있습니다. profile 디렉터리에서 `pnpm add dsh-dream-skin@latest --config.minimumReleaseAge=0`를
+> 실행해 강제하세요.
+
+> **오래된 profile에서는 `update`를 기대하지 말고 버전을 붙인 `add`를 바로 쓰세요**: `update`는 `package.json`에 **이미 적혀 있는 의존 범위**를 그대로
+> 재사용하므로, 9.x 시절에 적어 둔 `dsh-dream-skin: ^9.29.0`은 semver로 10.x에 결코 닿지 않습니다 (caret은 같은 major 안에서만 움직입니다). 그래서
+> `update`는 "이미 최신"이라고 하는데 화면은 예전 그대로입니다. 이 의존성을 다시 적으려면:
+>
+> ```sh
+> dsh plugin --profile web add dsh-dream-skin@<최신 버전>   # npm view dsh-dream-skin version 으로 그 자리에서 번호 확인
+> ```
+>
+> 이것은 새 결함이 아니라 **오래된 수정이 도착하지 않은 것**입니다. "분명히 업데이트했는데 아무것도 안 바뀌었다"를 구분하려면 먼저 실제로 설치된
+> 버전을 대조하세요. 절차는 [docs/publishing-to-npm.md](../publishing-to-npm.md) 9절에 있습니다.
+
+**제거:**
+
+```sh
+dsh plugin --profile web remove dsh-dream-skin
+dsh web   # restores the official appearance
+```
+
+---
+
+## 🧩 호환성
+
+| 항목 | 값 |
+|------|-------|
+| DeepSeek Harness (`dsh`) | **하나의 빌드로 두 세대의 호스트 모두 지원**: 안정版 `0.1.0-rc.6` / `0.1.1-rc.x` (peerDependencies가 `^0.1.0-rc.6`으로 고정됨) 및 DSH master (분할 후 모듈 테이블). **호스트 업그레이드 후 플러그인은 설치된 것으로 표시되는데 skin이 사라졌나요?** 대부분 peer 윈도우가 번들 전체를 건너뛰게 한 것입니다 — 비상 탈출구: `dsh plugin allow-version dsh-dream-skin@<버전> <호스트 런타임 버전>` (테스트되지 않은 조합을 강제로 통과시키는 **본인 책임의 명시적 재정의** — 권장 방법이 아님); 증상 진단과 전체 절차는 [docs/desktop-support.md](../desktop-support.md) 에서 |
+| Node.js | `>=18` |
+| 브라우저 | 최신 Chromium / WebKit (네이티브 CSS variables & `matchMedia`) |
+| 데스크톱 | **서드파티 DSH Desktop 셸:** 적용 완료, 실기 검증(issue #50/#51/#55). **공식 DSH Desktop:** 근거가 뒷받침하는 것은 "**로드될 것으로 예상**"이지 "지원"이 아닙니다 — 근거는 정적 사실 두 가지뿐입니다(동일 Electron 프런트엔드, 당사가 선언한 `dsh.client.platform = "web"`이 호스트가 함께 배포하는 21개 클라이언트 패키지와 일치). 그 프로필 디렉터리와 "셸이 이 플러그인을 불러온다는 사실"은 이 장비에서 실측했다(`~/.dsh/profiles/desktop` 에 설치, 사용자가 셸을 재시작한 뒤 로드, 동작 중인 페이지에서 당사 stylesheet 를 읽음 — `docs/publishing-to-npm.md` 8.4 및 `docs/desktop-support.md` 참조). 그러나 **설정이 재시작을 걸쳐 유지되는지는 이 장비에서 한 번도 검증되지 않았으므로**, 이 문서는 **복사해서 쓸 수 있는 데스크톱 설치 명령을 제공하지 않습니다**. <!-- desktop-claim: load-expected-unverified -->추가할 때 `--profile` 값은 호스트가 **직접 제공하는** 템플릿 이름이어야 합니다. 일부 서드파티 문서가 알려주는 프로필 이름은 이 호스트에 없으며, 그대로 복사하면 빈 셸 프로필에 설치되어 다시 시작한 뒤 아무것도 보이지 않습니다. 근거는 **[docs/desktop-support.md](../desktop-support.md)** 의 "공식 데스크톱: 미검증 항목"을 참조하세요. 전체 앵커 의존 목록 / 보안 경계 / 검증-미검증 목록도 같은 문서 |
+
+> DSH를 업그레이드할 때 `package.json`의 peerDependencies도 그에 맞게 올려주세요.
+
+---
+
+
+<details>
+<summary><b>작동 방식 / 지속성 / 테마 개발·확장 (클릭하여 펼치기)</b></summary>
+## ⚙️ 동작 방식
+
+DSH의 테마 시스템은 token 기반입니다: web shell이 `--dsw-*` 디자인 tokens를 제공하고, `ThemeRuntime`은 서드파티
+플러그인이 alias 레이어(`--dsw-alias-*`)를 오버라이드하는 테마를 등록할 수 있게 합니다. 이 패키지는 표준 dual-face
+플러그인입니다:
+
+```text
+                ┌─────────────────────────────────────────────┐
+                │          dsh-dream-skin (dual-face plugin)    │
+                ├────────────────────────────┬────────────────┤
+    Host half   │  lib/index.js              │  Browser half  │
+                │  cordis.patch.yml inserts  │  lib/client.js │
+                │  dream-skin loader entry   │  __ModuleLoader__│
+                └────────────────────────────┴────────────────┘
+                             │                         │
+                     profile tree loaded      /plugins/dsh-dream-skin/client.js
+                                                          │
+        ┌────────────────────────────────┬────────────────┐
+        │                                │                │
+   ctx.theme.register(8 skins)     ctx.theme.overrideTokens(wallpaper)   ctx.slots.inject('settings.section' + 'settings.dreamSkin.item')
+```
+
+- **Host half** (`lib/index.js`) — `dream-skin` loader 항목을 삽입하는 `dsh.bundle` 패치 레이어; `apply`는
+  no-op입니다. 제공되는 `ui-*` 패키지와 정확히 동일합니다.
+- **Browser half** (`lib/client.js`):
+  1. `ctx.theme.register(...)`로 8종의 skin을 등록합니다;
+  2. 저장된 skin을 복원하고 `ctx.theme.setTheme(...)`로 적용합니다;
+  3. wallpaper를 `z-index:-1` 고정 배경으로 렌더링하고 `ctx.theme.overrideTokens(...)`를 쌓아
+     메인 캔버스(`--dsw-alias-bg-base`)와 사이드바(`--dsw-specific-sidebar-fill`)를 반투명하게 만듭니다;
+  4. `theme/change`를 수신해 skin / scheme 전환 시 wallpaper wash를 다시 칠합니다;
+  5. 전용 **Settings → Theme / Appearance** 섹션(`settings.section`)을 등록하고 다섯 가지 기능 행을
+     `settings.dreamSkin.item` 슬롯 아래에 마운트합니다.
+
+각 skin은 `colorScheme` (`light`/`dark`)을 지니고, 이 플러그인이 그것을 자신의 루트 요소 `<html>`에
+(`data-dsh-dream-skin-scheme`로) 찍습니다. 호스트의 `body[data-ds-dark-theme]`에 **의존하지 않습니다** — 그
+속성은 ui-layout의 ThemePresenter 소유이고 그 `dispose()`가 지워버리기 때문에, 속성이 없는 창에서는 어두운
+skin이 밝은 쪽 상수를 집어 갔습니다. alias-token 오버라이드는 ui-layout의 ThemePresenter가 `<body>`에 인라인
+커스텀 프로퍼티로 적용합니다.
+
+## 💼 저장(persistence) 참고 사항
+
+- 스킨과 벽지는 **세 층**으로 저장됩니다: 메모리 캐시(첫 프레임 정확성), 브라우저 `localStorage`(키 접두사 `dsh-dream-skin:`), 그리고 **호스트 파일** `$DSH_HOME/dream-skin.json`(이 플러그인 자체의 루프백 `/dream-skin/api`로 읽기/쓰기).
+- 데스크톱에서 이 파일 층이 결정적입니다: DSH Desktop은 실행마다 OS가 새 포트를 할당해 origin이 바뀌므로 `localStorage`만 있으면 상태를 모두 잃습니다. 포트 변경·재시작을 넘어서는 정식 상태는 호스트 파일입니다.
+- 왜 Host 설정을 사용하지 않나요? Host 설정 채널은 브라우저 클라이언트에 허용 목록(allowlist)에 있는 네임스페이스만
+  노출합니다 (`dsh-host-apiproxy`의 `WEB_SETTINGS_NAMESPACES`), 따라서 서드파티 네임스페이스는
+  `settings-not-exposed`로 응답합니다; 제품 자체도 원격 브라우저 환경설정을 프로세스 로컬로 유지합니다.
+  `localStorage`는 그 경계와 일치하며 새로고침 후에도 유지됩니다.
+
+---
+
+## 🛠️ 개발 / 테마 확장
+
+클라이언트 번들은 `__ModuleLoader__` 형식으로 직접 작성되어 있습니다 (제공되는 `ui-*` 패키지에 대해 tsdown이
+출력하는 것과 동일한 형태), 따라서 **빌드 단계가 필요 없습니다**. `lib/client.js`는 module-table 항목만
+`require`할 수 있습니다: 플랫폼 seeds (`react`, `react/jsx-runtime`, …)와 등록된 클라이언트 번들
+(`@deepseek-ai/dsh-client-runtime/client`, …).
+
+- **기본 내장 skin 추가**: `lib/client.js`의 `SKINS` 배열에 객체(`id` + `colorScheme` + `tokens`)를 추가하면
+  Settings에 자동으로 나타납니다. **8개 로케일 사전 모두**(`zh`/`en`/`ja`/`ko`/`es`/`fr`/`de`/`ru`)에
+  `skin.<id>` 키를 추가하세요.
+- **Theme pack 배포 (권장)**: [`docs/examples/sample-theme-pack.json`](../../docs/examples/sample-theme-pack.json)을
+  참고하세요 — `*.dsh-theme.json` 하나면 Settings에서 가져올 수 있고 링크로 공유할 수 있으며, 코드 변경이 필요 없습니다.
+- **나만의 wallpaper 추가**: [`wallpapers/`](../../wallpapers/)에 이미지를 넣고 (배포 권한이 있는 것만), DSH의
+  "Wallpaper" 행에서 가져오세요.
+- **미리보기 재생성**: 미리보기는 `scripts/generate-skin-mockups.cjs`가 (실제 tokens + diffused glow) HTML 목업으로
+  생성한 뒤, headless Chrome으로 `docs/previews/*.png`로 캡처합니다 — skin의 tokens를 변경한 뒤 다시 실행해
+  미리보기를 실제 skin과 동기화하세요. `docs/previews/manifest.json`이 각 이미지를 세 가지 지문(출시 tokens·카드 마크업·PNG 바이트와 픽셀 크기)에 고정하고, 팔레트만 바꾸고 다시 촬영하지 않으면 `npm run previews --check`(브라우저 불필요)가 빨간불이 되며 어느 skin인지 알려줍니다. 헤드리스 브라우저를 찾지 못하면 `npm run previews`는 비영(非零)으로 종료하며, 0 산출을 성공으로 보지 않습니다. 이 PNG들은 **패키지에 포함되지 않습니다**: 2.26 MB의 README 장식을 모든 사용자가 내려받게 할 수는 없기 때문이며, `npm pack`은 2.5 MB에서 263 kB로 줄고 README는 GitHub에서 이미지를 불러옵니다.
+- **검증**: `npm test` (factory eval, `apply()`, pack import/저장을 포함한 VM smoke 테스트).
+- **리페인트**: `--dsw-alias-*` tokens를 참조하세요 (전체 계약은 [`docs/themes-spec.md`](../../docs/themes-spec.md)에).
+
+
+</details>
+## 📌 로드맵
+
+> **이 표는 끝내지 않은 항목만 담습니다.** 이미 제공한 기능은 위의「주요 기능」절과 [CHANGELOG.md](../../CHANGELOG.md)에 있습니다. 같은 내용을 두 곳에 두면 반드시 어긋나고, 이 프로젝트도 실제로 한 번 어긋났습니다. 이 표는 중국어판 `README.md`의 Roadmap을 번역한 것이며, 원본인 중국어판이 기준입니다.
+> 각 항목은 세 가지를 반드시 함께 적습니다: **동기**(실제 issue 또는 실측 데이터. 상상한 수요는 적지 않음), **규모**(S ≈ 하룻밤, M ≈ 기능 릴리스 한 번, L ≈ 코드 전에 설계가 필요), **검수 기준**(**실패할 수 있는** 검사. "했다"는 말만으로 끝나지 않음). 항목이 끝나면 이 표에서 지웁니다. 「하지 않는 일」란은 할 일 목록만큼 중요합니다 — 기여자가 헛도는 한 바퀴를 막아 주기 때문입니다.
+
+### A. 신뢰성: 호스트 세대 교체에도 무너지지 않기
+
+*동기: `0.2.0-rc.1`에서 실측한 6개 호스트 앵커 그룹 중 4개가 흔들렸습니다 — 그중 3개는 해시 재생성이 확인된 그룹, 1개(`lXshSW_*`)는 호스트 CSS가 남아 있고 면이 마운트되지 않았을 뿐인 그룹(10.5.0부터 `notMounted`로 분리). 사용자 쪽 체감은 issue #62의 "하룻밤 사이에 스킨이 전부 사라졌다"였습니다.*
+
+- [ ] **M** 호스트의 해시 클래스명 의존을 마지막까지 걷어내기: 남은 장식 규칙(사이드바 / 파일 패널)도 자체 `data-dsh-dream-skin-*` 마커로 옮깁니다 — composer와 nav-icon이 이 길은 걸릴 수 있음을 이미 증명했습니다
+      — 검수: **두 겹 모두 통과해야 합니다** – ① 정적 짝 맞추는 관문 `tests/host.frosthooks.test.cjs`가 녹색: 호스트 빌드 해시에 여전히 기대는 모든 규칙은 같은 선택자 안에 해시 없는 닻을 가져야 하고, 그 닻은 두 채널 각자의 출하 바이트에서 실측되어야 합니다; ② 드리프트 탐지가 0.2.x에서 `drifted: [] && notMounted: [] && pending: false`를 내놓을 것. **10.13.0은 `channelAbsent`를 판정 문자열에서 빼고 사실로만 읽습니다**: 모든 결석이 '설명'으로 충족시킬 수 있는 판정은 산문을 증거 대신 두는 것과 같습니다. 정적 관문으로 바꾼 뒤 닻을 떼면 그 자리로 빨간등이 되고, '이 해시가 한 채널에 없다'는 사실은 계속 `anchors`에 기록됩니다. **`drifted`만 비었는지 보는 것은 여전히 부족합니다** (10.8.0의 `retired`와 10.12.1의 `channelAbsent`는 설명된 결석을 `drifted`에서 옮겨 놓습니다). 읽기 기준은 `docs/desktop-support.md`의 섹션 `消费判读`
+- [ ] **M** peer 창을 `0.3.x`로 굴려 열기 — **상류에서 막혀 있어서, 우리 쪽 문제가 아닙니다**: 2026-10-10 기준으로 registry의 `@deepseek-ai/dsh` `latest`는 `0.2.0-rc.2`이고 버전 목록은 `0.2.1-alpha.2`에서 끝납니다. `0.3.x`는 한 번도 발표된 적이 없습니다(`npm view @deepseek-ai/dsh versions --json`). 맞춰야 할 대상 버전이 없으므로 이 항목은 시작도 검증도 불가능합니다 — 위 호환성 표에 적힌 현재 peer 창은 호스트가 지금까지 공개한 **모든** 버전을 이미 덮고 있습니다.
+      — 검수: 호스트가 실제로 0.3.x를 내놓은 뒤에 `npm run host:preflight -- --profile-load`를 돌리고(그 호환성 판정표와 실제 profile 불러오기가 이제 이 명령의 두 절반입니다) 통과해야만 창을 넓힙니다. 넓히지 못한다면 "미지원"을 문서에 명시하고, 조용히 건너뛰는 상태로는 절대 두지 않습니다
+- [ ] **S** 드리프트 탐지는 필요할 때 마운트되는 기능면을 덮지 못합니다: 질문 카드 / 승인 카드는 대화가 실제로 질문을 던질 때만 DOM에 나타나므로, 부팅 시점의 등급 샘플링은 이들을 영구 드리프트로 보고합니다 — 10.5.0은 의도적으로 탐지 대상에서 뺐습니다
+      — 검수: 실제 질문을 한 번 마친 뒤 `anchors`가 이 두 기능 앵커 그룹의 적중/미적중을 내놓고, 막 연 페이지는 여전히 `drifted: []`
+
+### B. 릴리스와 설치 경로
+
+*동기: 2026-09-29 공식 Desktop `0.2.0-rc.2`에서 설치가 거부되었습니다. 반면 유지보수 머신은 `link:` 워크스페이스 설치입니다 — **이 종류 문제는 link 설치에서는 영원히 보이지 않습니다**.*
+
+- [ ] **M** 사내망 / 오프라인 배포 경로를 문서화(Release tarball 방식은 이미 있고, 그대로 따라 할 수 있는 절차가 없습니다)｜PR-welcome
+
+### C. 데스크톱판 운영 영역
+
+*동기: 공식 Desktop 릴리스 후 "한 사람이 여러 대를 관리"하는 사용자가 생겼습니다. 이 사용자상과의 실제 접점은 아직 적으므로, 싼 두 가지부터 하고 한 번에 길을 다 깔지는 않습니다.*
+
+- [ ] **M** 일괄 배포 가이드(profile 디렉터리 구조, `link:`와 registry 설치의 차이, `compatibility.json` 면제 키의 의미, 동적 포트)
+
+### D. 사용 경험
+
+*동기: 사용자가 첫눈에 보는 부분입니다. 하지만 이틀간 받은 실제 보고(#61 / #62)는 경험이 아니라 신뢰성 문제였기에, 이 그룹 전체를 A·B 뒤에 둡니다.*
+
+- [ ] **M** 첫 프레임 깜빡임 없이(FOUC): **먼저 재기** — 첫 프레임부터 `apply()` 완료까지의 실제 시간 창을 재고 나서 방식을 정합니다. 재기 전에는 손대지 않습니다
+- [ ] **M** 커뮤니티 테마 갤러리 — **거버넌스 규칙을 정한 뒤에 코드 쓰기**. 확인된 사실: 테마 팩 내용에는 이미지 필드가 아예 없습니다(token + 강조색 + 메타 정보뿐). 따라서 응모본은 구조적으로 이미지 저작권 위험을 갖지 않고, 비용은 전부 심사 부담에 있습니다｜PR-welcome
+
+### E. 하지 않는 일 / PR만 받기
+
+- **온라인 팔레트 / 테마 미리보기 Studio**: 그건 독립 사이트이지 플러그인 능력이 아니고, 커뮤니티 테마 갤러리와 역할이 겹치면서 더 비쌉니다.
+- **구성 사전 세팅 / 정책 배포**(관리자가 기본 스킨을 두면 첫 실행부터 반영되는 방식 — 원래 C조의 자리 표시 항목이었고 2026-10-10 판단 뒤에 이 절로 옮겨왔습니다): 이 항목이 건드리게 되는 것은 저장(persistence)의 **쓰기 우선순위**입니다. 출하 시드는 이제 사용자의 durable 파일에 양보해야 하며(10.6.1의 B1 게이트가 바로 그것을 못 박고 있습니다), 여기에 "관리자 기본값" 겹을 하나 더 얹는 것은 방금 테스트로 세 상태를 잠가 둔 곳에 네 번째 공급원을 밀어 넣는 것과 같습니다. 게다가 "한 사람이 여러 대를 관리"한다는 사용자상에는 아직 실제 접점이 없으므로 지금은 하지 않습니다. 대량 사용자가 나타나면 다시 엽니다.
+- **호스트 설치 파일 / 바이너리를 주입해서 바꾸는 모든 방식**: "공식 확장점만 쓴다"는 위치와 정면으로 충돌하므로 **영원히 하지 않습니다**.
+
+---
+
+## 🤝 기여하기
+
+Issues와 PR을 환영합니다! [기여 가이드](../../CONTRIBUTING.md)를 읽고 [행동 강령](../../CODE_OF_CONDUCT.md)을
+준수해 주세요.
+
+## ⭐ 프로젝트 지원하기
+
+마음에 드신다면: 저장소에 star **⭐**, npm에 thumbs-up **👍**, 또는 DSH 친구들에게 공유해 주세요 — 프로젝트가 더
+많이 발견되고 유지되는 데 도움이 됩니다. 테마 / 온라인 Studio / 더 많은 skin에 기여하고 싶으신가요? 함께해 주세요.
+
+## 🔒 보안
+
+보안 문제를 발견하셨나요? 공개 이슈를 열지 말고 [보안 정책](../../SECURITY.md)을 확인해 주세요.
+
+## 📄 라이선스
+
+[MIT](../../LICENSE)
+
+## 🙏 감사의 말
+
+- 아키텍처 & API 참고: 공식 DeepSeek Harness
+  [ui-theme](https://github.com/deepseek-ai/deepseek-harness/tree/master/packages/client/ui-theme) 클라이언트 패키지.
+- 컨셉 오마주: [Codex-Dream-Skin](https://github.com/Fei-Away/Codex-Dream-Skin).
+
+---
+
+## 📈 성장 곡선
+
+> 매일 자동 업데이트(GitHub Actions). 왼쪽 축: **누적 다운로드 수**(청록); 오른쪽 축: **Star 수**(보라) — 규모가 크게 달라 각각 독립된 이중 축을 사용합니다.
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/RevolutionLA/dsh-dream-skin/main/docs/stats.png?v=3" alt="dsh-dream-skin 매일 Star × 누적 다운로드 수 성장 곡선" width="900"/>
+</p>
+
+*데이터는 24시간마다 자동 수집됩니다: 다운로드 수는 [npm 공식 API](https://api.npmjs.org/downloads/range/2026-08-15:2026-12-31/dsh-dream-skin), Star 수는 [GitHub API](https://github.com/RevolutionLA/dsh-dream-skin/stargazers)에서 가져옵니다.*

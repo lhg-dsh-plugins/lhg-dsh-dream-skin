@@ -1,0 +1,38 @@
+name: Release
+
+# Tag pushes are the only trigger. The workflow first proves the tag names a
+# CHANGELOG block with a body, then creates the GitHub Release from that body —
+# the same text a human used to paste by hand. A tag without a block fails the
+# job instead of producing an empty release.
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Node 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Extract the release notes from CHANGELOG.md
+        run: node scripts/extract-changelog-section.cjs "$GITHUB_REF_NAME" > "$RUNNER_TEMP/notes.md"
+      - name: Create the release (skip when it already exists)
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          if gh release view "$GITHUB_REF_NAME" >/dev/null 2>&1; then
+            echo "release $GITHUB_REF_NAME already exists — leaving it untouched"
+            exit 0
+          fi
+          gh release create "$GITHUB_REF_NAME" \
+            --title "$GITHUB_REF_NAME" \
+            --notes-file "$RUNNER_TEMP/notes.md" \
+            --verify-tag

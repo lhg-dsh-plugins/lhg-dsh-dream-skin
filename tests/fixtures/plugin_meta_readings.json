@@ -1,0 +1,717 @@
+{
+	"generated_from": "@deepseek-ai/dsh-app-boot readPluginMeta() of @deepseek-ai/dsh@0.2.0-rc.1",
+	"generated_by": "scripts/gen-plugin-meta-readings.cjs",
+	"plugin": "dsh-dream-skin",
+	"generated_at": "2026-10-15T05:03:07.627Z",
+	"host_calls": 25,
+	"note": "each case is staged in a throwaway node_modules and read by the host itself; readings are reduced to shape (outcome / errorCause / languagesSeen / hasIcon), never copy text or blobs",
+	"cases": [
+		{
+			"id": "real-working-tree",
+			"note": "this package as it ships: one identity export per locale file",
+			"exports": {
+				"./package.json": "./package.json",
+				"./locale/en.json": "./locale/en.json",
+				"./locale/zh.json": "./locale/zh.json"
+			},
+			"disk": [
+				"en.json",
+				"zh.json"
+			],
+			"staged": {
+				"files": [
+					"icon.svg",
+					"locale/en.json",
+					"locale/zh.json",
+					"package.json"
+				],
+				"dirs": []
+			},
+			"reading": {
+				"outcome": "localized",
+				"localized": true,
+				"languagesSeen": [
+					"en",
+					"zh"
+				],
+				"hasIcon": true
+			}
+		},
+		{
+			"id": "wildcard-pattern",
+			"note": "the form we dropped — recorded so nobody can rewrite it as a host bug",
+			"exports": {
+				"./package.json": "./package.json",
+				"./locale/*.json": "./locale/*.json"
+			},
+			"disk": [
+				"en.json",
+				"zh.json"
+			],
+			"staged": {
+				"files": [
+					"icon.svg",
+					"locale/en.json",
+					"locale/zh.json",
+					"package.json"
+				],
+				"dirs": []
+			},
+			"reading": {
+				"outcome": "localized",
+				"localized": true,
+				"languagesSeen": [
+					"en",
+					"zh"
+				],
+				"hasIcon": true
+			}
+		},
+		{
+			"id": "locale-file-without-export",
+			"note": "a language shipped without adding its export",
+			"exports": {
+				"./package.json": "./package.json",
+				"./locale/en.json": "./locale/en.json",
+				"./locale/zh.json": "./locale/zh.json"
+			},
+			"disk": [
+				"en.json",
+				"ja.json",
+				"zh.json"
+			],
+			"staged": {
+				"files": [
+					"icon.svg",
+					"locale/en.json",
+					"locale/ja.json",
+					"locale/zh.json",
+					"package.json"
+				],
+				"dirs": []
+			},
+			"reading": {
+				"outcome": "error",
+				"errorCode": "ERR_PACKAGE_PATH_NOT_EXPORTED",
+				"errorCause": "not-exported",
+				"errorSubpath": "./locale/ja.json"
+			}
+		},
+		{
+			"id": "english-not-exported",
+			"note": "English is optional to the host, so nothing throws and localisation just stops",
+			"exports": {
+				"./package.json": "./package.json",
+				"./locale/zh.json": "./locale/zh.json"
+			},
+			"disk": [
+				"en.json",
+				"zh.json"
+			],
+			"staged": {
+				"files": [
+					"icon.svg",
+					"locale/en.json",
+					"locale/zh.json",
+					"package.json"
+				],
+				"dirs": []
+			},
+			"reading": {
+				"outcome": "manifest-fallback",
+				"localized": false,
+				"languagesSeen": [
+					"<scalar>"
+				],
+				"hasIcon": true
+			}
+		},
+		{
+			"id": "filename-not-a-language-id",
+			"note": "a fully exported locale file whose name is not a language id",
+			"exports": {
+				"./package.json": "./package.json",
+				"./locale/en.json": "./locale/en.json",
+				"./locale/zh.json": "./locale/zh.json",
+				"./locale/zh_CN.json": "./locale/zh_CN.json"
+			},
+			"disk": [
+				"en.json",
+				"zh.json",
+				"zh_CN.json"
+			],
+			"staged": {
+				"files": [
+					"icon.svg",
+					"locale/en.json",
+					"locale/zh.json",
+					"locale/zh_CN.json",
+					"package.json"
+				],
+				"dirs": []
+			},
+			"reading": {
+				"outcome": "error",
+				"errorCode": "other",
+				"errorCause": "language-id",
+				"errorSubpath": null
+			}
+		},
+		{
+			"id": "bad-filename-with-english-not-exported",
+			"note": "precedence: English is checked before the loop is entered, so this degrades rather than throws",
+			"exports": {
+				"./package.json": "./package.json",
+				"./locale/zh.json": "./locale/zh.json",
+				"./locale/zh_CN.json": "./locale/zh_CN.json"
+			},
+			"disk": [
+				"en.json",
+				"zh.json",
+				"zh_CN.json"
+			],
+			"staged": {
+				"files": [
+					"icon.svg",
+					"locale/en.json",
+					"locale/zh.json",
+					"locale/zh_CN.json",
+					"package.json"
+				],
+				"dirs": []
+			},
+			"reading": {
+				"outcome": "manifest-fallback",
+				"localized": false,
+				"languagesSeen": [
+					"<scalar>"
+				],
+				"hasIcon": true
+			}
+		},
+		{
+			"id": "export-target-dangling",
+			"note": "key present, target path does not exist — ERR_MODULE_NOT_FOUND, and a key-only model says localized",
+			"exports": {
+				"./package.json": "./package.json",
+				"./locale/en.json": "./locale/en.json",
+				"./locale/zh.json": "./locale/gone.json"
+			},
+			"disk": [
+				"en.json",
+				"zh.json"
+			],
+			"staged": {
+				"files": [
+					"icon.svg",
+					"locale/en.json",
+					"locale/zh.json",
+					"package.json"
+				],
+				"dirs": []
+			},
+			"reading": {
+				"outcome": "error",
+				"errorCode": "ERR_MODULE_NOT_FOUND",
+				"errorCause": "target-missing",
+				"errorSubpath": null
+			}
+		},
+		{
+			"id": "export-target-cross-directory",
+			"note": "target retargeted into a subdirectory — the host requires every locale beside the English one",
+			"exports": {
+				"./package.json": "./package.json",
+				"./locale/en.json": "./locale/en.json",
+				"./locale/zh.json": "./locale/legacy/zh.json"
+			},
+			"disk": [
+				"en.json",
+				"zh.json"
+			],
+			"staged": {
+				"files": [
+					"icon.svg",
+					"locale/en.json",
+					"locale/legacy/zh.json",
+					"locale/zh.json",
+					"package.json"
+				],
+				"dirs": []
+			},
+			"reading": {
+				"outcome": "error",
+				"errorCode": "other",
+				"errorCause": "cross-directory",
+				"errorSubpath": null
+			}
+		},
+		{
+			"id": "export-target-require-condition",
+			"note": "value behind a require-only condition — the host resolves through ESM and sees nothing exported",
+			"exports": {
+				"./package.json": "./package.json",
+				"./locale/en.json": "./locale/en.json",
+				"./locale/zh.json": {
+					"require": "./locale/zh.json"
+				}
+			},
+			"disk": [
+				"en.json",
+				"zh.json"
+			],
+			"staged": {
+				"files": [
+					"icon.svg",
+					"locale/en.json",
+					"locale/zh.json",
+					"package.json"
+				],
+				"dirs": []
+			},
+			"reading": {
+				"outcome": "error",
+				"errorCode": "ERR_PACKAGE_PATH_NOT_EXPORTED",
+				"errorCause": "not-exported",
+				"errorSubpath": "./locale/zh.json"
+			}
+		},
+		{
+			"id": "export-target-null",
+			"note": "value explicitly nulled — Node treats the subpath as not exported",
+			"exports": {
+				"./package.json": "./package.json",
+				"./locale/en.json": "./locale/en.json",
+				"./locale/zh.json": null
+			},
+			"disk": [
+				"en.json",
+				"zh.json"
+			],
+			"staged": {
+				"files": [
+					"icon.svg",
+					"locale/en.json",
+					"locale/zh.json",
+					"package.json"
+				],
+				"dirs": []
+			},
+			"reading": {
+				"outcome": "error",
+				"errorCode": "ERR_PACKAGE_PATH_NOT_EXPORTED",
+				"errorCause": "not-exported",
+				"errorSubpath": "./locale/zh.json"
+			}
+		},
+		{
+			"id": "locale-entry-is-a-directory",
+			"note": "mkdir locale/fr.json while adding a language — ERR_UNSUPPORTED_DIR_IMPORT",
+			"exports": {
+				"./package.json": "./package.json",
+				"./locale/en.json": "./locale/en.json",
+				"./locale/fr.json": "./locale/fr.json"
+			},
+			"disk": [
+				"en.json",
+				"fr.json"
+			],
+			"staged": {
+				"files": [
+					"icon.svg",
+					"locale/en.json",
+					"package.json"
+				],
+				"dirs": [
+					"locale/fr.json"
+				]
+			},
+			"reading": {
+				"outcome": "error",
+				"errorCode": "ERR_UNSUPPORTED_DIR_IMPORT",
+				"errorCause": "directory-import",
+				"errorSubpath": null
+			}
+		},
+		{
+			"id": "english-entry-is-a-directory",
+			"note": "the same shape but on the English file, which the host resolves OPTIONALLY — does the swallow cover it?",
+			"exports": {
+				"./package.json": "./package.json",
+				"./locale/en.json": "./locale/en.json",
+				"./locale/zh.json": "./locale/zh.json"
+			},
+			"disk": [
+				"en.json",
+				"zh.json"
+			],
+			"staged": {
+				"files": [
+					"icon.svg",
+					"locale/zh.json",
+					"package.json"
+				],
+				"dirs": [
+					"locale/en.json"
+				]
+			},
+			"reading": {
+				"outcome": "error",
+				"errorCode": "ERR_UNSUPPORTED_DIR_IMPORT",
+				"errorCause": "directory-import",
+				"errorSubpath": null
+			}
+		},
+		{
+			"id": "export-key-without-file",
+			"note": "a stale export pointing at nothing: readdir never sees that name, so the host cannot notice it",
+			"exports": {
+				"./package.json": "./package.json",
+				"./locale/en.json": "./locale/en.json",
+				"./locale/zh.json": "./locale/zh.json",
+				"./locale/ko.json": "./locale/ko.json"
+			},
+			"disk": [
+				"en.json",
+				"zh.json"
+			],
+			"staged": {
+				"files": [
+					"icon.svg",
+					"locale/en.json",
+					"locale/zh.json",
+					"package.json"
+				],
+				"dirs": []
+			},
+			"reading": {
+				"outcome": "localized",
+				"localized": true,
+				"languagesSeen": [
+					"en",
+					"zh"
+				],
+				"hasIcon": true
+			}
+		},
+		{
+			"id": "package-json-export-removed",
+			"note": "the row keeps its text but loses its icon: the host reads the manifest through ./package.json",
+			"exports": {
+				"./locale/en.json": "./locale/en.json",
+				"./locale/zh.json": "./locale/zh.json"
+			},
+			"disk": [
+				"en.json",
+				"zh.json"
+			],
+			"staged": {
+				"files": [
+					"icon.svg",
+					"locale/en.json",
+					"locale/zh.json",
+					"package.json"
+				],
+				"dirs": []
+			},
+			"reading": {
+				"outcome": "localized",
+				"localized": true,
+				"languagesSeen": [
+					"en",
+					"zh"
+				],
+				"hasIcon": false
+			}
+		}
+	],
+	"filenameCorpus": [
+		{
+			"stem": "ab",
+			"outcome": "localized",
+			"errorCause": null,
+			"exports": {
+				"./package.json": "./package.json",
+				"./locale/en.json": "./locale/en.json",
+				"./locale/zh.json": "./locale/zh.json",
+				"./locale/ab.json": "./locale/ab.json"
+			},
+			"disk": [
+				"ab.json",
+				"en.json",
+				"zh.json"
+			],
+			"staged": {
+				"files": [
+					"icon.svg",
+					"locale/ab.json",
+					"locale/en.json",
+					"locale/zh.json",
+					"package.json"
+				],
+				"dirs": []
+			}
+		},
+		{
+			"stem": "a",
+			"outcome": "error",
+			"errorCause": "language-id",
+			"exports": {
+				"./package.json": "./package.json",
+				"./locale/en.json": "./locale/en.json",
+				"./locale/zh.json": "./locale/zh.json",
+				"./locale/a.json": "./locale/a.json"
+			},
+			"disk": [
+				"a.json",
+				"en.json",
+				"zh.json"
+			],
+			"staged": {
+				"files": [
+					"icon.svg",
+					"locale/a.json",
+					"locale/en.json",
+					"locale/zh.json",
+					"package.json"
+				],
+				"dirs": []
+			}
+		},
+		{
+			"stem": "abcdefgh",
+			"outcome": "localized",
+			"errorCause": null,
+			"exports": {
+				"./package.json": "./package.json",
+				"./locale/en.json": "./locale/en.json",
+				"./locale/zh.json": "./locale/zh.json",
+				"./locale/abcdefgh.json": "./locale/abcdefgh.json"
+			},
+			"disk": [
+				"abcdefgh.json",
+				"en.json",
+				"zh.json"
+			],
+			"staged": {
+				"files": [
+					"icon.svg",
+					"locale/abcdefgh.json",
+					"locale/en.json",
+					"locale/zh.json",
+					"package.json"
+				],
+				"dirs": []
+			}
+		},
+		{
+			"stem": "abcdefghi",
+			"outcome": "error",
+			"errorCause": "language-id",
+			"exports": {
+				"./package.json": "./package.json",
+				"./locale/en.json": "./locale/en.json",
+				"./locale/zh.json": "./locale/zh.json",
+				"./locale/abcdefghi.json": "./locale/abcdefghi.json"
+			},
+			"disk": [
+				"abcdefghi.json",
+				"en.json",
+				"zh.json"
+			],
+			"staged": {
+				"files": [
+					"icon.svg",
+					"locale/abcdefghi.json",
+					"locale/en.json",
+					"locale/zh.json",
+					"package.json"
+				],
+				"dirs": []
+			}
+		},
+		{
+			"stem": "e2",
+			"outcome": "error",
+			"errorCause": "language-id",
+			"exports": {
+				"./package.json": "./package.json",
+				"./locale/en.json": "./locale/en.json",
+				"./locale/zh.json": "./locale/zh.json",
+				"./locale/e2.json": "./locale/e2.json"
+			},
+			"disk": [
+				"e2.json",
+				"en.json",
+				"zh.json"
+			],
+			"staged": {
+				"files": [
+					"icon.svg",
+					"locale/e2.json",
+					"locale/en.json",
+					"locale/zh.json",
+					"package.json"
+				],
+				"dirs": []
+			}
+		},
+		{
+			"stem": "zh-CN",
+			"outcome": "localized",
+			"errorCause": null,
+			"exports": {
+				"./package.json": "./package.json",
+				"./locale/en.json": "./locale/en.json",
+				"./locale/zh.json": "./locale/zh.json",
+				"./locale/zh-CN.json": "./locale/zh-CN.json"
+			},
+			"disk": [
+				"en.json",
+				"zh-CN.json",
+				"zh.json"
+			],
+			"staged": {
+				"files": [
+					"icon.svg",
+					"locale/en.json",
+					"locale/zh-CN.json",
+					"locale/zh.json",
+					"package.json"
+				],
+				"dirs": []
+			}
+		},
+		{
+			"stem": "zh-CNA",
+			"outcome": "localized",
+			"errorCause": null,
+			"exports": {
+				"./package.json": "./package.json",
+				"./locale/en.json": "./locale/en.json",
+				"./locale/zh.json": "./locale/zh.json",
+				"./locale/zh-CNA.json": "./locale/zh-CNA.json"
+			},
+			"disk": [
+				"en.json",
+				"zh-CNA.json",
+				"zh.json"
+			],
+			"staged": {
+				"files": [
+					"icon.svg",
+					"locale/en.json",
+					"locale/zh-CNA.json",
+					"locale/zh.json",
+					"package.json"
+				],
+				"dirs": []
+			}
+		},
+		{
+			"stem": "zh-CCCCCCCCC",
+			"outcome": "error",
+			"errorCause": "language-id",
+			"exports": {
+				"./package.json": "./package.json",
+				"./locale/en.json": "./locale/en.json",
+				"./locale/zh.json": "./locale/zh.json",
+				"./locale/zh-CCCCCCCCC.json": "./locale/zh-CCCCCCCCC.json"
+			},
+			"disk": [
+				"en.json",
+				"zh-CCCCCCCCC.json",
+				"zh.json"
+			],
+			"staged": {
+				"files": [
+					"icon.svg",
+					"locale/en.json",
+					"locale/zh-CCCCCCCCC.json",
+					"locale/zh.json",
+					"package.json"
+				],
+				"dirs": []
+			}
+		},
+		{
+			"stem": "zh_CN",
+			"outcome": "error",
+			"errorCause": "language-id",
+			"exports": {
+				"./package.json": "./package.json",
+				"./locale/en.json": "./locale/en.json",
+				"./locale/zh.json": "./locale/zh.json",
+				"./locale/zh_CN.json": "./locale/zh_CN.json"
+			},
+			"disk": [
+				"en.json",
+				"zh.json",
+				"zh_CN.json"
+			],
+			"staged": {
+				"files": [
+					"icon.svg",
+					"locale/en.json",
+					"locale/zh.json",
+					"locale/zh_CN.json",
+					"package.json"
+				],
+				"dirs": []
+			}
+		},
+		{
+			"stem": "zh-Hans-CN",
+			"outcome": "localized",
+			"errorCause": null,
+			"exports": {
+				"./package.json": "./package.json",
+				"./locale/en.json": "./locale/en.json",
+				"./locale/zh.json": "./locale/zh.json",
+				"./locale/zh-Hans-CN.json": "./locale/zh-Hans-CN.json"
+			},
+			"disk": [
+				"en.json",
+				"zh-Hans-CN.json",
+				"zh.json"
+			],
+			"staged": {
+				"files": [
+					"icon.svg",
+					"locale/en.json",
+					"locale/zh-Hans-CN.json",
+					"locale/zh.json",
+					"package.json"
+				],
+				"dirs": []
+			}
+		},
+		{
+			"stem": "en-US",
+			"outcome": "localized",
+			"errorCause": null,
+			"exports": {
+				"./package.json": "./package.json",
+				"./locale/en.json": "./locale/en.json",
+				"./locale/zh.json": "./locale/zh.json",
+				"./locale/en-US.json": "./locale/en-US.json"
+			},
+			"disk": [
+				"en-US.json",
+				"en.json",
+				"zh.json"
+			],
+			"staged": {
+				"files": [
+					"icon.svg",
+					"locale/en-US.json",
+					"locale/en.json",
+					"locale/zh.json",
+					"package.json"
+				],
+				"dirs": []
+			}
+		}
+	],
+	"filenameCorpusNote": "one probe file at a time, always alongside a valid exported en.json, so the verdict isolates the filename rule; the duplicate-locale branch needs two filenames differing only in case and is unreachable on a case-insensitive filesystem"
+}

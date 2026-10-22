@@ -1,0 +1,89 @@
+name: Update growth chart
+
+# 每日自动更新 README 底部的「每日 Star × 累计下载量」双轴折线图。
+# 采集脚本从 npm 官方 API 抓当天下载量、从 GitHub API 抓 star 并重建每日累计，
+# 渲染成 docs/stats.svg，再提交回仓库，README 引用同一张图。
+
+on:
+  schedule:
+    # 每天 UTC 03:15（≈北京时间 11:15）——晚于 npm 下载量隔日结算，且避开上游目录刷新高峰
+    - cron: '15 3 * * *'
+  workflow_dispatch: # 手动「Run workflow」立即跑一次
+
+permissions:
+  contents: write # 允许把更新后的 stats.json / stats.svg 提交回仓库
+
+concurrency:
+  group: stats-chart
+  cancel-in-progress: true
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          # 拉到 main，且带完整历史，便于 detect 已有 stats.json
+          ref: main
+          fetch-depth: 0
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      # GitHub Actions 的 ubuntu 镜像默认没有中文字体，resvg 渲染中文会变成方块 □。
+      # 装上 Noto CJK 后 resvg 会自动发现系统字体，图表里的中文（标题/图例）才能正常显示。
+      - name: Install CJK fonts
+        run: sudo apt-get update && sudo apt-get install -y fonts-noto-cjk
+
+      # 只在图表渲染的独立依赖作用域里装 resvg，绝不跑仓库根的 npm ci：
+      # 根 package.json 声明了一些 npm 上不存在的可选 peer 依赖（如
+      # @deepseek-ai/dsh-client-store@^0.1.0-rc.6），根目录 `npm ci` 会以 E404
+      # 崩溃（8/29 的每日任务就是因此停下、图停更在 8/27）。collect / render
+      # 只用 Node 内置模块，只有 SVG->PNG 需要第三方包，所以把它隔离到
+      # scripts/chart/（独立 package.json + lockfile，只含 @resvg/resvg-js）。
+      - name: Install render deps (isolated scope)
+        run: npm ci
+        working-directory: scripts/chart
+
+      - name: Collect stats
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # 自动注入，有仓库读写权限
+        run: node scripts/collect-stats.mjs
+
+      - name: Render chart (SVG) and export PNG
+        run: |
+          node scripts/render-stats-svg.mjs
+          node scripts/chart/svg-to-png.mjs
+        shell: bash
+
+      - name: Commit & push if changed
+        run: |
+          git config user.name "dsh-dream-skin[bot]"
+          git config user.email "actions@github.com"
+          # 只跟踪这个图表相关的产物，避免误提交别的东西
+          git add docs/stats.json docs/stats.svg docs/stats.png
+          if git diff --cached --quiet; then
+            echo "stats unchanged — nothing to commit"
+            exit 0
+          fi
+          # 这个仓库有并发（其他协作者/发版进程会推进 main）。简单 push 会因
+          # non-fast-forward 被拒（曾导致数据采集正确却没推上去）。用重试循环：
+          # commit → push，被拒则 rebase 到远程最新再重试（最多 6 次）。
+          for i in 1 2 3 4 5 6; do
+            git commit --quiet -m "chore: refresh growth chart (daily)" || echo "nothing new; retry stale"
+            if git push --quiet origin main; then
+              echo "pushed on attempt $i"
+              exit 0
+            fi
+            echo "push rejected on attempt $i — rebasing onto latest main and retrying"
+            # --autostash 保护工作区；我们只改独立文件，rebase 冲突概率极低，
+            # 若冲突则复用统计数据侧（这是本 workflow 唯一关心的产物）。
+            git pull --rebase --autostash origin main 2>/dev/null \
+              || git checkout --theirs docs/stats.json docs/stats.svg docs/stats.png \
+              || true
+          done
+          echo "push failed after 6 attempts"
+          exit 1
