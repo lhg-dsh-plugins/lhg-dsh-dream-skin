@@ -4,7 +4,7 @@
     "repo": "dsh-dream-skin",
     "package": "dsh-dream-skin",
     "release": "2026-08-15",
-    "generatedAt": "2026-11-09T11:36:47.813Z"
+    "generatedAt": "2026-11-10T11:15:26.867Z"
   },
   "series": [
     {
@@ -345,97 +345,102 @@
     {
       "date": "2026-10-21",
       "stars": 0,
-      "downloads": 75385
+      "downloads": 77816
     },
     {
       "date": "2026-10-22",
       "stars": 0,
-      "downloads": 77551
+      "downloads": 79982
     },
     {
       "date": "2026-10-23",
       "stars": 0,
-      "downloads": 79627
+      "downloads": 82058
     },
     {
       "date": "2026-10-24",
       "stars": 0,
-      "downloads": 81432
+      "downloads": 83863
     },
     {
       "date": "2026-10-25",
       "stars": 0,
-      "downloads": 83193
+      "downloads": 85624
     },
     {
       "date": "2026-10-26",
       "stars": 0,
-      "downloads": 86143
+      "downloads": 88574
     },
     {
       "date": "2026-10-27",
       "stars": 0,
-      "downloads": 88828
+      "downloads": 91259
     },
     {
       "date": "2026-10-28",
       "stars": 0,
-      "downloads": 91628
+      "downloads": 94059
     },
     {
       "date": "2026-10-29",
       "stars": 0,
-      "downloads": 93971
+      "downloads": 96402
     },
     {
       "date": "2026-10-30",
       "stars": 0,
-      "downloads": 96073
+      "downloads": 98504
     },
     {
       "date": "2026-10-31",
       "stars": 0,
-      "downloads": 97755
+      "downloads": 100186
     },
     {
       "date": "2026-11-01",
       "stars": 0,
-      "downloads": 99508
+      "downloads": 101939
     },
     {
       "date": "2026-11-02",
       "stars": 0,
-      "downloads": 101291
+      "downloads": 103722
     },
     {
       "date": "2026-11-03",
       "stars": 0,
-      "downloads": 103146
+      "downloads": 105577
     },
     {
       "date": "2026-11-04",
       "stars": 0,
-      "downloads": 104917
+      "downloads": 107348
     },
     {
       "date": "2026-11-05",
       "stars": 0,
-      "downloads": 106181
+      "downloads": 108612
     },
     {
       "date": "2026-11-06",
       "stars": 0,
-      "downloads": 107797
+      "downloads": 110228
     },
     {
       "date": "2026-11-07",
       "stars": 0,
-      "downloads": 109259
+      "downloads": 111690
     },
     {
       "date": "2026-11-08",
       "stars": 0,
-      "downloads": 110314
+      "downloads": 112745
+    },
+    {
+      "date": "2026-11-09",
+      "stars": 0,
+      "downloads": 114527
     }
   ]
 }
